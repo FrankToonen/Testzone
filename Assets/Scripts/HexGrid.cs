@@ -26,7 +26,7 @@ public class HexGrid : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (Input.GetMouseButtonDown (0) || Input.GetMouseButtonDown (1)) {
+		/*if (Input.GetMouseButtonDown (0) || Input.GetMouseButtonDown (1)) {
 			RaycastHit hit;
 			if (Physics.Raycast (Camera.main.ScreenPointToRay (Input.mousePosition), out hit)) {
 				Vector3 point = hit.transform.position;
@@ -53,7 +53,7 @@ public class HexGrid : MonoBehaviour
 					}
 				}
 			}
-		}
+		}*/
 
 		if (Input.GetKeyDown (KeyCode.B)) {
 			foreach (Transform child in transform) {
