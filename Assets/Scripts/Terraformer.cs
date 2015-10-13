@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Terraformer : MonoBehaviour
+public class Terraformer : Gun
 {
 	public float radius;
 
@@ -11,11 +11,16 @@ public class Terraformer : MonoBehaviour
 	
 	}
 	
-	void Update ()
+	public override void Shoot ()
 	{
 		if (Input.GetMouseButtonDown (0) || Input.GetMouseButtonDown (1)) {
 			RaycastHit hit;
-			if (Physics.Raycast (Camera.main.ScreenPointToRay (Input.mousePosition), out hit)) {
+			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition); // Vanuit de speler
+			if (Physics.Raycast (ray, out hit)) {
+				//DEBUG
+				Debug.DrawRay (ray.origin, ray.direction * 100, Color.blue, 10f);
+				//
+
 				Vector3 point = hit.transform.position;
 				Collider[] objectsHit = Physics.OverlapSphere (point, radius);
 				for (int n = 0; n < objectsHit.Length; n++) {
