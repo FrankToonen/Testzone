@@ -1,23 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class Gun : MonoBehaviour
+public class Gun : NetworkBehaviour
 {
 
-	// Use this for initialization
-	void Start ()
-	{
+    // Use this for initialization
+    void Start()
+    {
 	
-	}
+    }
 	
-	// Update is called once per frame
-	void Update ()
-	{
+    // Update is called once per frame
+    void Update()
+    {
 	
-	}
+    }
 
-	public virtual void Shoot ()
-	{
-
-	}
+    [Command]
+    public virtual void CmdShoot()
+    {
+    }
 }
