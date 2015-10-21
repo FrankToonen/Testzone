@@ -15,6 +15,10 @@ public class Hexagon : MonoBehaviour
         maxHeight = transform.position.y + 4;
         minHeight = transform.position.y - 4;
         moveSpeed = 0.1f;
+
+        int r = Random.Range(0, 100);
+        if (r > 85)
+            GetComponent<Renderer>().material = Resources.Load<Material>("Materials/Brown");
     }
 
     public IEnumerator MoveTo(Vector3 target)
@@ -61,7 +65,7 @@ public class Hexagon : MonoBehaviour
             yield return null;
         }
         transform.position = startPosition;
-        ChangeColor(Color.white);
+        //ChangeColor(Color.white);
     }
 
 
@@ -79,7 +83,7 @@ public class Hexagon : MonoBehaviour
     public IEnumerator SinWave(Vector3 direction, float delay, Color color)
     {
         yield return new WaitForSeconds(delay);
-        ChangeColor(color);
+        //ChangeColor(color);
         StartCoroutine("MoveTo", direction);
     }
 }

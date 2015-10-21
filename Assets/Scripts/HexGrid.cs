@@ -21,12 +21,13 @@ public class HexGrid : MonoBehaviour
                 Vector3 pos = new Vector3(transform.position.x + x * hex.bounds.size.x + (z % 2 * (hex.bounds.size.x / 2)), 0, transform.position.z + z * (hex.bounds.size.z / 4 * 3));
                 GameObject newHex = Instantiate(hexagon, pos, hexagon.transform.rotation) as GameObject;
                 newHex.transform.parent = transform;
+                newHex.transform.name = "hexagon" + x + z;
                 hexagons [x, z] = newHex;
             }
         }
     }
 
-    void Update()
+    /*void Update()
     {
         if (Input.GetKeyDown(KeyCode.B))
         {
@@ -46,5 +47,5 @@ public class HexGrid : MonoBehaviour
                 hex.StartCoroutine(hex.SinWave(-Vector3.up, Vector3.Distance(new Vector3(15, 0, 15), hex.transform.position) / 4, Color.green));
             }
         }
-    }
+    }*/
 }
