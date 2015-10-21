@@ -4,10 +4,6 @@ using System.Collections;
 
 public class PulseGun : Gun
 {
-    //
-    //Reload alleen als je iets raakt, kan mogelijk anders
-    //
-
     [SerializeField]
     float
         force;
@@ -21,10 +17,13 @@ public class PulseGun : Gun
         reloadTime = 2;
 
         //Temp reloadbar
-        reloadBar = GameObject.Find("Reload Bar Pulsegun").GetComponent<Image>();
-        startScale = reloadBar.transform.localScale;
-        targetScale = new Vector3(0, startScale.y, 0);
-        reloadBar.transform.localScale = targetScale;
+        if (isLocalPlayer)
+        {
+            reloadBar = GameObject.Find("Reload Bar Pulsegun").GetComponent<Image>();
+            startScale = reloadBar.transform.localScale;
+            targetScale = new Vector3(0, startScale.y, 0);
+            reloadBar.transform.localScale = targetScale;
+        }
         //
     }
 
@@ -53,9 +52,6 @@ public class PulseGun : Gun
                     col.gameObject.GetComponent<Player_Force>().AddImpact(direction, direction.magnitude);
                 else
                     col.GetComponent<Rigidbody>().AddForce(direction * 25);
-
-
-                StartCoroutine(ShootTimer(reloadTime));
             }
             //Play sound
         }

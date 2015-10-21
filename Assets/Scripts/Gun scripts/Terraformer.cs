@@ -5,10 +5,6 @@ using UnityEngine.Networking;
 
 public class Terraformer : Gun
 {
-    // Schiet alleen als je iets raakt
-    // Reload dan ook alleen
-    // En maakt dan ook pas geluid
-
     [SerializeField]
     float
         radius;
@@ -19,10 +15,13 @@ public class Terraformer : Gun
         reloadTime = 1;
 
         //Temp reloadbar
-        reloadBar = GameObject.Find("Reload Bar Terraformer").GetComponent<Image>();
-        startScale = reloadBar.transform.localScale;
-        targetScale = new Vector3(0, startScale.y, 0);
-        reloadBar.transform.localScale = targetScale;
+        if (isLocalPlayer)
+        {
+            reloadBar = GameObject.Find("Reload Bar Terraformer").GetComponent<Image>();
+            startScale = reloadBar.transform.localScale;
+            targetScale = new Vector3(0, startScale.y, 0);
+            reloadBar.transform.localScale = targetScale;
+        }
         //
     }
 

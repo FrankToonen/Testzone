@@ -28,7 +28,7 @@ public class Player_Shoot : NetworkBehaviour
         if (!isLocalPlayer)
             return;
 
-        if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2"))
+        if ((Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2")) && terraformer.CanShoot)
         {
             string objectHit = terraformer.ShootRayCast();
             if (objectHit != "")
@@ -37,7 +37,7 @@ public class Player_Shoot : NetworkBehaviour
             }
         }
 
-        if (Input.GetButtonDown("FirePulse1") || Input.GetButtonDown("FirePulse2"))
+        if ((Input.GetButtonDown("FirePulse1") || Input.GetButtonDown("FirePulse2")) && pulseGun.CanShoot)
         {
             string objectHit = pulseGun.ShootRayCast();
             if (objectHit != "")

@@ -25,24 +25,24 @@ public class Gun : NetworkBehaviour
         GetComponent<Player_Shoot>().EventShoot -= Shoot;
     }*/
 
-    // Temporary reload feedback
     void Update()
     {
-        if (!canShoot && isLocalPlayer)
-        {
+        if (!isLocalPlayer)
+            return;
+
+        // Werkt niet als client, wel als host
+        if (!canShoot)
             reloadBar.transform.localScale = Vector3.Lerp(reloadBar.transform.localScale, targetScale, 3 * (1 / reloadTime) * Time.deltaTime);
-        }
+        else
+            reloadBar.transform.localScale = targetScale;
     }
 
     public void Shoot(string objectHit, bool isPrimary)
     {
-        if (canShoot)
-        {
-            if (isPrimary)
-                ShootPrimary(objectHit);
-            else
-                ShootSecondary(objectHit);
-        }
+        if (isPrimary)
+            ShootPrimary(objectHit);
+        else
+            ShootSecondary(objectHit);
     }
 
     protected virtual void ShootPrimary(string objectHit)
@@ -63,6 +63,10 @@ public class Gun : NetworkBehaviour
         if (Physics.Raycast(ray, out hit))
         { 
             //Debug.DrawRay(cam.transform.TransformPoint(0, 0, 0.5f), cam.transform.forward * hit.distance, Color.blue, 10);
+
+            StartCoroutine(ShootTimer(reloadTime));
+            reloadBar.transform.localScale = startScale;
+
             return hit.transform.name;
         }
 
@@ -72,12 +76,12 @@ public class Gun : NetworkBehaviour
     protected IEnumerator ShootTimer(float seconds)
     {
         canShoot = false;
-        reloadBar.transform.localScale = startScale;
-
         yield return new WaitForSeconds(seconds);
-
-        reloadBar.transform.localScale = targetScale;
-
         canShoot = true;
+    }
+
+    public bool CanShoot
+    {
+        get { return canShoot; }
     }
 }
