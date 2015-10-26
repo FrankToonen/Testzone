@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 using System.Collections;
 
 public class Gun : NetworkBehaviour
 {
+    protected AudioSource audioSource;
+    protected string soundName;
+
     protected Camera cam;
     protected Image reloadBar;
     protected Vector3 startScale;
@@ -15,6 +18,7 @@ public class Gun : NetworkBehaviour
 
     protected virtual void Start()
     {        
+        audioSource = GetComponent<AudioSource>();
         cam = GetComponentInChildren<Camera>();
         GetComponent<Player_Shoot>().EventShoot += Shoot;
         canShoot = true;
@@ -30,32 +34,34 @@ public class Gun : NetworkBehaviour
         if (!isLocalPlayer)
             return;
 
-        // Werkt niet als client, wel als host
         if (!canShoot)
             reloadBar.transform.localScale = Vector3.Lerp(reloadBar.transform.localScale, targetScale, 3 * (1 / reloadTime) * Time.deltaTime);
         else
             reloadBar.transform.localScale = targetScale;
     }
 
-    public void Shoot(string objectHit, bool isPrimary)
+    public void Shoot(string objectHit, Vector3 point, bool isPrimary)
     {
         if (isPrimary)
-            ShootPrimary(objectHit);
+            ShootPrimary(objectHit, point);
         else
-            ShootSecondary(objectHit);
+            ShootSecondary(objectHit, point);
+
+        AudioClip audioClip = Resources.Load<AudioClip>("Sounds/snd_" + soundName);
+        audioSource.PlayOneShot(audioClip);
     }
 
-    protected virtual void ShootPrimary(string objectHit)
+    protected virtual void ShootPrimary(string objectHit, Vector3 point)
     {
 
     }
     
-    protected virtual void ShootSecondary(string objectHit)
+    protected virtual void ShootSecondary(string objectHit, Vector3 point)
     {
         
     }
 
-    public string ShootRayCast()
+    public RaycastHit ShootRayCast()
     {
         RaycastHit hit;
         Ray ray = new Ray(cam.transform.TransformPoint(0, 0, 0.5f), cam.transform.forward);
@@ -67,10 +73,10 @@ public class Gun : NetworkBehaviour
             StartCoroutine(ShootTimer(reloadTime));
             reloadBar.transform.localScale = startScale;
 
-            return hit.transform.name;
+            return hit;
         }
 
-        return "";
+        return new RaycastHit();
     }
 
     protected IEnumerator ShootTimer(float seconds)

@@ -14,6 +14,7 @@ public class PulseGun : Gun
         base.Start();
         GetComponent<Player_Shoot>().EventShoot -= Shoot;
         GetComponent<Player_Shoot>().EventPulse += Shoot;
+        soundName = "pulsegun_01";
         reloadTime = 2;
 
         //Temp reloadbar
@@ -27,13 +28,13 @@ public class PulseGun : Gun
         //
     }
 
-    protected override void ShootPrimary(string objectHit)
+    protected override void ShootPrimary(string objectHit, Vector3 point)
     {
         float f = -force;
         ShootPulseGun(objectHit, new Vector3(f, f, f));
     }
 
-    protected override void ShootSecondary(string objectHit)
+    protected override void ShootSecondary(string objectHit, Vector3 point)
     {
         float f = force / 2;
         ShootPulseGun(objectHit, new Vector3(f, -f, f));
@@ -46,14 +47,14 @@ public class PulseGun : Gun
         {
             if (col.transform.tag == "Player" || col.transform.tag == "Cube")
             {
-                Vector3 direction = Vector3.Scale(Vector3.Normalize(transform.position - (col.transform.position + new Vector3(0, 2.5f, 0))), dir);
+                Vector3 extraAngle = new Vector3(0, 2, 0); // Schiet objecten iets omhoog
+                Vector3 direction = Vector3.Scale(Vector3.Normalize(transform.position - (col.transform.position + extraAngle)), dir);
 
                 if (col.transform.tag == "Player")
                     col.gameObject.GetComponent<Player_Force>().AddImpact(direction, direction.magnitude);
                 else
                     col.GetComponent<Rigidbody>().AddForce(direction * 25);
             }
-            //Play sound
         }
     }
 }

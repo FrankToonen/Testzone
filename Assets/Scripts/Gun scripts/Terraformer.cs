@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+//using UnityEngine.Networking;
 using System.Collections;
-using UnityEngine.Networking;
 
 public class Terraformer : Gun
 {
@@ -12,6 +12,7 @@ public class Terraformer : Gun
     protected override void Start()
     {
         base.Start();
+        soundName = /*"terraformer_01"*/ "pulsegun_02";
         reloadTime = 1;
 
         //Temp reloadbar
@@ -25,12 +26,12 @@ public class Terraformer : Gun
         //
     }
 
-    protected override void ShootPrimary(string objectHit)
+    protected override void ShootPrimary(string objectHit, Vector3 point)
     {
         ShootTerraformer(objectHit, 1);
     }
 
-    protected override void ShootSecondary(string objectHit)
+    protected override void ShootSecondary(string objectHit, Vector3 point)
     {
         ShootTerraformer(objectHit, -1);
     }
@@ -71,8 +72,19 @@ public class Terraformer : Gun
             if (hasHit)
             {
                 StartCoroutine(ShootTimer(reloadTime));
-                //Playsound
+                StartCoroutine(PlayRubbleSound());
             }
         }
+    }
+
+    //Waitforseconds moet gelijk zijn aan hoe lang de pilaren omhoog blijven.
+    IEnumerator PlayRubbleSound()
+    {
+        AudioClip audioClip = Resources.Load<AudioClip>("Sounds/snd_terraformer_rubble");
+        audioSource.PlayOneShot(audioClip);
+
+        yield return new WaitForSeconds(5);
+
+        audioSource.PlayOneShot(audioClip);
     }
 }
