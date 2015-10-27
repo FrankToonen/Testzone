@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Magnet : MonoBehaviour
+public class Gun_Magnet : MonoBehaviour
 {
     bool isPositive;
     //Lifetime?
@@ -42,7 +42,7 @@ public class Magnet : MonoBehaviour
                 if (Vector3.Distance(m.transform.position, transform.position) < 5)
                 {
                     Vector3 dir = Vector3.Normalize(m.transform.position - transform.position);
-                    if (m.GetComponent<Magnet>().isPositive == isPositive)
+                    if (m.GetComponent<Gun_Magnet>().isPositive == isPositive)
                         dir *= -1;
 
                     MoveParent(dir * 1000);

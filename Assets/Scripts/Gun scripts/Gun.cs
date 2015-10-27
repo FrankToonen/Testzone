@@ -15,6 +15,7 @@ public class Gun : NetworkBehaviour
 
     protected bool canShoot;
     protected float reloadTime;
+    protected int range;
 
     protected virtual void Start()
     {        
@@ -22,6 +23,7 @@ public class Gun : NetworkBehaviour
         cam = GetComponentInChildren<Camera>();
         GetComponent<Player_Shoot>().EventShoot += Shoot;
         canShoot = true;
+        range = 200;
     }
 
     /*public void UnsubscribeEvent()
@@ -63,10 +65,11 @@ public class Gun : NetworkBehaviour
 
     public RaycastHit ShootRayCast()
     {
+        LayerMask layerMask = ~(1 << 9);
         RaycastHit hit;
         Ray ray = new Ray(cam.transform.TransformPoint(0, 0, 0.5f), cam.transform.forward);
 
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit, range, layerMask))
         { 
             //Debug.DrawRay(cam.transform.TransformPoint(0, 0, 0.5f), cam.transform.forward * hit.distance, Color.blue, 10);
 

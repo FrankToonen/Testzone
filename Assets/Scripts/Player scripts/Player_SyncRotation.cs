@@ -32,7 +32,7 @@ public class Player_SyncRotation : NetworkBehaviour
     [SerializeField]
     bool
         useHistoricalLerping;
-	
+
     void Update()
     {
         LerpRotations();

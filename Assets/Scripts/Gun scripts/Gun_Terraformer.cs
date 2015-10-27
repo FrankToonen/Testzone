@@ -3,7 +3,7 @@ using UnityEngine.UI;
 //using UnityEngine.Networking;
 using System.Collections;
 
-public class Terraformer : Gun
+public class Gun_Terraformer : Gun
 {
     [SerializeField]
     float

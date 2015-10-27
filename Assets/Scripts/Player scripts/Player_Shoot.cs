@@ -19,11 +19,11 @@ public class Player_Shoot : NetworkBehaviour
 
     void Start()
     {
-        primaryGun = GetComponent<Terraformer>();
+        primaryGun = GetComponent<Gun_Terraformer>();
         if (primaryGun == null)
-            primaryGun = GetComponent<MagnetGun>();
+            primaryGun = GetComponent<Gun_MagnetGun>();
 
-        pulseGun = GetComponent<PulseGun>();
+        pulseGun = GetComponent<Gun_PulseGun>();
     }
 
     void Update()

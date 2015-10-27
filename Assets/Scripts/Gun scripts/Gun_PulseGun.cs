@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class PulseGun : Gun
+public class Gun_PulseGun : Gun
 {
     [SerializeField]
     float

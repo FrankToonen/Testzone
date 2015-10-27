@@ -2,10 +2,10 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class MagnetGun : Gun
+public class Gun_MagnetGun : Gun
 {    
     [SerializeField]
-    Magnet
+    Gun_Magnet
         magnetPrefab;
 
     protected override void Start()
@@ -39,7 +39,7 @@ public class MagnetGun : Gun
         GameObject obj = GameObject.Find(objectHit);
         if (obj != null)
         {
-            Magnet newMagnet = Instantiate(magnetPrefab, point, Quaternion.identity) as Magnet; // Rotation overnemen van geraakt object?
+            Gun_Magnet newMagnet = Instantiate(magnetPrefab, point, Quaternion.identity) as Gun_Magnet; // Rotation overnemen van geraakt object?
             newMagnet.Initialize(obj.transform, isPositive);
         }
     }
