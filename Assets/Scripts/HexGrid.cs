@@ -7,7 +7,7 @@ public class HexGrid : MonoBehaviour
     public GameObject hexagon;
     public int width, length;
     GameObject[,] hexagons;
-    GameObject[] chunks;
+    public GameObject[] chunks;
     Texture2D heightMap;
     Texture2D colorMap;
 
@@ -81,7 +81,11 @@ public class HexGrid : MonoBehaviour
 
         for (int i = 0; i < chunks.Length; i++)
         {
+            if (chunks [i] == null)
+                continue;
+
             meshFilters = chunks [i].GetComponentsInChildren<MeshFilter>();
+
             combine = new CombineInstance[meshFilters.Length - 1];
 
             int index = 0;
