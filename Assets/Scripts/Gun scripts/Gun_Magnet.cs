@@ -4,12 +4,14 @@ using System.Collections;
 public class Gun_Magnet : MonoBehaviour
 {
     bool isPositive;
-    //Lifetime?
+    [SerializeField]
+    float
+        lifeTime;
 
     // Use this for initialization
     void Start()
     {
-        // Start timer?
+        StartCoroutine(Timer(lifeTime));
     }
 
     public void Initialize(Transform parent, bool isPositive)
@@ -39,22 +41,25 @@ public class Gun_Magnet : MonoBehaviour
                 if (m.transform == transform)
                     continue;
 
-                if (Vector3.Distance(m.transform.position, transform.position) < 5)
+                Gun_Magnet magnet = m.GetComponent<Gun_Magnet>();
+
+                if (Vector3.Distance(magnet.transform.position, transform.position) < 5)
                 {
-                    Vector3 dir = Vector3.Normalize(m.transform.position - transform.position);
-                    if (m.GetComponent<Gun_Magnet>().isPositive == isPositive)
+                    Vector3 dir = Vector3.Normalize(magnet.transform.position - transform.position);
+                    if (magnet.GetComponent<Gun_Magnet>().isPositive == isPositive)
                         dir *= -1;
 
                     MoveParent(dir * 1000);
+                    magnet.MoveParent(-dir * 1000);
 
-                    //Destroy(this.gameObject);
-                    //Destroy(m.gameObject);
+                    Destroy(this.gameObject);
+                    Destroy(magnet.gameObject);
                 }
             }
         }               
     }
 
-    void MoveParent(Vector3 force)
+    public void MoveParent(Vector3 force)
     {
         if (transform.parent.tag == "Player")
         {
@@ -72,5 +77,11 @@ public class Gun_Magnet : MonoBehaviour
     public bool IsPositive
     {
         get { return isPositive; }
+    }
+
+    IEnumerator Timer(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        Destroy(this.gameObject);
     }
 }
