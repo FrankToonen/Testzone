@@ -8,17 +8,25 @@ public class HexGrid : MonoBehaviour
     public int width, length;
     public float radius;
     GameObject[,] hexagons;
+    Texture2D heightMap;
 
     // Use this for initialization
     void Start()
     {
+        heightMap = Resources.Load<Texture2D>("Materials/heightmap");
         hexagons = new GameObject[length, width];
         for (int x = 0; x < length; x++)
         {
             for (int z = 0; z < width; z++)
             {
                 Renderer hex = hexagon.GetComponent<Renderer>();
-                Vector3 pos = new Vector3(transform.position.x + x * hex.bounds.size.x + (z % 2 * (hex.bounds.size.x / 2)), 0, transform.position.z + z * (hex.bounds.size.z / 4 * 3));
+
+                float x_pos = transform.position.x + x * hex.bounds.size.x + (z % 2 * (hex.bounds.size.x / 2));
+                //float y_pos = (Mathf.Round(heightMap.GetPixel(x, z).grayscale * 100) / 100) * hex.bounds.size.y;
+                float y_pos = heightMap.GetPixel(x, z).grayscale * hex.bounds.size.y;
+                float z_pos = transform.position.z + z * (hex.bounds.size.z / 4 * 3);
+                Vector3 pos = new Vector3(x_pos, y_pos, z_pos);
+
                 GameObject newHex = Instantiate(hexagon, pos, hexagon.transform.rotation) as GameObject;
                 newHex.transform.parent = transform;
                 newHex.transform.name = "hexagon" + x + z;

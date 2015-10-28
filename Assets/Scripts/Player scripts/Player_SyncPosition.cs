@@ -101,7 +101,8 @@ public class Player_SyncPosition : NetworkBehaviour
     void SyncPositionValues(Vector3 latestPos)
     {
         syncPos = latestPos;
-        syncPosList.Add(syncPos);
+        if (useHistoricalLerping)
+            syncPosList.Add(syncPos);
     }
 
     /*void ShowLatency()

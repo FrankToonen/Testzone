@@ -115,14 +115,16 @@ public class Player_SyncRotation : NetworkBehaviour
     void OnPlayerRotSynced(float latestPlayerRot)
     {
         syncPlayerRotation = latestPlayerRot;
-        syncPlayerRotList.Add(syncPlayerRotation);
+        if (useHistoricalLerping)
+            syncPlayerRotList.Add(syncPlayerRotation);
     }
 
     [Client]
     void OnCamRotSynced(float latestCamRot)
     {
         syncCamRotation = latestCamRot;
-        syncCamRotList.Add(syncCamRotation);
+        if (useHistoricalLerping)
+            syncCamRotList.Add(syncCamRotation);
     }
 
     bool CheckThreshold(float rot1, float rot2)
