@@ -9,16 +9,24 @@ public class Hexagon : MonoBehaviour
     float maxHeight, minHeight, moveSpeed;
 
     // Use this for initialization
-    void Start()
+    /*void Start()
     {
         startPosition = transform.position;
         maxHeight = transform.position.y + 4;
         minHeight = transform.position.y - 4;
         moveSpeed = 0.1f;
 
-        int r = Random.Range(0, 100);
-        if (r > 85)
-            GetComponent<Renderer>().material = Resources.Load<Material>("Materials/Brown");
+        //int r = Random.Range(0, 100);
+        //if (r > 85)
+        //    GetComponent<Renderer>().material = Resources.Load<Material>("Materials/Brown");
+    }*/
+
+    public void Initialize()
+    {
+        startPosition = transform.position;
+        maxHeight = transform.position.y + 4;
+        minHeight = transform.position.y - 4;
+        moveSpeed = 0.1f;
     }
 
     public IEnumerator MoveTo(Vector3 target)
@@ -30,14 +38,17 @@ public class Hexagon : MonoBehaviour
         {
             float newY = transform.position.y;
 
-            int dir = target.y > startPosition.y ? 1 : -1;
+            int dir = targetPosition.y > startPosition.y ? 1 : -1;
             float min = startPosition.y > targetPosition.y ? targetPosition.y : startPosition.y;
             float max = startPosition.y <= targetPosition.y ? targetPosition.y : startPosition.y;
             newY = Mathf.Clamp(newY + /*target.y*/ dir * moveSpeed, min, max);
 
             transform.position = new Vector3(transform.position.x, newY, transform.position.z);
+
             yield return null;
         }
+
+        // Debug.Log(transform.position + " | " + targetPosition);
 
         transform.position = targetPosition;
 
