@@ -7,7 +7,7 @@ public class HexGrid : MonoBehaviour
     public GameObject hexagon;
     public int width, length;
     GameObject[,] hexagons;
-    public GameObject[] chunks;
+    GameObject[] chunks;
     Texture2D heightMap;
     Texture2D colorMap;
 
@@ -26,7 +26,7 @@ public class HexGrid : MonoBehaviour
 
                 float x_pos = transform.position.x + x * hex.bounds.size.x + (z % 2 * (hex.bounds.size.x / 2));
                 //float y_pos = (Mathf.Round(heightMap.GetPixel(x, z).grayscale * 100) / 100) * hex.bounds.size.y;
-                float y_pos = heightMap.GetPixel(x, z).grayscale * hex.bounds.size.y * 5;
+                float y_pos = (0.5f - heightMap.GetPixel(x, z).grayscale) * hex.bounds.size.y * 3;
                 float z_pos = transform.position.z + z * (hex.bounds.size.z / 4 * 3);
                 Vector3 pos = new Vector3(x_pos, y_pos, z_pos);
 

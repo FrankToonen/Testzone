@@ -1,21 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class cursor : MonoBehaviour {
+public class cursor : MonoBehaviour
+{
 
-	CursorLockMode wanted;
+    CursorLockMode wanted;
 
-	// Use this for initialization
-	void Start () {
-		wanted = CursorLockMode.Locked;
-	}
+    // Use this for initialization
+    void Start()
+    {
+        wanted = CursorLockMode.Locked;
+    }
 
-	void SetCursor(){
-		Cursor.lockState = wanted;
-		Cursor.visible = false;
-	}
+    void SetCursor()
+    {
+        Cursor.lockState = wanted;
+        Cursor.visible = false;
+    }
 
-	void Update(){
-		SetCursor ();
-	}
+    void Update()
+    {
+        //SetCursor ();
+    }
 }
