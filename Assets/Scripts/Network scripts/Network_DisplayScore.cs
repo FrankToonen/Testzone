@@ -1,17 +1,16 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 using System.Collections;
 
-public class Network_DisplayScore : MonoBehaviour
+public class Network_DisplayScore : NetworkBehaviour
 {
-    void Update()
-    {
-        DisplayScore();
-    }
-
-    void DisplayScore()
+    public void DisplayScore()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        //Debug.Log(players [0].name);
+
         for (int p = 0; p < players.Length; p++)
         {
             Text scoreText = GameObject.Find("Score Text " + p).GetComponent<Text>();

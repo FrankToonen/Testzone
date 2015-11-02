@@ -34,13 +34,13 @@ public class Hexagon : MonoBehaviour
         Vector3 targetPosition = transform.position + target;
         targetPosition.y = Mathf.Clamp(targetPosition.y, minHeight, maxHeight);
 
-        while (Mathf.Abs(transform.position.y - targetPosition.y) > 0.05f && transform.position.y < maxHeight && transform.position.y > minHeight)
+        while (Mathf.Abs(transform.position.y - targetPosition.y) > 0.05f && transform.position.y <= maxHeight && transform.position.y >= minHeight)
         {
             float newY = transform.position.y;
 
             int dir = targetPosition.y > startPosition.y ? 1 : -1;
-            float min = startPosition.y > targetPosition.y ? targetPosition.y : startPosition.y;
-            float max = startPosition.y <= targetPosition.y ? targetPosition.y : startPosition.y;
+            float min = startPosition.y > targetPosition.y ? targetPosition.y : transform.position.y; // : startPosition.y
+            float max = startPosition.y <= targetPosition.y ? targetPosition.y : transform.position.y; // : startPosition.y
             newY = Mathf.Clamp(newY + /*target.y*/ dir * moveSpeed, min, max);
 
             transform.position = new Vector3(transform.position.x, newY, transform.position.z);
@@ -48,11 +48,10 @@ public class Hexagon : MonoBehaviour
             yield return null;
         }
 
-        // Debug.Log(transform.position + " | " + targetPosition);
-
         transform.position = targetPosition;
 
         yield return new WaitForSeconds(resetTime);
+
         StartCoroutine("ResetY", startPosition - transform.position);
     }
 
@@ -75,6 +74,7 @@ public class Hexagon : MonoBehaviour
 
             yield return null;
         }
+
         transform.position = startPosition;
         //ChangeColor(Color.white);
     }
