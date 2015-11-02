@@ -15,7 +15,7 @@ public class HexGrid : MonoBehaviour
     void Start()
     {
         heightMap = Resources.Load<Texture2D>("Materials/heightmap");
-        //colorMap = Resources.Load<Texture2D>("Materials/colormap");
+        colorMap = Resources.Load<Texture2D>("Materials/colormap");
 
         hexagons = new GameObject[length, width];
         for (int x = 0; x < length; x++)
@@ -33,7 +33,7 @@ public class HexGrid : MonoBehaviour
                 GameObject newHex = Instantiate(hexagon, pos, hexagon.transform.rotation) as GameObject;
                 //newHex.transform.parent = transform;
                 newHex.transform.name = "hexagon" + x + z;
-                //newHex.GetComponent<Renderer>().material.color = colorMap.GetPixel(x, z);
+                newHex.GetComponent<Renderer>().material.color = colorMap.GetPixel(x, z);
                 newHex.GetComponent<Hexagon>().Initialize();
                 hexagons [x, z] = newHex;
             }
@@ -102,10 +102,10 @@ public class HexGrid : MonoBehaviour
             chunks [i].GetComponent<MeshFilter>().mesh = new Mesh();
             chunks [i].GetComponent<MeshFilter>().mesh.CombineMeshes(combine);
             chunks [i].GetComponent<MeshCollider>().sharedMesh = chunks [i].GetComponent<MeshFilter>().mesh;
-            //chunks [i].GetComponent<MeshRenderer>().material = meshFilters [1].GetComponent<MeshRenderer>().material;
+            chunks [i].GetComponent<MeshRenderer>().material = meshFilters [1].GetComponent<MeshRenderer>().material;
 
             //TEMP
-            chunks [i].GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Brown");
+            //chunks [i].GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Brown");
         }
     }
 

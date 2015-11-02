@@ -43,7 +43,6 @@ public class Player_SyncPosition : NetworkBehaviour
         ShowLatency();
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         TransmitPosition();
