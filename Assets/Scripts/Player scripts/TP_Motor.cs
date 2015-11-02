@@ -8,15 +8,23 @@ public class TP_Motor : MonoBehaviour
     CharacterController controller;
 
     public float MoveSpeed = 10f;
-	public float Gravity = 0.002f;
+    public float JumpForce = 50f;
+    public float Gravity = 21f;
+    public float TerminalVelocity = 20f;
+
+
+
     public Vector3 MoveVector { get; set; }
+    public float VerticalVelocity { get; set; }
+
 
     void Awake()
     {
         //Instance = this;
         controller = GetComponent<CharacterController>();
     }
-	
+
+
     public void UpdateMotor()
     {
         SnapAlignCharacterWithCamera();
@@ -37,15 +45,37 @@ public class TP_Motor : MonoBehaviour
         //Multiply MoveVector by MoveSpeed
         MoveVector *= MoveSpeed;
 
-        //Multiply MoveVector by deltatime
-        MoveVector *= Time.deltaTime;
+        //Reapply VerticalVelocity to moveVector.y
+        MoveVector = new Vector3(MoveVector.x, VerticalVelocity, MoveVector.z);
 
-		//Gravity pulls player down
-		MoveVector -= new Vector3 (0, Gravity, 0) * Time.deltaTime;
-
+        //Apply gravity
+         ApplyGravity();
 
         //Move Character in world space
-        controller.Move(MoveVector);
+        controller.Move(MoveVector *= Time.deltaTime);
+
+    }
+
+
+    void ApplyGravity()
+    {
+        if(MoveVector.y > -TerminalVelocity)
+        {
+            MoveVector = new Vector3(MoveVector.x, MoveVector.y - Gravity * Time.deltaTime, MoveVector.z);
+        }
+
+        if(controller.isGrounded && MoveVector.y < -1)
+        {
+            MoveVector = new Vector3(MoveVector.x, -1, MoveVector.z);
+        }
+    }
+
+    public void Jump()
+    {
+        if (controller.isGrounded)
+        {
+            VerticalVelocity = JumpForce;
+        }
     }
 
     void SnapAlignCharacterWithCamera()

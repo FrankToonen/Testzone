@@ -6,7 +6,7 @@ public class TP_Controller : MonoBehaviour
     //public static CharacterController CharacterController;
     //public static TP_Controller Instance;
     TP_Motor motor;
-
+    public bool PlayerAction = false;
     /*void Awake()
     {
         CharacterController = GetComponent<CharacterController>() as CharacterController;
@@ -33,7 +33,7 @@ public class TP_Controller : MonoBehaviour
         } else
         { 
             GetLocomotionInput();
-
+            HandleActionInput();
             motor.UpdateMotor();
         }
     }
@@ -42,6 +42,7 @@ public class TP_Controller : MonoBehaviour
     {
         float deadZone = 0.1f;
 
+        motor.VerticalVelocity = motor.MoveVector.y;
         motor.MoveVector = Vector3.zero;
 
         if (Input.GetAxis("Vertical") > deadZone || Input.GetAxis("Vertical") < -deadZone)
@@ -54,4 +55,36 @@ public class TP_Controller : MonoBehaviour
             motor.MoveVector += new Vector3(Input.GetAxis("Horizontal"), 0, 0);
         }
     }
+
+    void HandleActionInput()
+    {
+        if (Input.GetButtonDown("Jump"))
+        {
+            Jump();
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            PlayerAction = true;
+        }
+        else
+        {
+            PlayerAction = false;
+        }
+    }
+
+    void Jump()
+    {
+        motor.Jump();
+    }
+
+    /*
+        void OnTriggerStay(Collider other)
+        {
+            if (other.gameObject.tag == "Flag" && PlayerAction == true)
+            {
+                other.gameObject.GetComponent<Transform>().position = gameObject.GetComponent<CharacterStats>().flagPouch.transform.position;
+            }
+        }
+      */  
 }
