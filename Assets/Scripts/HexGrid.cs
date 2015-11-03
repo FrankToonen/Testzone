@@ -7,7 +7,7 @@ public class HexGrid : MonoBehaviour
     public GameObject hexagon;
     public int width, length;
     GameObject[,] hexagons;
-    public GameObject[] chunks;
+    GameObject[] chunks;
     Texture2D heightMap;
     Texture2D colorMap;
 
@@ -15,7 +15,7 @@ public class HexGrid : MonoBehaviour
     void Start()
     {
         heightMap = Resources.Load<Texture2D>("Materials/heightmap");
-        //colorMap = Resources.Load<Texture2D>("Materials/colormap");
+        colorMap = Resources.Load<Texture2D>("Materials/colormap");
 
         hexagons = new GameObject[length, width];
         for (int x = 0; x < length; x++)
@@ -26,14 +26,14 @@ public class HexGrid : MonoBehaviour
 
                 float x_pos = transform.position.x + x * hex.bounds.size.x + (z % 2 * (hex.bounds.size.x / 2));
                 //float y_pos = (Mathf.Round(heightMap.GetPixel(x, z).grayscale * 100) / 100) * hex.bounds.size.y;
-                float y_pos = heightMap.GetPixel(x, z).grayscale * hex.bounds.size.y * 5;
+                float y_pos = (0.5f - heightMap.GetPixel(x, z).grayscale) * hex.bounds.size.y * 3;
                 float z_pos = transform.position.z + z * (hex.bounds.size.z / 4 * 3);
                 Vector3 pos = new Vector3(x_pos, y_pos, z_pos);
 
                 GameObject newHex = Instantiate(hexagon, pos, hexagon.transform.rotation) as GameObject;
                 //newHex.transform.parent = transform;
                 newHex.transform.name = "hexagon" + x + z;
-                //newHex.GetComponent<Renderer>().material.color = colorMap.GetPixel(x, z);
+                newHex.GetComponent<Renderer>().material.color = colorMap.GetPixel(x, z);
                 newHex.GetComponent<Hexagon>().Initialize();
                 hexagons [x, z] = newHex;
             }
@@ -102,10 +102,10 @@ public class HexGrid : MonoBehaviour
             chunks [i].GetComponent<MeshFilter>().mesh = new Mesh();
             chunks [i].GetComponent<MeshFilter>().mesh.CombineMeshes(combine);
             chunks [i].GetComponent<MeshCollider>().sharedMesh = chunks [i].GetComponent<MeshFilter>().mesh;
-            //chunks [i].GetComponent<MeshRenderer>().material = meshFilters [1].GetComponent<MeshRenderer>().material;
+            chunks [i].GetComponent<MeshRenderer>().material = meshFilters [1].GetComponent<MeshRenderer>().material;
 
             //TEMP
-            chunks [i].GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Brown");
+            //chunks [i].GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Brown");
         }
     }
 

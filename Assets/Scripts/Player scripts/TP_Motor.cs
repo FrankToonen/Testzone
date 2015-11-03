@@ -8,12 +8,16 @@ public class TP_Motor : MonoBehaviour
     CharacterController controller;
 
     public float MoveSpeed = 10f;
+//<<<<<<< HEAD
     public float JumpForce = 50f;
     public float Gravity = 21f;
     public float TerminalVelocity = 20f;
 
 
 
+//=======
+    //public float Gravity = 10f;
+//>>>>>>> origin/master
     public Vector3 MoveVector { get; set; }
     public float VerticalVelocity { get; set; }
 
@@ -45,8 +49,16 @@ public class TP_Motor : MonoBehaviour
         //Multiply MoveVector by MoveSpeed
         MoveVector *= MoveSpeed;
 
+//<<<<<<< HEAD
         //Reapply VerticalVelocity to moveVector.y
         MoveVector = new Vector3(MoveVector.x, VerticalVelocity, MoveVector.z);
+//=======
+        //Multiply MoveVector by deltatime
+     //   MoveVector *= Time.deltaTime;
+
+        //Gravity pulls player down
+        MoveVector -= new Vector3(0, Gravity, 0) * Time.deltaTime;
+//>>>>>>> origin/master
 
         //Apply gravity
          ApplyGravity();
@@ -82,7 +94,7 @@ public class TP_Motor : MonoBehaviour
     {
         //if (MoveVector.x != 0 || MoveVector.z != 0)
         //{
-            transform.rotation = Quaternion.Euler(transform.eulerAngles.x, Camera.main.transform.eulerAngles.y, transform.eulerAngles.z);
+        transform.rotation = Quaternion.Euler(transform.eulerAngles.x, Camera.main.transform.eulerAngles.y, transform.eulerAngles.z);
         //}
     }
 }

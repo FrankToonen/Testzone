@@ -26,7 +26,7 @@ public class Player_Setup : NetworkBehaviour
             
             cam.enabled = true;
             cam.GetComponent<TP_Camera>().enabled = true;
-            
+
             audioListener.enabled = true;
 
             gameObject.layer = 9; // "Player" layer
