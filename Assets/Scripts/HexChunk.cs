@@ -3,19 +3,6 @@ using System.Collections;
 
 public class HexChunk : MonoBehaviour
 {
-
-    // Use this for initialization
-    void Start()
-    {
-	
-    }
-	
-    // Update is called once per frame
-    void Update()
-    {
-	
-    }
-
     IEnumerator SplitChunk(float time)
     {
         GetComponent<MeshRenderer>().enabled = false;
