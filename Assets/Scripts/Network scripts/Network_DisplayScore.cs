@@ -9,12 +9,19 @@ public class Network_DisplayScore : NetworkBehaviour
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
-        //Debug.Log(players [0].name);
-
-        for (int p = 0; p < players.Length; p++)
+        for (int p = 0; p < 4; p++)
         {
-            Text scoreText = GameObject.Find("Score Text " + p).GetComponent<Text>();
-            scoreText.text = "Score: " + players [p].GetComponent<Player_Score>().Score;
+            GameObject scoreText = GameObject.Find("Score Text " + p);
+            if (scoreText != null)
+            {
+                if (p < players.Length)
+                {
+                    scoreText.GetComponent<Text>().text = players [p].name + ": " + players [p].GetComponent<Player_Score>().Score;
+                } else
+                {
+                    scoreText.GetComponent<Text>().text = "";
+                }
+            }
         }
     }
 }

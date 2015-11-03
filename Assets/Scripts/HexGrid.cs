@@ -55,6 +55,7 @@ public class HexGrid : MonoBehaviour
                 // Create a chunk for each 10x10 area and name it after its x & z positions
                 GameObject chunk = Instantiate(hexChunk, Vector3.zero, Quaternion.identity) as GameObject;
                 chunk.transform.name = "HexChunk" + i + j;
+                chunk.transform.parent = transform;
 
                 // Loop over each hexagon within this 10x10 area and change its parent to the newly created chunk
                 for (int x = 0; x < 10; x++)
