@@ -73,6 +73,10 @@ public class Gun_Terraformer : Gun
                                 
                                     hex.StopAllCoroutines();
                                     hex.StartCoroutine("MoveTo", target);
+
+                                    hex.transform.parent.GetComponent<HexChunk>().StopAllCoroutines();
+                                    hex.transform.parent.GetComponent<HexChunk>().StartCoroutine("SplitChunk", 10);
+
                                     StartCoroutine(ShootTimer(reloadTime));
                                 }
                             }
@@ -99,6 +103,10 @@ public class Gun_Terraformer : Gun
                 
                         hex2.StopAllCoroutines();
                         hex2.StartCoroutine("MoveTo", target);
+
+                        hex2.transform.parent.GetComponent<HexChunk>().StopAllCoroutines();
+                        hex2.transform.parent.GetComponent<HexChunk>().StartCoroutine("SplitChunk", 10);
+
                         StartCoroutine(ShootTimer(reloadTime));
                     }
                 }

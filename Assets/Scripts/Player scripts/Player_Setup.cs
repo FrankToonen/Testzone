@@ -69,7 +69,9 @@ public class Player_Setup : NetworkBehaviour
     
     string MakeUniqueIdentity()
     {
-        string uniqueName = "Player" + playerNetID.ToString();
+        string uniqueName = GameObject.Find("NetworkManager").gameObject.GetComponent<Network_Manager>().playername;
+        if (uniqueName == "")
+            uniqueName = "Player" + playerNetID.ToString();
         return uniqueName;
     }
 }
