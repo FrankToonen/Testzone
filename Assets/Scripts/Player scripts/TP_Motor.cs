@@ -11,9 +11,8 @@ public class TP_Motor : MonoBehaviour
 //<<<<<<< HEAD
     public float JumpForce = 50f;
     public float Gravity = 21f;
-    public float TerminalVelocity = 20f;
-
-
+	public float GravityCap;
+	public float FallSpeed = 25;
 
 //=======
     //public float Gravity = 10f;
@@ -28,7 +27,6 @@ public class TP_Motor : MonoBehaviour
         controller = GetComponent<CharacterController>();
     }
 
-
     public void UpdateMotor()
     {
         SnapAlignCharacterWithCamera();
@@ -37,64 +35,52 @@ public class TP_Motor : MonoBehaviour
 
     void ProcessMotion()
     {
-        //Transform MoveVector into world space
-        MoveVector = transform.TransformDirection(MoveVector);
+		//Transform MoveVector into world space
+		MoveVector = transform.TransformDirection (MoveVector);
 
-        //normalize MoveVector if Magnitude >1
-        if (MoveVector.magnitude > 1)
-        {
-            MoveVector = Vector3.Normalize(MoveVector);
-        }
+		//normalize MoveVector if Magnitude >1
+		if (MoveVector.magnitude > 1) {
+			MoveVector = Vector3.Normalize (MoveVector);
+		}
 
-        //Multiply MoveVector by MoveSpeed
-        MoveVector *= MoveSpeed;
+		//Multiply MoveVector by MoveSpeed
+		MoveVector *= MoveSpeed;
 
-//<<<<<<< HEAD
-        //Reapply VerticalVelocity to moveVector.y
-        MoveVector = new Vector3(MoveVector.x, VerticalVelocity, MoveVector.z);
-//=======
-        //Multiply MoveVector by deltatime
-     //   MoveVector *= Time.deltaTime;
+		//Reapply VerticalVelocity to moveVector.y
+		MoveVector = new Vector3 (MoveVector.x, VerticalVelocity, MoveVector.z);
 
-        //Gravity pulls player down
-        MoveVector -= new Vector3(0, Gravity, 0) * Time.deltaTime;
-//>>>>>>> origin/master
+		if (!controller.isGrounded) {
+			Gravity += FallSpeed;        
+		}
 
-        //Apply gravity
-         ApplyGravity();
+		//Gravity pulls player down
+		MoveVector -= new Vector3 (0, Gravity, 0) * Time.deltaTime;
+	
+		//Checks if gravity reaches it's cap
+		GravityCheck();
 
         //Move Character in world space
         controller.Move(MoveVector *= Time.deltaTime);
 
     }
 
-
-    void ApplyGravity()
-    {
-        if(MoveVector.y > -TerminalVelocity)
-        {
-            MoveVector = new Vector3(MoveVector.x, MoveVector.y - Gravity * Time.deltaTime, MoveVector.z);
-        }
-
-        if(controller.isGrounded && MoveVector.y < -1)
-        {
-            MoveVector = new Vector3(MoveVector.x, -1, MoveVector.z);
-        }
-    }
+	void GravityCheck(){
+		if (Gravity <= -GravityCap) {
+			Gravity = -GravityCap;
+		} else if (Gravity >= GravityCap) {
+			Gravity = GravityCap;
+		}
+	}
 
     public void Jump()
     {
-        if (controller.isGrounded)
-        {
-            VerticalVelocity = JumpForce;
-        }
+        if (controller.isGrounded) {
+			Gravity = -JumpForce * 5;
+		} 
     }
 
     void SnapAlignCharacterWithCamera()
     {
-        //if (MoveVector.x != 0 || MoveVector.z != 0)
-        //{
         transform.rotation = Quaternion.Euler(transform.eulerAngles.x, Camera.main.transform.eulerAngles.y, transform.eulerAngles.z);
-        //}
     }
 }

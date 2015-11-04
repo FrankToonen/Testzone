@@ -58,10 +58,9 @@ public class TP_Controller : MonoBehaviour
 
     void HandleActionInput()
     {
-        if (Input.GetButtonDown("Jump"))
-        {
-            Jump();
-        }
+        if (Input.GetButtonDown ("Jump")) {
+			Jump ();
+		} 
 
         if (Input.GetKeyDown(KeyCode.E))
         {

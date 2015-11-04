@@ -5,90 +5,92 @@ using System.Collections;
 
 public class Gun : NetworkBehaviour
 {
-	protected AudioSource audioSource;
-	protected string soundName;
+    protected AudioSource audioSource;
+    protected string soundName;
 
-	protected Camera cam;
-	protected Image reloadBar;
-	protected Vector3 startScale;
-	protected Vector3 targetScale;
+    protected Camera cam;
+    protected Image reloadBar;
+    protected Vector3 startScale;
+    protected Vector3 targetScale;
 
-	protected bool canShoot;
-	protected float reloadTime;
-	protected int range;
+    protected bool canShoot;
+    protected float reloadTime;
+    protected int range;
 
-	protected virtual void Start ()
-	{        
-		audioSource = GetComponent<AudioSource> ();
-		cam = GetComponentInChildren<Camera> ();
-		GetComponent<Player_Shoot> ().EventShoot += Shoot;
-		canShoot = true;
-		range = 100;
-	}
+    protected virtual void Start()
+    {        
+        audioSource = GetComponent<AudioSource>();
+        cam = GetComponentInChildren<Camera>();
+        GetComponent<Player_Shoot>().EventShoot += Shoot;
+        canShoot = true;
+        range = 200;
+    }
 
-	/*public void UnsubscribeEvent()
+    /*public void UnsubscribeEvent()
     {
         GetComponent<Player_Shoot>().EventShoot -= Shoot;
     }*/
 
-	void Update ()
-	{
-		if (!isLocalPlayer)
-			return;
+    void Update()
+    {
+        if (!isLocalPlayer)
+            return;
 
-		if (!canShoot)
-			reloadBar.transform.localScale = Vector3.Lerp (reloadBar.transform.localScale, targetScale, 3 * (1 / reloadTime) * Time.deltaTime);
-		else
-			reloadBar.transform.localScale = targetScale;
-	}
+        if (!canShoot)
+            reloadBar.transform.localScale = Vector3.Lerp(reloadBar.transform.localScale, targetScale, 3 * (1 / reloadTime) * Time.deltaTime);
+        else
+            reloadBar.transform.localScale = targetScale;
+    }
 
-	public void Shoot (string objectHit, Vector3 point, bool isPrimary)
-	{
-		if (isPrimary)
-			ShootPrimary (objectHit, point);
-		else
-			ShootSecondary (objectHit, point);
+    public void Shoot(string objectHit, Vector3 point, bool isPrimary)
+    {
+        if (isPrimary)
+            ShootPrimary(objectHit, point);
+        else
+            ShootSecondary(objectHit, point);
 
-		AudioClip audioClip = Resources.Load<AudioClip> ("Sounds/snd_" + soundName);
-		audioSource.PlayOneShot (audioClip);
-	}
+        AudioClip audioClip = Resources.Load<AudioClip>("Sounds/snd_" + soundName);
+        audioSource.PlayOneShot(audioClip);
+    }
 
-	protected virtual void ShootPrimary (string objectHit, Vector3 point)
-	{
+    protected virtual void ShootPrimary(string objectHit, Vector3 point)
+    {
 
-	}
+    }
     
-	protected virtual void ShootSecondary (string objectHit, Vector3 point)
-	{
+    protected virtual void ShootSecondary(string objectHit, Vector3 point)
+    {
         
-	}
+    }
 
-	public RaycastHit ShootRayCast ()
-	{
-		LayerMask layerMask = ~(1 << 9);
-		RaycastHit hit;
-		Ray ray = new Ray (cam.transform.TransformPoint (0, 0, 0.5f), cam.transform.forward);
+    public RaycastHit ShootRayCast()
+    {
+        LayerMask layerMask = ~(1 << 9);
+        RaycastHit hit;
+        Ray ray = new Ray(cam.transform.TransformPoint(0, 0, 0.5f), cam.transform.forward);
 
-		if (Physics.Raycast (ray, out hit, range, layerMask)) { 
-			//Debug.DrawRay(cam.transform.TransformPoint(0, 0, 0.5f), cam.transform.forward * hit.distance, Color.blue, 10);
+        if (Physics.Raycast(ray, out hit, range, layerMask))
+        { 
+            //Debug.DrawRay(cam.transform.TransformPoint(0, 0, 0.5f), cam.transform.forward * hit.distance, Color.blue, 10);
 
-			StartCoroutine (ShootTimer (reloadTime));
-			reloadBar.transform.localScale = startScale;
+            StartCoroutine(ShootTimer(reloadTime));
+            reloadBar.transform.localScale = startScale;
 
-			return hit;
-		}
+            return hit;
+        }
 
-		return new RaycastHit ();
-	}
+        return new RaycastHit();
+    }
 
-	protected IEnumerator ShootTimer (float seconds)
-	{
-		canShoot = false;
-		yield return new WaitForSeconds (seconds);
-		canShoot = true;
-	}
+    protected IEnumerator ShootTimer(float seconds)
+    {
+        canShoot = false;
+        yield return new WaitForSeconds(seconds);
+        canShoot = true;
+    }
 
-	public bool CanShoot {
-		get { return canShoot; }
-	}
+    public bool CanShoot
+    {
+        get { return canShoot; }
+    }
 }
