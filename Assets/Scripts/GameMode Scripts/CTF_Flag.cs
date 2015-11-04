@@ -18,12 +18,14 @@ public class CTF_Flag : NetworkBehaviour
         childCollider;
     Rigidbody rigidBody;
 
+    Vector3 startPosition;
     bool isHeld, onCoolDown;
     float coolDownTime;
 
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
+        startPosition = transform.position;
         isHeld = false;
         coolDownTime = 1;
 
@@ -102,6 +104,11 @@ public class CTF_Flag : NetworkBehaviour
         GetComponent<Network_SyncPosition>().shouldLerp = true;
 
         StartCoroutine(CoolDown(coolDownTime));
+    }
+
+    public void ResetPosition()
+    {
+        transform.position = startPosition;
     }
 
     IEnumerator CoolDown(float time)

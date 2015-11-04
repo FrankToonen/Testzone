@@ -15,8 +15,8 @@ public class Player_Setup : NetworkBehaviour
     [SyncVar]
     string
         playerUniqueIdentity;
-    
-    NetworkInstanceId playerNetID;
+
+    public int playerNumber;
 
     void Start()
     {
@@ -31,14 +31,13 @@ public class Player_Setup : NetworkBehaviour
 
             gameObject.layer = 9; // "Player" layer
 
-            //Cursor.visible = false;   
-        }
-    }
+            //Cursor.visible = false;  
 
-    public override void OnStartLocalPlayer()
-    {
-        GetNetIdentity();
-        SetIdentity();
+            GetNetIdentity();
+            SetIdentity();
+        }
+
+        GameObject.FindWithTag("NetworkManager").GetComponent<Network_Manager>().SetPlayerColor();
     }
 
     void Update()
@@ -58,20 +57,21 @@ public class Player_Setup : NetworkBehaviour
     [Client]
     void GetNetIdentity()
     {
-        playerNetID = GetComponent<NetworkIdentity>().netId;
         CmdTellServerMyIdentity(MakeUniqueIdentity());
     }
     
     void SetIdentity()
     {
         transform.name = isLocalPlayer ? MakeUniqueIdentity() : playerUniqueIdentity;
+        GameObject.FindWithTag("NetworkManager").GetComponent<Network_DisplayScore>().DisplayScore();
     }
     
     string MakeUniqueIdentity()
     {
         string uniqueName = GameObject.Find("NetworkManager").gameObject.GetComponent<Network_Manager>().playername;
         if (uniqueName == "")
-            uniqueName = "Player" + playerNetID.ToString();
+            uniqueName = "Player";
+        uniqueName += playerNumber;
         return uniqueName;
     }
 }

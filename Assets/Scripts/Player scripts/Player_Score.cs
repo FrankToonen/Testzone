@@ -43,6 +43,7 @@ public class Player_Score : NetworkBehaviour
     void SyncScore(int s)
     {
         score = s;
+        GameObject.FindWithTag("NetworkManager").GetComponent<Network_DisplayScore>().DisplayScore();
     }
 
     public int Score

@@ -8,7 +8,7 @@ public class Network_DisplayScore : NetworkBehaviour
     public void DisplayScore()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-
+        
         for (int p = 0; p < 4; p++)
         {
             GameObject scoreText = GameObject.Find("Score Text " + p);
@@ -16,7 +16,11 @@ public class Network_DisplayScore : NetworkBehaviour
             {
                 if (p < players.Length)
                 {
-                    scoreText.GetComponent<Text>().text = players [p].name + ": " + players [p].GetComponent<Player_Score>().Score;
+                    string pName = players [p].name;
+                    if (pName != "")
+                        pName = pName.Remove(pName.Length - 1);
+
+                    scoreText.GetComponent<Text>().text = pName + ": " + players [p].GetComponent<Player_Score>().Score;
                 } else
                 {
                     scoreText.GetComponent<Text>().text = "";
