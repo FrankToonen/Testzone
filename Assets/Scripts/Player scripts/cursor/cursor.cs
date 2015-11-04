@@ -5,7 +5,7 @@ public class cursor : MonoBehaviour
 {
 
     CursorLockMode wanted;
-
+    public bool on;
     // Use this for initialization
     void Start()
     {
@@ -20,6 +20,6 @@ public class cursor : MonoBehaviour
 
     void Update()
     {
-        //SetCursor ();
+       if(on) SetCursor ();
     }
 }
