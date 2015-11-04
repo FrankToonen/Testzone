@@ -12,6 +12,7 @@ public class Gun : NetworkBehaviour
     protected Image reloadBar;
     protected Vector3 startScale;
     protected Vector3 targetScale;
+    protected LayerMask rayCastLayerMask;
 
     protected bool canShoot;
     protected float reloadTime;
@@ -22,6 +23,7 @@ public class Gun : NetworkBehaviour
         audioSource = GetComponent<AudioSource>();
         cam = GetComponentInChildren<Camera>();
         GetComponent<Player_Shoot>().EventShoot += Shoot;
+        rayCastLayerMask = ~(1 << 9);
         canShoot = true;
         range = 200;
     }
@@ -65,11 +67,10 @@ public class Gun : NetworkBehaviour
 
     public RaycastHit ShootRayCast()
     {
-        LayerMask layerMask = ~(1 << 9);
         RaycastHit hit;
         Ray ray = new Ray(cam.transform.TransformPoint(0, 0, 0.5f), cam.transform.forward);
 
-        if (Physics.Raycast(ray, out hit, range, layerMask))
+        if (Physics.Raycast(ray, out hit, range, rayCastLayerMask))
         { 
             //Debug.DrawRay(cam.transform.TransformPoint(0, 0, 0.5f), cam.transform.forward * hit.distance, Color.blue, 10);
 

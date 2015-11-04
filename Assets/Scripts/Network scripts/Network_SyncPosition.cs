@@ -17,26 +17,29 @@ public class Network_SyncPosition : NetworkBehaviour
     [SerializeField]
     bool
         useHistoricalLerping;
+    public bool shouldLerp;
 
     List<Vector3> syncPosList = new List<Vector3>();
 
     Vector3 lastPos;
     float threshold = .1f;
     float closeEnough = 0.1f;
+
     int lerpRate;
     int normalLerpRate = 18;
     int fasterLerpRate = 30;
-    int latency;
 
     void Start()
     {
+        shouldLerp = true;
         lerpRate = normalLerpRate;
         NetworkServer.SpawnObjects();
     }
 
     void Update()
     {
-        LerpPosition();
+        if (shouldLerp)
+            LerpPosition();
     }
 
     // Update is called once per frame

@@ -14,6 +14,7 @@ public class Gun_PulseGun : Gun
         base.Start();
         GetComponent<Player_Shoot>().EventShoot -= Shoot;
         GetComponent<Player_Shoot>().EventPulse += Shoot;
+        rayCastLayerMask = 1 << 10;
         soundName = "pulsegun_01";
         reloadTime = 2;
 
@@ -51,9 +52,20 @@ public class Gun_PulseGun : Gun
                 Vector3 direction = Vector3.Scale(Vector3.Normalize(transform.position - (col.transform.position + extraAngle)), dir);
 
                 if (col.transform.tag == "Player")
+                {
+                    if (isServer)
+                    {
+                        CTF_Flag flag = col.GetComponentInChildren<CTF_Flag>();
+                        if (flag != null)
+                        {
+                            flag.CmdChangeFlagHolder("");
+                        }
+                    }
                     col.gameObject.GetComponent<Player_Force>().AddImpact(direction, direction.magnitude);
-                else
+                } else
+                {
                     col.GetComponent<Rigidbody>().AddForce(direction * 25);
+                }
             }
         }
     }
