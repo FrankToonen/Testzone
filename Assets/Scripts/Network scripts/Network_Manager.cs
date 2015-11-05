@@ -10,6 +10,7 @@ using System.Collections;
 public class Network_Manager : NetworkManager
 {
     public string playername { get; private set; }
+    public string selectedGun { get; private set; }
 
     void Update()
     {
@@ -19,6 +20,12 @@ public class Network_Manager : NetworkManager
             if (inputField != null)
             {
                 playername = inputField.GetComponent<InputField>().text;
+            }
+
+            GameObject dropDown = GameObject.Find("Gun Select");
+            if (dropDown != null)
+            {
+                selectedGun = dropDown.GetComponent<Dropdown>().captionText.text;
             }
         }
     }
@@ -51,5 +58,10 @@ public class Network_Manager : NetworkManager
                 }
             }
         }
+    }
+
+    public void SetPlayerGuns()
+    {
+
     }
 }

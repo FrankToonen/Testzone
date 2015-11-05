@@ -63,7 +63,7 @@ public class Gun_Magnet : MonoBehaviour
     {
         if (transform.parent.tag == "Player")
         {
-            transform.parent.GetComponent<Player_Force>().AddImpact(force, force.magnitude);
+            transform.parent.GetComponent<Player_Force>().AddImpact(force, force.magnitude / 25);
         } else
         {
             Rigidbody parentRigidBody = GetComponentInParent<Rigidbody>();

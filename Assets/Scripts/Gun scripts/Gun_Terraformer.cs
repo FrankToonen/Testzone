@@ -14,6 +14,7 @@ public class Gun_Terraformer : Gun
         base.Start();
         soundName = /*"terraformer_01"*/ "pulsegun_02";
         reloadTime = 1;
+        radius = 5;
 
         //Temp reloadbar
         if (isLocalPlayer)
@@ -38,6 +39,44 @@ public class Gun_Terraformer : Gun
 
     void ShootTerraformer(string objectHit, Vector3 point, int dir)
     {
+        bool hasHit = false;
+        Collider[] objectsHit = Physics.OverlapSphere(point, radius);
+            
+        for (int n = 0; n < objectsHit.Length; n++)
+        {
+            HexChunk hexChunk = objectsHit [n].GetComponent<HexChunk>();
+            if (hexChunk != null)
+            {
+                //Resettime x 2 uit hexagon prefab
+                hexChunk.StopAllCoroutines();
+                hexChunk.StartCoroutine("SplitChunk", 10);
+                hexChunk.MoveChildren(point, radius, dir);
+
+                hasHit = true;
+
+                continue;
+            }
+
+            Hexagon hex = objectsHit [n].GetComponent<Hexagon>();
+            if (hex != null)
+            {
+                hex.MoveHexagon(point, radius, dir);
+                
+                hasHit = true;
+
+                continue;
+            }
+        }
+            
+        if (hasHit)
+        {
+            StartCoroutine(ShootTimer(reloadTime));
+            StartCoroutine(PlayRubbleSound());
+        }
+    }
+
+    /*void ShootTerraformer(string objectHit, Vector3 point, int dir)
+    {
         GameObject obj = GameObject.Find(objectHit);
 
         if (obj != null)
@@ -47,6 +86,7 @@ public class Gun_Terraformer : Gun
 
             for (int n = 0; n < objectsHit.Length; n++)
             {
+
                 HexChunk hexChunk = objectsHit [n].gameObject.GetComponent<HexChunk>();
                 if (hexChunk != null)
                 {
@@ -118,7 +158,7 @@ public class Gun_Terraformer : Gun
                 StartCoroutine(PlayRubbleSound());
             }
         }
-    }
+    }*/
 
     /*void ShootTerraformer(string objectHit, Vector3 point, int dir)
     {

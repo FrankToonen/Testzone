@@ -40,7 +40,7 @@ public class Player_SyncPosition : NetworkBehaviour
     void Update()
     {
         LerpPosition();
-        ShowLatency();
+        //ShowLatency();
     }
 
     void FixedUpdate()

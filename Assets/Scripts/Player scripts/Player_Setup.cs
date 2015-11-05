@@ -18,6 +18,10 @@ public class Player_Setup : NetworkBehaviour
 
     public int playerNumber;
 
+    [SyncVar]
+    public string
+        selectedGun;
+
     void Start()
     {
         if (isLocalPlayer)
@@ -33,6 +37,9 @@ public class Player_Setup : NetworkBehaviour
 
             //Cursor.visible = false;  
 
+            selectedGun = GameObject.Find("NetworkManager").GetComponent<Network_Manager>().selectedGun;
+            //Debug.Log(selectedGun);
+
             GetNetIdentity();
             SetIdentity();
         }
@@ -42,33 +49,49 @@ public class Player_Setup : NetworkBehaviour
 
     void Update()
     {
-        if (transform.name == "" || transform.name == "PlayerTerraformer(Clone)" || transform.name == "PlayerMagnetGun(Clone)") // Aanpassen als prefabnaam verandert
+        if (transform.name == "" || transform.name == "Player(Clone)"
+            /*|| transform.name == "PlayerTerraformer(Clone)" || transform.name == "PlayerMagnetGun(Clone)"*/) // Aanpassen als prefabnaam verandert
         {
             SetIdentity();
         }
     }
+
+    void AddGun()
+    {
+        if (selectedGun == "Magnet gun")
+        {
+            gameObject.AddComponent<Gun_MagnetGun>();
+            GetComponent<Player_Shoot>().primaryGun = GetComponent<Gun_MagnetGun>();
+        } else if (selectedGun == "Terraformer")
+        {
+            gameObject.AddComponent<Gun_Terraformer>();
+            GetComponent<Player_Shoot>().primaryGun = GetComponent<Gun_Terraformer>();
+        }
+    }
     
     [Command]
-    void CmdTellServerMyIdentity(string name)
+    void CmdSyncData(string name, string gun)
     {
         playerUniqueIdentity = name;
+        selectedGun = gun;
     }
     
     [Client]
     void GetNetIdentity()
     {
-        CmdTellServerMyIdentity(MakeUniqueIdentity());
+        CmdSyncData(MakeUniqueIdentity(), selectedGun);
     }
     
     void SetIdentity()
     {
         transform.name = isLocalPlayer ? MakeUniqueIdentity() : playerUniqueIdentity;
         GameObject.FindWithTag("NetworkManager").GetComponent<Network_DisplayScore>().DisplayScore();
+        AddGun();
     }
     
     string MakeUniqueIdentity()
     {
-        string uniqueName = GameObject.Find("NetworkManager").gameObject.GetComponent<Network_Manager>().playername;
+        string uniqueName = GameObject.Find("NetworkManager").GetComponent<Network_Manager>().playername;
         if (uniqueName == "")
             uniqueName = "Player";
         uniqueName += playerNumber;

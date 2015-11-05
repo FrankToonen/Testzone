@@ -29,6 +29,29 @@ public class Hexagon : MonoBehaviour
         moveSpeed = 0.1f;
     }
 
+    public void MoveHexagon(Vector3 point, float radius, int dir)
+    {
+        Vector2 hexXZ = new Vector2(transform.position.x, transform.position.z);
+        Vector2 pointXZ = new Vector2(point.x, point.z);
+            
+        float distance = (radius + 0.5f) - Vector2.Distance(hexXZ, pointXZ);
+        distance = distance > 0 ? Mathf.Pow(distance, 2) : 0;
+            
+        if (distance > 0)
+        {
+            //hasHit = true;
+            Vector3 target = Vector3.up * distance * dir;
+                
+            StopAllCoroutines();
+            StartCoroutine("MoveTo", target);
+                
+            transform.parent.GetComponent<HexChunk>().StopAllCoroutines();
+            transform.parent.GetComponent<HexChunk>().StartCoroutine("SplitChunk", 10);
+                
+            //StartCoroutine(ShootTimer(reloadTime));
+        }
+    }
+
     public IEnumerator MoveTo(Vector3 target)
     {
         Vector3 targetPosition = transform.position + target;

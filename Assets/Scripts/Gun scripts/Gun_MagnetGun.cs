@@ -4,13 +4,14 @@ using System.Collections;
 
 public class Gun_MagnetGun : Gun
 {    
-    [SerializeField]
+    //[SerializeField]
     Gun_Magnet
         magnetPrefab;
 
     protected override void Start()
     {
         base.Start();
+        magnetPrefab = Resources.Load<Gun_Magnet>("Prefabs/Magnet");
         soundName = /*"magnetgun_01"*/ "pulsegun_02";
         reloadTime = 1;
 
