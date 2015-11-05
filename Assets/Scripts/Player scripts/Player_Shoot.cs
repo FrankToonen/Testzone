@@ -14,14 +14,14 @@ public class Player_Shoot : NetworkBehaviour
     public event PulseDelegate
         EventPulse;
 
-    Gun primaryGun;
+    public Gun primaryGun;
     Gun pulseGun;
 
     void Start()
     {
-        primaryGun = GetComponent<Gun_Terraformer>();
+        /*primaryGun = GetComponent<Gun_Terraformer>();
         if (primaryGun == null)
-            primaryGun = GetComponent<Gun_MagnetGun>();
+            primaryGun = GetComponent<Gun_MagnetGun>();*/
 
         pulseGun = GetComponent<Gun_PulseGun>();
     }

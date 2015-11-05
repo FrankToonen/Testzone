@@ -46,6 +46,8 @@ public class Gun_PulseGun : Gun
         GameObject col = GameObject.Find(objectHit);
         if (col != null)
         {
+            bool hasHit = false;
+
             if (col.transform.tag == "Player" || col.transform.tag == "Cube")
             {
                 Vector3 extraAngle = new Vector3(0, 2, 0); // Schiet objecten iets omhoog
@@ -62,10 +64,17 @@ public class Gun_PulseGun : Gun
                         }
                     }
                     col.gameObject.GetComponent<Player_Force>().AddImpact(direction, direction.magnitude);
+                    hasHit = true;
                 } else
                 {
                     col.GetComponent<Rigidbody>().AddForce(direction * 25);
+                    hasHit = true;
                 }
+            }
+
+            if (hasHit)
+            {
+                StartCoroutine(ShootTimer(reloadTime));
             }
         }
     }

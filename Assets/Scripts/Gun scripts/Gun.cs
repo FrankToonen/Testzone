@@ -14,7 +14,7 @@ public class Gun : NetworkBehaviour
     protected Vector3 targetScale;
     protected LayerMask rayCastLayerMask;
 
-    protected bool canShoot;
+    public bool canShoot;
     protected float reloadTime;
     protected int range;
 
@@ -23,7 +23,7 @@ public class Gun : NetworkBehaviour
         audioSource = GetComponent<AudioSource>();
         cam = GetComponentInChildren<Camera>();
         GetComponent<Player_Shoot>().EventShoot += Shoot;
-        rayCastLayerMask = ~(1 << 9);
+        rayCastLayerMask = ~((1 << 9) | (1 << 2));
         canShoot = true;
         range = 200;
     }
@@ -74,7 +74,7 @@ public class Gun : NetworkBehaviour
         { 
             //Debug.DrawRay(cam.transform.TransformPoint(0, 0, 0.5f), cam.transform.forward * hit.distance, Color.blue, 10);
 
-            StartCoroutine(ShootTimer(reloadTime));
+            //StartCoroutine(ShootTimer(reloadTime));
             reloadBar.transform.localScale = startScale;
 
             return hit;
