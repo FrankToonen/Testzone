@@ -9,9 +9,9 @@ public class TP_Motor : MonoBehaviour
 
     public float MoveSpeed = 10f;
 //<<<<<<< HEAD
-    public float JumpForce = 50f;
-    public float Gravity = 21f;
-	public float GravityCap;
+    public float JumpForce = 200f;
+    public float Gravity = 550f;
+	public float GravityCap = 800;
 	public float FallSpeed = 25;
 
 //=======
