@@ -14,6 +14,7 @@ public class Player_Shoot : NetworkBehaviour
     public event PulseDelegate
         EventPulse;
 
+    float prevLTValue, prevRTValue;
     public Gun primaryGun;
     Gun pulseGun;
 
@@ -31,12 +32,18 @@ public class Player_Shoot : NetworkBehaviour
         if (!isLocalPlayer)
             return;
 
-        if ((Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2")) && primaryGun.CanShoot)
+        float currentLTValue = Input.GetAxis("Fire2");
+        bool LTPressed = prevLTValue != currentLTValue;
+
+        float currentRTValue = Input.GetAxis("Fire1");
+        bool RTPressed = prevRTValue != currentRTValue;
+
+        if ((Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2") || LTPressed || RTPressed) && primaryGun.CanShoot)
         {
             RaycastHit hit = primaryGun.ShootRayCast();
             if (hit.point != Vector3.zero)
             {
-                CmdShoot(hit.transform.name, hit.point, Input.GetButtonDown("Fire1"));
+                CmdShoot(hit.transform.name, hit.point, Input.GetButtonDown("Fire1") || LTPressed);
             }
         }
 
@@ -48,6 +55,9 @@ public class Player_Shoot : NetworkBehaviour
                 CmdPulse(hit.transform.name, hit.point, Input.GetButtonDown("FirePulse1"));
             }
         }
+
+        prevLTValue = currentLTValue;
+        prevRTValue = currentRTValue;
     }
 
     [Command]
