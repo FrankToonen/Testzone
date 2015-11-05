@@ -17,17 +17,17 @@ Loading C:\Users\Jip\Documents\GitHub\Testzone\Testzone_Data\Managed\UnityEngine
 Platform assembly: C:\Users\Jip\Documents\GitHub\Testzone\Testzone_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
 Loading C:\Users\Jip\Documents\GitHub\Testzone\Testzone_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
 Platform assembly: C:\Users\Jip\Documents\GitHub\Testzone\Testzone_Data\Managed\System.Core.dll (this message is harmless)
-- Completed reload, in  0.198 seconds
+- Completed reload, in  0.244 seconds
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
 Platform assembly: C:\Users\Jip\Documents\GitHub\Testzone\Testzone_Data\Managed\System.dll (this message is harmless)
 Setting up 1 worker threads for Enlighten.
-  Thread -> id: 5a08 -> priority: 1 
+  Thread -> id: 7d0c -> priority: 1 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 4.798282 ms
+UnloadTime: 4.737884 ms
 
-Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 83262.
-Total: 33.336517 ms (FindLiveObjects: 6.538770 ms CreateObjectMapping: 3.530320 ms MarkObjects: 23.122551 ms  DeleteObjects: 0.144086 ms)
+Unloading 7 unused Assets to reduce memory usage. Loaded Objects now: 143219.
+Total: 51.554199 ms (FindLiveObjects: 9.963295 ms CreateObjectMapping: 6.164934 ms MarkObjects: 35.165432 ms  DeleteObjects: 0.259750 ms)
 

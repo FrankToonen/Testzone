@@ -53,8 +53,8 @@ public class TP_Motor : MonoBehaviour
 			Gravity += FallSpeed;        
 		}
 
-		//Gravity pulls player down
-		MoveVector -= new Vector3 (0, Gravity, 0) * Time.deltaTime;
+        //Gravity pulls player down
+        MoveVector -= new Vector3(0, Gravity, 0) * Time.deltaTime;
 	
 		//Checks if gravity reaches it's cap
 		GravityCheck();
