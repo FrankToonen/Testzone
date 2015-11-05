@@ -38,12 +38,13 @@ public class Player_Shoot : NetworkBehaviour
         float currentRTValue = Input.GetAxis("Fire1");
         bool RTPressed = prevRTValue != currentRTValue;
 
-        if ((Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2") || LTPressed || RTPressed) && primaryGun.CanShoot)
+        if ((/*Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2") ||*/ LTPressed || RTPressed) && primaryGun.CanShoot)
         {
+            //Debug.Log(LTPressed + " | " + RTPressed);
             RaycastHit hit = primaryGun.ShootRayCast();
             if (hit.point != Vector3.zero)
             {
-                CmdShoot(hit.transform.name, hit.point, Input.GetButtonDown("Fire1") || LTPressed);
+                CmdShoot(hit.transform.name, hit.point, /*Input.GetButtonDown("Fire1") ||*/RTPressed);
             }
         }
 

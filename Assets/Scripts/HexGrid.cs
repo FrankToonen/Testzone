@@ -37,7 +37,7 @@ public class HexGrid : MonoBehaviour
             }
         }
 
-        //CreateChunks();
+        CreateChunks();
     }
 
     // Group hexagons in chunks of at most 10x10 hexagons
