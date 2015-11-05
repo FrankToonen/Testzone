@@ -17,17 +17,27 @@ Loading C:\Users\Jip\Documents\GitHub\Testzone\Testzone_Data\Managed\UnityEngine
 Platform assembly: C:\Users\Jip\Documents\GitHub\Testzone\Testzone_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
 Loading C:\Users\Jip\Documents\GitHub\Testzone\Testzone_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
 Platform assembly: C:\Users\Jip\Documents\GitHub\Testzone\Testzone_Data\Managed\System.Core.dll (this message is harmless)
-- Completed reload, in  0.261 seconds
+- Completed reload, in  0.206 seconds
 desktop: 1920x1080 60Hz; virtual: 3200x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
 Platform assembly: C:\Users\Jip\Documents\GitHub\Testzone\Testzone_Data\Managed\System.dll (this message is harmless)
 Setting up 1 worker threads for Enlighten.
-  Thread -> id: 5db8 -> priority: 1 
+  Thread -> id: 86c8 -> priority: 1 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 6.115195 ms
+UnloadTime: 5.178829 ms
 
-Unloading 9 unused Assets to reduce memory usage. Loaded Objects now: 256550.
-Total: 138.823334 ms (FindLiveObjects: 21.265215 ms CreateObjectMapping: 23.509808 ms MarkObjects: 93.509468 ms  DeleteObjects: 0.537265 ms)
+Unloading 9 unused Assets to reduce memory usage. Loaded Objects now: 256555.
+Total: 149.285995 ms (FindLiveObjects: 34.850811 ms CreateObjectMapping: 27.813459 ms MarkObjects: 86.085648 ms  DeleteObjects: 0.534896 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 220.562698 ms
+Multiple NetworkManagers detected in the scene. Only one NetworkManager can exist at a time. The duplicate NetworkManager will not be used.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+
+Unloading 47271 unused Assets to reduce memory usage. Loaded Objects now: 410.
+Total: 166.430725 ms (FindLiveObjects: 3.535057 ms CreateObjectMapping: 9.704333 ms MarkObjects: 0.496210 ms  DeleteObjects: 152.693939 ms)
 
