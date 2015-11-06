@@ -43,9 +43,9 @@ public class Hexagon : MonoBehaviour
                 
 			StopAllCoroutines ();
 			StartCoroutine ("MoveTo", target);
-                
+
 			transform.parent.GetComponent<HexChunk> ().StopAllCoroutines ();
-			transform.parent.GetComponent<HexChunk> ().StartCoroutine ("SplitChunk", 10);
+			transform.parent.GetComponent<HexChunk> ().StartCoroutine ("SplitChunk", 20);
                 
 			//StartCoroutine(ShootTimer(reloadTime));
 		}
