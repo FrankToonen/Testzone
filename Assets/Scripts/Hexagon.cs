@@ -24,9 +24,9 @@ public class Hexagon : MonoBehaviour
     public void Initialize()
     {
         startPosition = transform.position;
-        maxHeight = transform.position.y + 4;
-        minHeight = transform.position.y - 4;
-        moveSpeed = 0.1f;
+        maxHeight = transform.position.y + 8;
+        minHeight = transform.position.y - 8;
+        moveSpeed = 0.2f;
     }
 
     public void MoveHexagon(Vector3 point, float radius, int dir)
@@ -46,7 +46,7 @@ public class Hexagon : MonoBehaviour
             StartCoroutine("MoveTo", target);
                 
             transform.parent.GetComponent<HexChunk>().StopAllCoroutines();
-            transform.parent.GetComponent<HexChunk>().StartCoroutine("SplitChunk", 10);
+            transform.parent.GetComponent<HexChunk>().StartCoroutine("SplitChunk", 20);
                 
             //StartCoroutine(ShootTimer(reloadTime));
         }
