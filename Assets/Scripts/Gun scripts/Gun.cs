@@ -15,7 +15,7 @@ public class Gun : NetworkBehaviour
     protected LayerMask rayCastLayerMask;
 
     public bool canShoot;
-    protected float reloadTime;
+    protected float reloadTime, maxChargeTime, charge;
     protected int range;
 
     protected virtual void Start()
@@ -26,6 +26,7 @@ public class Gun : NetworkBehaviour
         rayCastLayerMask = ~((1 << 9) | (1 << 2));
         canShoot = true;
         range = 200;
+        maxChargeTime = 3;
     }
 
     /*public void UnsubscribeEvent()
@@ -44,25 +45,37 @@ public class Gun : NetworkBehaviour
             reloadBar.transform.localScale = targetScale;
     }
 
-    public void Shoot(string objectHit, Vector3 point, bool isPrimary)
+    public void Shoot(string objectHit, Vector3 point, float charge, bool isPrimary)
     {
         if (isPrimary)
-            ShootPrimary(objectHit, point);
+            ShootPrimary(objectHit, point, charge);
         else
-            ShootSecondary(objectHit, point);
+            ShootSecondary(objectHit, point, charge);
 
         AudioClip audioClip = Resources.Load<AudioClip>("Sounds/snd_" + soundName);
         audioSource.PlayOneShot(audioClip);
+
+        Discharge();
     }
 
-    protected virtual void ShootPrimary(string objectHit, Vector3 point)
+    protected virtual void ShootPrimary(string objectHit, Vector3 point, float charge)
     {
 
     }
     
-    protected virtual void ShootSecondary(string objectHit, Vector3 point)
+    protected virtual void ShootSecondary(string objectHit, Vector3 point, float charge)
     {
         
+    }
+
+    public void ChargeGun(float timeHeld)
+    {
+        charge = Mathf.Clamp(charge + timeHeld, 0, maxChargeTime);
+    }
+
+    void Discharge()
+    {
+        charge = 0;
     }
 
     public RaycastHit ShootRayCast()
@@ -73,8 +86,6 @@ public class Gun : NetworkBehaviour
         if (Physics.Raycast(ray, out hit, range, rayCastLayerMask))
         { 
             //Debug.DrawRay(cam.transform.TransformPoint(0, 0, 0.5f), cam.transform.forward * hit.distance, Color.blue, 10);
-
-            //StartCoroutine(ShootTimer(reloadTime));
             reloadBar.transform.localScale = startScale;
 
             return hit;
@@ -93,5 +104,10 @@ public class Gun : NetworkBehaviour
     public bool CanShoot
     {
         get { return canShoot; }
+    }
+
+    public float Charge
+    {
+        get { return charge; }
     }
 }

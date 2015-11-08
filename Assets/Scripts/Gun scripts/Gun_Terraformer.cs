@@ -14,7 +14,7 @@ public class Gun_Terraformer : Gun
         base.Start();
         soundName = /*"terraformer_01"*/ "pulsegun_02";
         reloadTime = 1;
-        radius = 5;
+        radius = 3;
 
         //Temp reloadbar
         if (isLocalPlayer)
@@ -27,21 +27,22 @@ public class Gun_Terraformer : Gun
         //
     }
 
-    protected override void ShootPrimary(string objectHit, Vector3 point)
+    protected override void ShootPrimary(string objectHit, Vector3 point, float charge)
     {
-        ShootTerraformer(objectHit, point, 1);
+        ShootTerraformer(objectHit, point, charge, 1);
     }
 
-    protected override void ShootSecondary(string objectHit, Vector3 point)
+    protected override void ShootSecondary(string objectHit, Vector3 point, float charge)
     {
-        ShootTerraformer(objectHit, point, -1);
+        ShootTerraformer(objectHit, point, charge, -1);
     }
 
-    void ShootTerraformer(string objectHit, Vector3 point, int dir)
+    void ShootTerraformer(string objectHit, Vector3 point, float charge, int dir)
     {
         bool hasHit = false;
-        Collider[] objectsHit = Physics.OverlapSphere(point, radius);
-            
+        float chargedRadius = radius * Mathf.Clamp(charge, 1, maxChargeTime);
+
+        Collider[] objectsHit = Physics.OverlapSphere(point, chargedRadius);
         for (int n = 0; n < objectsHit.Length; n++)
         {
             HexChunk hexChunk = objectsHit [n].GetComponent<HexChunk>();
@@ -49,8 +50,8 @@ public class Gun_Terraformer : Gun
             {
                 //Resettime x 2 uit hexagon prefab
                 hexChunk.StopAllCoroutines();
-                hexChunk.StartCoroutine("SplitChunk", 10);
-                hexChunk.MoveChildren(point, radius, dir);
+                hexChunk.StartCoroutine("SplitChunk", 20);
+                hexChunk.MoveChildren(point, chargedRadius, dir);
 
                 hasHit = true;
 
@@ -60,7 +61,7 @@ public class Gun_Terraformer : Gun
             Hexagon hex = objectsHit [n].GetComponent<Hexagon>();
             if (hex != null)
             {
-                hex.MoveHexagon(point, radius, dir);
+                hex.MoveHexagon(point, chargedRadius, dir);
                 
                 hasHit = true;
 

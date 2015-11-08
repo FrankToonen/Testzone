@@ -24,13 +24,13 @@ public class Gun_MagnetGun : Gun
         }
     }
     
-    protected override void ShootPrimary(string objectHit, Vector3 point)
+    protected override void ShootPrimary(string objectHit, Vector3 point, float charge)
     {
         ShootMagnetGun(objectHit, point, true);
 
     }
     
-    protected override void ShootSecondary(string objectHit, Vector3 point)
+    protected override void ShootSecondary(string objectHit, Vector3 point, float charge)
     {
         ShootMagnetGun(objectHit, point, false);
     }
