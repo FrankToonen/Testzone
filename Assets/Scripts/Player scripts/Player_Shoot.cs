@@ -33,11 +33,11 @@ public class Player_Shoot : NetworkBehaviour
             return;
 
         float currentLTValue = Input.GetAxis("Fire2");
-        bool LTPressed = prevLTValue < currentLTValue;
+        //bool LTPressed = prevLTValue < currentLTValue;
         bool LTReleased = prevLTValue > currentLTValue;
 
         float currentRTValue = Input.GetAxis("Fire1");
-        bool RTPressed = prevRTValue < currentRTValue;
+        //bool RTPressed = prevRTValue < currentRTValue;
         bool RTReleased = prevRTValue > currentRTValue;
 
         if (primaryGun.canShoot)

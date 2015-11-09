@@ -7,27 +7,30 @@ public class Hexagon : MonoBehaviour
     public float resetTime;
     Vector3 startPosition;
     float maxHeight, minHeight, moveSpeed;
+    public int xValue, zValue;
+    float ySize;
 
-    // Use this for initialization
-    /*void Start()
+    public void Initialize(int x, int z, Vector3 pos)
     {
-        startPosition = transform.position;
-        maxHeight = transform.position.y + 4;
-        minHeight = transform.position.y - 4;
-        moveSpeed = 0.1f;
+        xValue = x;
+        zValue = z;
+        ySize = GetComponent<Renderer>().bounds.size.y;
 
-        //int r = Random.Range(0, 100);
-        //if (r > 85)
-        //    GetComponent<Renderer>().material = Resources.Load<Material>("Materials/Brown");
-    }*/
-
-    public void Initialize()
-    {
-        startPosition = transform.position;
-        maxHeight = transform.position.y + 8;
-        minHeight = transform.position.y - 8;
-        //moveSpeed = 0.2f;
+        SetPositions(pos, true);
         moveSpeed = 15;
+    }
+
+    public void SetPositions(Vector3 pos, bool init = false)
+    {
+        startPosition = pos;
+        maxHeight = pos.y + 8;
+        minHeight = pos.y - 8;
+
+        if (!init)
+        {
+            float newY = startPosition.y - transform.position.y;
+            StartCoroutine("ResetY", Vector3.up * newY);
+        }
     }
 
     public void MoveHexagon(Vector3 point, float radius, int dir)
@@ -93,5 +96,14 @@ public class Hexagon : MonoBehaviour
         }
 
         transform.position = startPosition;
+    }
+
+    public Vector3 XYZValues
+    {
+        get
+        {
+            Vector3 Values = new Vector3(xValue, ySize, zValue);
+            return Values;
+        }
     }
 }
