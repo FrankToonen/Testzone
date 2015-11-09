@@ -48,7 +48,7 @@ public class Gun_PulseGun : Gun
         {
             bool hasHit = false;
 
-            if (col.transform.tag == "Player" || col.transform.tag == "Cube")
+            if (col.transform.tag == "Player" || col.transform.tag == "PhysicsObject")
             {
                 Vector3 extraAngle = new Vector3(0, 2, 0); // Schiet objecten iets omhoog
                 Vector3 direction = Vector3.Scale(Vector3.Normalize(transform.position - (col.transform.position + extraAngle)), dir);

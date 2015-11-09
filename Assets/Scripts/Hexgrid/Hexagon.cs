@@ -8,7 +8,6 @@ public class Hexagon : MonoBehaviour
     Vector3 startPosition;
     float maxHeight, minHeight, moveSpeed;
     public int xValue, zValue;
-    bool shouldLaunch;
 
     public void Initialize(int x, int z, Vector3 pos)
     {
@@ -16,7 +15,6 @@ public class Hexagon : MonoBehaviour
         zValue = z;
 
         SetPositions(pos, true);
-        shouldLaunch = false;
         moveSpeed = 15;
     }
 
@@ -33,27 +31,6 @@ public class Hexagon : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (!shouldLaunch)
-        {
-            return;
-        }
-        
-        LaunchPlayer();
-        
-    }
-    
-    void OnCollisionStay(Collision collision)
-    {
-        if (!shouldLaunch)
-        {
-            return;
-        } 
-        
-        LaunchObject(collision);
-    }
-
     public void MoveHexagon(Vector3 point, float radius, int dir)
     {
         Vector2 hexXZ = new Vector2(transform.position.x, transform.position.z);
@@ -64,7 +41,6 @@ public class Hexagon : MonoBehaviour
             
         if (distance > 0)
         {
-            shouldLaunch = true;
             Vector3 target = Vector3.up * distance * dir;
                 
             StopAllCoroutines();
@@ -72,33 +48,6 @@ public class Hexagon : MonoBehaviour
 
             transform.parent.GetComponent<HexChunk>().StopAllCoroutines();
             transform.parent.GetComponent<HexChunk>().StartCoroutine("SplitChunk", 10);
-        }
-    }
-
-    void LaunchPlayer()
-    {
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject player in players)
-        {
-            float xDif = Mathf.Abs(transform.position.x - player.transform.position.x);
-            float zDif = Mathf.Abs(transform.position.z - player.transform.position.z);
-
-            if (xDif < 1 & zDif < 1)
-            {
-                player.GetComponent<Player_Force>().AddImpact(Vector3.up, 100);
-                shouldLaunch = false;
-            }
-        }
-    }
-
-    void LaunchObject(Collision collision)
-    {
-        Rigidbody rB = collision.collider.attachedRigidbody;
-        if (rB != null)
-        {
-            rB.AddForce(Vector3.up * 50);
-            shouldLaunch = false;
-            return;
         }
     }
 
@@ -122,7 +71,6 @@ public class Hexagon : MonoBehaviour
         }
 
         transform.position = targetPosition;
-        shouldLaunch = false;
 
         yield return new WaitForSeconds(resetTime);
 
