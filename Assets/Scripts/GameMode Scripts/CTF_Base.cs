@@ -21,16 +21,16 @@ public class CTF_Base : NetworkBehaviour
         switch (playerNumber)
         {
             case 0:
-                baseColor = Color.blue;
-                break;
-            case 1: 
                 baseColor = Color.red;
                 break;
-            case 2: 
+            case 1: 
                 baseColor = Color.green;
                 break;
+            case 2: 
+                baseColor = Color.blue;
+                break;
             case 3: 
-                baseColor = Color.grey;
+                baseColor = Color.yellow;
                 break;
         }
         baseColor.a = 0.5f;

@@ -23,11 +23,11 @@ public class Player_SyncPosition : NetworkBehaviour
     List<Vector3> syncPosList = new List<Vector3>();
 
     Vector3 lastPos;
-    float threshold = .1f;
+    float threshold = 0.1f;
     float closeEnough = 0.1f;
     int lerpRate;
-    int normalLerpRate = 18;
-    int fasterLerpRate = 30;
+    int normalLerpRate = 30;
+    int fasterLerpRate = 45;
     int latency;
 
     void Start()

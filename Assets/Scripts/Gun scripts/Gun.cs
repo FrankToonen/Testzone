@@ -22,7 +22,7 @@ public class Gun : NetworkBehaviour
     {        
         audioSource = GetComponent<AudioSource>();
         cam = GetComponentInChildren<Camera>();
-        GetComponent<Player_Shoot>().EventShoot += Shoot;
+        //GetComponent<Player_Shoot>().EventShoot += Shoot;
         rayCastLayerMask = ~((1 << 9) | (1 << 2));
         canShoot = true;
         range = 200;

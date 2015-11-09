@@ -44,16 +44,16 @@ public class Network_Manager : NetworkManager
                 switch (p)
                 {
                     case 0:
-                        renderer.material.color = Color.blue;
-                        break;
-                    case 1:
                         renderer.material.color = Color.red;
                         break;
-                    case 2:
+                    case 1:
                         renderer.material.color = Color.green;
                         break;
+                    case 2:
+                        renderer.material.color = Color.blue;
+                        break;
                     case 3: 
-                        renderer.material.color = Color.grey;
+                        renderer.material.color = Color.yellow;
                         break;
                 }
             }

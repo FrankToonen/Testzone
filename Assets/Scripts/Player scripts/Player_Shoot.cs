@@ -100,12 +100,14 @@ public class Player_Shoot : NetworkBehaviour
     [Command]
     void CmdShoot(string objectHit, Vector3 point, float charge, bool isPrimary)
     {
+        Debug.Log(EventShoot.GetInvocationList().Length);
         EventShoot(objectHit, point, charge, isPrimary);
     }
 
     [Command]
     void CmdPulse(string objectHit, Vector3 point, float charge, bool isPrimary)
     {
+        Debug.Log(EventPulse.GetInvocationList().Length);
         EventPulse(objectHit, point, charge, isPrimary);
     }
 }

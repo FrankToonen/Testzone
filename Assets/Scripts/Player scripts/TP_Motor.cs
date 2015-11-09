@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 
-public class TP_Motor : MonoBehaviour
+public class TP_Motor : NetworkBehaviour
 {
 
     //public static TP_Motor Instance;
@@ -31,7 +32,11 @@ public class TP_Motor : MonoBehaviour
     public void UpdateMotor()
     {
         SnapAlignCharacterWithCamera();
-        ProcessMotion();
+
+        if (isLocalPlayer)
+        {
+            ProcessMotion();
+        }
     }
 
     void ProcessMotion()

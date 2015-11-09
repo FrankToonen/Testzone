@@ -12,7 +12,7 @@ public class Gun_PulseGun : Gun
     protected override void Start()
     {
         base.Start();
-        GetComponent<Player_Shoot>().EventShoot -= Shoot;
+        //GetComponent<Player_Shoot>().EventShoot -= Shoot;
         GetComponent<Player_Shoot>().EventPulse += Shoot;
         rayCastLayerMask = 1 << 10;
         soundName = "pulsegun_01";

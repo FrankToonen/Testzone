@@ -16,6 +16,9 @@ public class Gun_Terraformer : Gun
         reloadTime = 1;
         radius = 3;
 
+        //GetComponent<Player_Shoot>().EventShoot -= Shoot;
+        GetComponent<Player_Shoot>().EventShoot += Shoot;
+
         //Temp reloadbar
         if (isLocalPlayer)
         {
