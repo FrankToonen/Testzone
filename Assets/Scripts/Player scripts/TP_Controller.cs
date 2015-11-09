@@ -42,31 +42,31 @@ public class TP_Controller : MonoBehaviour
     {
         float deadZone = 0.1f;
 
-        motor.VerticalVelocity = motor.MoveVector.y;
-        motor.MoveVector = Vector3.zero;
+        motor.verticalVelocity = motor.moveVector.y;
+        motor.moveVector = Vector3.zero;
 
         if (Input.GetAxis("Vertical") > deadZone || Input.GetAxis("Vertical") < -deadZone)
         {
-            motor.MoveVector += new Vector3(0, 0, Input.GetAxis("Vertical"));
+            motor.moveVector += new Vector3(0, 0, Input.GetAxis("Vertical"));
         }
 
         if (Input.GetAxis("Horizontal") > deadZone || Input.GetAxis("Horizontal") < -deadZone)
         {
-            motor.MoveVector += new Vector3(Input.GetAxis("Horizontal"), 0, 0);
+            motor.moveVector += new Vector3(Input.GetAxis("Horizontal"), 0, 0);
         }
     }
 
     void HandleActionInput()
     {
-        if (Input.GetButtonDown ("Jump")) {
-			Jump ();
-		} 
+        if (Input.GetButtonDown("Jump"))
+        {
+            Jump();
+        } 
 
         if (Input.GetKeyDown(KeyCode.E))
         {
             PlayerAction = true;
-        }
-        else
+        } else
         {
             PlayerAction = false;
         }

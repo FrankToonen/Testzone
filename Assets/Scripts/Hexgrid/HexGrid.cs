@@ -27,7 +27,7 @@ public class HexGrid : MonoBehaviour
                 hexYSize = hex.bounds.size.y;
 
                 float x_pos = transform.position.x + x * hex.bounds.size.x + (z % 2 * (hex.bounds.size.x / 2));
-                float y_pos = GetYPos(x, z, hexYSize);
+                float y_pos = GetYPos(x, z);
                 float z_pos = transform.position.z + z * (hex.bounds.size.z / 4 * 3);
                 Vector3 pos = new Vector3(x_pos, y_pos, z_pos);
 
@@ -42,7 +42,7 @@ public class HexGrid : MonoBehaviour
         CreateChunks();
     }
 
-    public float GetYPos(int x, int z, float size)
+    public float GetYPos(int x, int z)
     {
         float y_pos = (0.5f - heightMap.GetPixel(x, z).grayscale) * hexYSize * 3;
         return y_pos;

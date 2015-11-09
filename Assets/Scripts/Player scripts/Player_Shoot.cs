@@ -79,7 +79,7 @@ public class Player_Shoot : NetworkBehaviour
                 RaycastHit hit = pulseGun.ShootRayCast();
                 if (hit.point != Vector3.zero)
                 {
-                    CmdPulse(hit.transform.name, hit.point, pulseGun.Charge, Input.GetButtonDown("FirePulse1"));
+                    CmdPulse(hit.transform.name, hit.point, pulseGun.Charge, Input.GetButtonUp("FirePulse1"));
                 }
             }
         }

@@ -49,7 +49,7 @@ public class HexChunk : MonoBehaviour
 
                 Vector3 hexPos = hex.transform.position;
                 HexGrid grid = GameObject.FindWithTag("Hexgrid").GetComponent<HexGrid>();
-                hexPos.y = grid.GetYPos(hex.xValue, hex.zValue, hex.XYZValues.y);
+                hexPos.y = grid.GetYPos(hex.xValue, hex.zValue);
                 hex.SetPositions(hexPos);
                 hex.transform.parent = transform.parent;
 

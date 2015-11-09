@@ -7,24 +7,25 @@ public class TP_Motor : MonoBehaviour
     //public static TP_Motor Instance;
     CharacterController controller;
 
-    public float MoveSpeed = 10f;
+    public float moveSpeed = 10f;
 //<<<<<<< HEAD
-    public float JumpForce = 200f;
-    public float Gravity = 550f;
-    public float GravityCap = 800;
-    public float FallSpeed = 25;
+    public float jumpForce = 200f;
+    public float gravity = 550f;
+    public float gravityCap = 800, gravityMax;
+    public float fallSpeed = 25;
 
 //=======
     //public float Gravity = 10f;
 //>>>>>>> origin/master
-    public Vector3 MoveVector { get; set; }
-    public float VerticalVelocity { get; set; }
+    public Vector3 moveVector { get; set; }
+    public float verticalVelocity { get; set; }
 
 
     void Awake()
     {
         //Instance = this;
         controller = GetComponent<CharacterController>();
+        gravityMax = gravityCap;
     }
 
     public void UpdateMotor()
@@ -36,52 +37,49 @@ public class TP_Motor : MonoBehaviour
     void ProcessMotion()
     {
         //Transform MoveVector into world space
-        MoveVector = transform.TransformDirection(MoveVector);
+        moveVector = transform.TransformDirection(moveVector);
 
         //normalize MoveVector if Magnitude >1
-        if (MoveVector.magnitude > 1)
+        if (moveVector.magnitude > 1)
         {
-            MoveVector = Vector3.Normalize(MoveVector);
+            moveVector = Vector3.Normalize(moveVector);
         }
 
         //Multiply MoveVector by MoveSpeed
-        MoveVector *= MoveSpeed;
+        moveVector *= moveSpeed;
 
         //Reapply VerticalVelocity to moveVector.y
-        MoveVector = new Vector3(MoveVector.x, VerticalVelocity, MoveVector.z);
+        moveVector = new Vector3(moveVector.x, verticalVelocity, moveVector.z);
 
-        if (!controller.isGrounded)
-        {
-            Gravity += FallSpeed * Time.deltaTime;        
-        }
+        gravityCap = controller.isGrounded ? 50 : gravityMax;
+        gravity = Mathf.Clamp(gravity + fallSpeed * Time.deltaTime, -gravityCap, gravityCap);
 
         //Gravity pulls player down
-        MoveVector -= new Vector3(0, Gravity, 0);
+        moveVector -= new Vector3(0, gravity, 0);
 	
         //Checks if gravity reaches it's cap
-        GravityCheck();
+        //GravityCheck();
 
         //Move Character in world space
-        controller.Move(MoveVector *= Time.deltaTime);
-
+        controller.Move(moveVector *= Time.deltaTime);
     }
 
-    void GravityCheck()
+    /*void GravityCheck()
     {
-        if (Gravity <= -GravityCap)
+        if (gravity <= -gravityCap)
         {
-            Gravity = -GravityCap;
-        } else if (Gravity >= GravityCap)
+            gravity = -gravityCap;
+        } else if (gravity >= gravityCap)
         {
-            Gravity = GravityCap;
+            gravity = gravityCap;
         }
-    }
+    }*/
 
     public void Jump()
     {
         if (controller.isGrounded)
         {
-            Gravity = -JumpForce * 5;
+            gravity = -jumpForce * 5;
         } 
     }
 

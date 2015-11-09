@@ -26,5 +26,6 @@ public class Player_Force : NetworkBehaviour
         if (dir.y < 0)
             dir.y = -dir.y; // reflect down force on the ground
         impact += dir.normalized * force;
+        GetComponent<TP_Motor>().gravity = 0;
     }
 }
