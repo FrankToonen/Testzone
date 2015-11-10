@@ -71,12 +71,15 @@ public class Gun_Terraformer : Gun
                 continue;
             }
 
-            if (objectsHit [n].transform.tag == "Player")
+            if (dir == 1)
             {
-                objectsHit [n].GetComponent<Player_Force>().AddImpact(Vector3.up, 100);
-            } else if (objectsHit [n].transform.tag == "PhysicsObject" || objectsHit [n].transform.tag == "Flag")
-            {
-                objectsHit [n].GetComponent<Rigidbody>().AddForce(Vector3.up * 1000);
+                if (objectsHit [n].transform.tag == "Player")
+                {
+                    objectsHit [n].GetComponent<Player_Force>().AddImpact(Vector3.up, 100);
+                } else if (objectsHit [n].transform.tag == "PhysicsObject" || objectsHit [n].transform.tag == "Flag")
+                {
+                    objectsHit [n].GetComponent<Rigidbody>().AddForce(Vector3.up * 1000);
+                }
             }
         }
             
