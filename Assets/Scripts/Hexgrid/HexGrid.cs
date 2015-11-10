@@ -6,7 +6,7 @@ public class HexGrid : MonoBehaviour
 {
     public GameObject hexagon, hexChunk;
     public int width, length;
-    float hexYSize;
+    //float hexYSize;
     GameObject[,] hexagons;
     GameObject[] chunks;
     Texture2D heightMap;
@@ -15,8 +15,8 @@ public class HexGrid : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        heightMap = Resources.Load<Texture2D>("Materials/heightmap");
-        colorMap = Resources.Load<Texture2D>("Materials/colormap");
+        heightMap = Resources.Load<Texture2D>("Images/heightmap");
+        colorMap = Resources.Load<Texture2D>("Images/colormap");
 
         hexagons = new GameObject[length, width];
         for (int x = 0; x < length; x++)
@@ -24,7 +24,7 @@ public class HexGrid : MonoBehaviour
             for (int z = 0; z < width; z++)
             {
                 Renderer hex = hexagon.GetComponent<Renderer>();
-                hexYSize = hex.bounds.size.y;
+                //hexYSize = hex.bounds.size.y;
 
                 float x_pos = transform.position.x + x * hex.bounds.size.x + (z % 2 * (hex.bounds.size.x / 2));
                 float y_pos = GetYPos(x, z);
@@ -44,7 +44,7 @@ public class HexGrid : MonoBehaviour
 
     public float GetYPos(int x, int z)
     {
-        float y_pos = (0.5f - heightMap.GetPixel(x, z).grayscale) * hexYSize * 3;
+        float y_pos = transform.position.y + (0.5f - heightMap.GetPixel(x, z).grayscale) * /*hexYSize*/ 15 * 3;
         return y_pos;
     }
 
@@ -170,7 +170,7 @@ public class HexGrid : MonoBehaviour
 
     IEnumerator ChangeHeightMap(string name)
     {
-        heightMap = Resources.Load<Texture2D>("Materials/" + name);
+        heightMap = Resources.Load<Texture2D>("Images/" + name);
 
         foreach (GameObject obj in chunks)
         {

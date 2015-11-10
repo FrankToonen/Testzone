@@ -15,14 +15,14 @@ public class Hexagon : MonoBehaviour
         zValue = z;
 
         SetPositions(pos, true);
-        moveSpeed = 15;
+        moveSpeed = 25;
     }
 
     public void SetPositions(Vector3 pos, bool init = false)
     {
         startPosition = pos;
-        maxHeight = pos.y + 8;
-        minHeight = pos.y - 8;
+        maxHeight = pos.y + 20;
+        minHeight = pos.y - 20;
 
         if (!init)
         {
