@@ -57,7 +57,7 @@ public class Gun_PulseGun : Gun
                 {
                     if (isServer)
                     {
-                        GM_Flag flag = col.GetComponentInChildren<GM_Flag>();
+                        CTF_Flag flag = col.GetComponentInChildren<CTF_Flag>();
                         if (flag != null)
                         {
                             flag.CmdChangeFlagHolder("");
