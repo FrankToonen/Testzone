@@ -52,12 +52,12 @@ public class Gun_PulseGun : Gun
             {
                 Vector3 extraAngle = new Vector3(0, 2, 0); // Schiet objecten iets omhoog
                 Vector3 direction = Vector3.Scale(Vector3.Normalize(transform.position - (col.transform.position + extraAngle)), dir);
-
+                 
                 if (col.transform.tag == "Player")
                 {
                     if (isServer)
                     {
-                        CTF_Flag flag = col.GetComponentInChildren<CTF_Flag>();
+                        GM_Flag flag = col.GetComponentInChildren<GM_Flag>();
                         if (flag != null)
                         {
                             flag.CmdChangeFlagHolder("");
