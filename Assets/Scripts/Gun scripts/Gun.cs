@@ -40,17 +40,23 @@ public class Gun : NetworkBehaviour
             return;
 
         if (!canShoot)
+        {
             reloadBar.transform.localScale = Vector3.Lerp(reloadBar.transform.localScale, targetScale, 3 * (1 / reloadTime) * Time.deltaTime);
-        else
+        } else
+        {
             reloadBar.transform.localScale = targetScale;
+        }
     }
 
     public void Shoot(string objectHit, Vector3 point, float charge, bool isPrimary)
     {
         if (isPrimary)
+        {
             ShootPrimary(objectHit, point, charge);
-        else
+        } else
+        {
             ShootSecondary(objectHit, point, charge);
+        }
 
         AudioClip audioClip = Resources.Load<AudioClip>("Sounds/snd_" + soundName);
         audioSource.PlayOneShot(audioClip);

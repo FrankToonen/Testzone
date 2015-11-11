@@ -44,7 +44,7 @@ public class HexGrid : MonoBehaviour
 
     public float GetYPos(int x, int z)
     {
-        float y_pos = transform.position.y + (0.5f - heightMap.GetPixel(x, z).grayscale) * /*hexYSize*/ 15 * 3;
+        float y_pos = transform.position.y + (0.5f - heightMap.GetPixel(x, z).grayscale) * /*hexYSize*/ 10 * 3;
         return y_pos;
     }
 
