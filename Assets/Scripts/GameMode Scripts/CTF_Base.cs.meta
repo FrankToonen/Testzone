@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Scripts/GameMode Scripts/GM_Flag.cs.meta
 guid: fb405196616c6b64a90503de6c0eeb50
 timeCreated: 1447285296
+=======
+guid: 3ca38c42156fbbb4483bb181bff327cf
+timeCreated: 1446667629
+>>>>>>> parent of 64bcc4b... Ball gamemode, timer & terraformer fix:Assets/Scripts/GameMode Scripts/CTF_Base.cs.meta
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
