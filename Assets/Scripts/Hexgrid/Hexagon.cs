@@ -15,7 +15,7 @@ public class Hexagon : MonoBehaviour
         zValue = z;
 
         SetPositions(pos, true);
-        moveSpeed = 25;
+        moveSpeed = 35;
     }
 
     public void SetPositions(Vector3 pos, bool init = false)
@@ -47,7 +47,7 @@ public class Hexagon : MonoBehaviour
             StartCoroutine("MoveTo", target);
 
             transform.parent.GetComponent<HexChunk>().StopAllCoroutines();
-            transform.parent.GetComponent<HexChunk>().StartCoroutine("SplitChunk", 10);
+            transform.parent.GetComponent<HexChunk>().StartCoroutine("SplitChunk", resetTime * 2.2f);
         }
     }
 
