@@ -3,14 +3,13 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Collections;
 
-//DisplayScore alleen aanroepen als deze verandert
-//
-//
-
 public class Network_Manager : NetworkManager
 {
     public string playername { get; private set; }
-    public string selectedGun { get; private set; }
+    //public string selectedGun { get; private set; }
+    public string selectedGameMode { get; private set; }
+
+    GM_Manager manager;
 
     void Update()
     {
@@ -22,10 +21,16 @@ public class Network_Manager : NetworkManager
                 playername = inputField.GetComponent<InputField>().text;
             }
 
-            GameObject dropDown = GameObject.Find("Gun Select");
-            if (dropDown != null)
+            /*GameObject gunDropDown = GameObject.Find("Gun Select");
+            if (gunDropDown != null)
             {
-                selectedGun = dropDown.GetComponent<Dropdown>().captionText.text;
+                selectedGun = gunDropDown.GetComponent<Dropdown>().captionText.text;
+            }*/
+
+            GameObject gameModeDropDown = GameObject.Find("GameMode Select");
+            if (gameModeDropDown != null)
+            {
+                selectedGameMode = gameModeDropDown.GetComponent<Dropdown>().captionText.text;
             }
         }
     }
@@ -44,17 +49,25 @@ public class Network_Manager : NetworkManager
                 switch (p)
                 {
                     case 0:
-                        renderer.material.color = Color.red;
-                        break;
+                        {
+                            renderer.material.color = Color.red;
+                            break;
+                        }
                     case 1:
-                        renderer.material.color = Color.green;
-                        break;
+                        {
+                            renderer.material.color = Color.green;
+                            break;
+                        }
                     case 2:
-                        renderer.material.color = Color.blue;
-                        break;
+                        {
+                            renderer.material.color = Color.blue;
+                            break;
+                        }
                     case 3: 
-                        renderer.material.color = Color.yellow;
-                        break;
+                        {
+                            renderer.material.color = Color.yellow;
+                            break;
+                        }
                 }
             }
         }
@@ -63,11 +76,37 @@ public class Network_Manager : NetworkManager
     public override void OnServerReady(NetworkConnection conn)
     {
         base.OnServerReady(conn);
-        if (numPlayers == 0) // Bij 4 spelers == 3
+
+        //
+        // numplayers aanpassen naar == 3
+        // disable player movement totdat de server vol zit
+        //
+
+        if (numPlayers == 1 && GameObject.Find("Ball") == null && GameObject .Find("Flag") == null) // Bij 4 spelers "numPlayers == 3"
         {
-            GameObject ball = Instantiate(Resources.Load<GameObject>("Prefabs/Ball") as GameObject, new Vector3(112, 23, 97), Quaternion.identity) as GameObject;
-            NetworkServer.Spawn(ball);
-            //NetworkManager.Instantiate(Resources.Load<GameObject>("Prefabs/Ball") as GameObject, new Vector3(112, 23, 97), Quaternion.identity);
+            manager = GameObject.Find("GameModeManager").GetComponent<GM_Manager>();
+            StartCoroutine(SpawnGameMode());
         }
+    }
+
+    IEnumerator SpawnGameMode()
+    {
+        //
+        // Start countdown?
+        //
+
+        yield return new WaitForSeconds(3);
+
+        GameObject gameModeObject = null;
+        if (manager.GM == GM_Manager.GameMode.HP)
+        {
+            gameModeObject = Instantiate(Resources.Load<GameObject>("Prefabs/Ball") as GameObject, new Vector3(112, 23, 97), Quaternion.identity) as GameObject;
+        } else if (manager.GM == GM_Manager.GameMode.CTF)
+        {
+            gameModeObject = Instantiate(Resources.Load<GameObject>("Prefabs/Flag") as GameObject, new Vector3(112, 23, 97), Quaternion.identity) as GameObject;
+        }
+        NetworkServer.Spawn(gameModeObject);
+
+        manager.RpcStartTimer(30);
     }
 }

@@ -1,36 +1,53 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 using System.Collections;
 
-public class GM_Manager : MonoBehaviour
+public class GM_Manager : NetworkBehaviour
 {
-    GameMode gameMode;
+    GameMode gameMode = GameMode.HP;
     public enum GameMode
     {
+        None, // Default
         CTF, // Capture the flag
         HP // Hot potato
     }
     ;
 
     Text timerText;
-    float timer, timerDuration;
+    float timer;
+    bool timerStarted, initialized;
 
-    // Use this for initialization
-    void Start()
+    void Initialize()
     {
-        timerText = GameObject.Find("Timer Text").GetComponent<Text>();
-        timerDuration = 10;
-        timer = timerDuration;
+        string gm = GameObject.FindWithTag("NetworkManager").GetComponent<Network_Manager>().selectedGameMode;
+        switch (gm)
+        {
+            case "Hot potato":
+                {
+                    gameMode = GM_Manager.GameMode.HP;
+                    break;
+                }
+            case "Capture the Flag":
+                {
+                    gameMode = GM_Manager.GameMode.CTF;
+                    break;
+                }
+        }
 
-        gameMode = GameMode.HP;
+        
+        timerText = GameObject.Find("Timer Text").GetComponent<Text>();
+        initialized = true;
     }
-	
-    // Update is called once per frame
+
     void Update()
     {
-        if (!RoundFinished)
+        if (!RoundFinished && timerStarted && initialized)
         {
             UpdateTimer();
+        } else if (!initialized)
+        {
+            Initialize();
         }
     }
 
@@ -38,31 +55,35 @@ public class GM_Manager : MonoBehaviour
     {
         timer = Mathf.Clamp(timer - Time.deltaTime, 0, 120);
 
-        int minutes = (int)(timer / 60);
+        int min = (int)(timer / 60);
 
-        int seconds = (int)(timer - (minutes * 60));
-        string s = seconds.ToString();
-        if (s.Length == 1)
+        int seconds = (int)(timer - (min * 60));
+        string sec = seconds.ToString();
+        if (sec.Length == 1)
         {
-            s = "0" + s;
+            sec = "0" + sec;
         }
 
-        float miliSeconds = timer - (minutes * 60) - seconds;
-        string mS = (miliSeconds + " ").Substring(2);
-        if (mS.Length > 2)
+        float miliSeconds = timer - (min * 60) - seconds;
+        string mSec = (miliSeconds + " ").Substring(2);
+        if (mSec.Length > 2)
         {
-            mS = mS.Remove(2);
+            mSec = mSec.Remove(2);
         } else
         {
-            mS = "00";
+            mSec = "00";
         }
 
-        timerText.text = "TIME " + minutes + ":" + s + ":" + mS;
+        timerText.text = "TIME " + min + ":" + sec + ":" + mSec;
+
+        timerStarted = timer > 0;
     }
 
-    public void ResetTimer()
+    [ClientRpc]
+    public void RpcStartTimer(int duration)
     {
-        timer = timerDuration;
+        timer = duration;
+        timerStarted = true;
     }
 
     public void SetGameMode(GameMode gm)

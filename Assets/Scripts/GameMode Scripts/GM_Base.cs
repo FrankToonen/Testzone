@@ -101,7 +101,7 @@ public class GM_Base : GM_GameMode
         {
             GivePoints(-1);
             ball.Reset();
-            manager.ResetTimer();
+            manager.RpcStartTimer(30);
         }
     }
 

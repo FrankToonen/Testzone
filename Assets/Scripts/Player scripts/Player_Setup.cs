@@ -18,9 +18,9 @@ public class Player_Setup : NetworkBehaviour
 
     public int playerNumber;
 
-    [SyncVar]
+    /*[SyncVar]
     public string
-        selectedGun;
+        selectedGun;*/
 
     void Start()
     {
@@ -37,7 +37,7 @@ public class Player_Setup : NetworkBehaviour
 
             //Cursor.visible = false;  
 
-            selectedGun = GameObject.Find("NetworkManager").GetComponent<Network_Manager>().selectedGun;
+            //selectedGun = GameObject.Find("NetworkManager").GetComponent<Network_Manager>().selectedGun;
             //Debug.Log(selectedGun);
 
             GetNetIdentity();
@@ -73,16 +73,16 @@ public class Player_Setup : NetworkBehaviour
     }
     
     [Command]
-    void CmdSyncData(string name, string gun)
+    void CmdSyncData(string name/*, string gun*/)
     {
         playerUniqueIdentity = name;
-        selectedGun = gun;
+        //selectedGun = gun;
     }
     
     [Client]
     void GetNetIdentity()
     {
-        CmdSyncData(MakeUniqueIdentity(), selectedGun);
+        CmdSyncData(MakeUniqueIdentity()/*, selectedGun*/);
     }
     
     void SetIdentity()
