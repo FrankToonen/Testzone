@@ -60,8 +60,14 @@ public class Network_Manager : NetworkManager
         }
     }
 
-    public void SetPlayerGuns()
+    public override void OnServerReady(NetworkConnection conn)
     {
-
+        base.OnServerReady(conn);
+        if (numPlayers == 0) // Bij 4 spelers == 3
+        {
+            GameObject ball = Instantiate(Resources.Load<GameObject>("Prefabs/Ball") as GameObject, new Vector3(112, 23, 97), Quaternion.identity) as GameObject;
+            NetworkServer.Spawn(ball);
+            //NetworkManager.Instantiate(Resources.Load<GameObject>("Prefabs/Ball") as GameObject, new Vector3(112, 23, 97), Quaternion.identity);
+        }
     }
 }

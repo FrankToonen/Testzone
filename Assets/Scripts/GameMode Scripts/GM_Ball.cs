@@ -11,6 +11,7 @@ public class GM_Ball : GM_GameMode
     {
         base.Start();
         startPosition = transform.position;
+        transform.name = "Ball";
     }
 	
     // Update is called once per frame
@@ -24,7 +25,7 @@ public class GM_Ball : GM_GameMode
         if (!manager.RoundFinished)
         {
             return;
-        }
+        } 
 
         transform.position = startPosition;
     }
