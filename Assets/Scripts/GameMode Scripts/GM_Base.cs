@@ -17,7 +17,39 @@ public class GM_Base : GM_GameMode
 
         transform.name = "Base" + playerNumber;
 
-        // Prachtige code
+        GetColor();
+    }
+
+    public void GetPosition()
+    {
+        switch (manager.GM)
+        {
+            case GM_Manager.GameMode.BB:
+                {
+                    //Bases ophogen
+                    transform.position += new Vector3(0, 25, 0);
+                    break;
+                }
+            case GM_Manager.GameMode.HP:
+                {
+                    // Vorm aanpassen aan volledige gebied speler
+                    break;
+                }
+            case     GM_Manager.GameMode.CTF:
+                {
+                    // Niks doen
+                    break;
+                }
+            case GM_Manager.GameMode.None:
+                {
+                    // Niks doen
+                    break;
+                }
+        }
+    }
+
+    void GetColor()
+    {
         Color baseColor = Color.white;
         switch (playerNumber)
         {
@@ -60,29 +92,35 @@ public class GM_Base : GM_GameMode
 
     void OnTriggerEnter(Collider other)
     {
-        if (manager.GM != GM_Manager.GameMode.CTF)
+        if (manager.GM != GM_Manager.GameMode.CTF || manager.GM != GM_Manager.GameMode.BB)
         {
             return;
         }
+
         FindWhoseBase();
 
-        if (whoseBase == null)
+        if (manager.GM == GM_Manager.GameMode.CTF)
         {
-            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-            if (players.Length > playerNumber)
+            if (other.gameObject == whoseBase && isServer)
             {
-                whoseBase = players [playerNumber];
+                GM_Flag flag = other.gameObject.GetComponentInChildren<GM_Flag>();
+                if (flag != null)
+                {
+                    GivePoints(1);
+                    flag.CmdChangeFlagHolder("");
+                    flag.ResetPosition();
+                }
             }
-        }
-
-        if (other.gameObject == whoseBase && isServer)
+        } else if (manager.GM == GM_Manager.GameMode.BB)
         {
-            GM_Flag flag = other.gameObject.GetComponentInChildren<GM_Flag>();
-            if (flag != null)
+            if (isServer)
             {
-                GivePoints(1);
-                flag.CmdChangeFlagHolder("");
-                flag.ResetPosition();
+                GM_Ball ball = GameObject.Find("Ball").GetComponent<GM_Ball>();
+                if (ball != null)
+                {
+                    GivePoints(-1);
+                    ball.ResetPosition();
+                }
             }
         }
     }
@@ -100,7 +138,7 @@ public class GM_Base : GM_GameMode
         if (ball != null)
         {
             GivePoints(-1);
-            ball.Reset();
+            ball.ResetPosition();
             manager.RpcStartTimer(30);
         }
     }

@@ -84,7 +84,7 @@ public class Gun : NetworkBehaviour
         charge = 0;
     }
 
-    public RaycastHit ShootRayCast()
+    public virtual RaycastHit ShootRayCast()
     {
         RaycastHit hit;
         Ray ray = new Ray(cam.transform.TransformPoint(0, 0, 0.5f), cam.transform.forward);

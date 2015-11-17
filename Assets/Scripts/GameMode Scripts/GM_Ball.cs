@@ -20,13 +20,8 @@ public class GM_Ball : GM_GameMode
 	
     }
 
-    public void Reset()
+    public void ResetPosition()
     {
-        if (!manager.RoundFinished)
-        {
-            return;
-        } 
-
         transform.position = startPosition;
     }
 }

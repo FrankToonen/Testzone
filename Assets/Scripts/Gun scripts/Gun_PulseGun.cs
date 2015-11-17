@@ -17,6 +17,7 @@ public class Gun_PulseGun : Gun
         rayCastLayerMask = 1 << 10;
         soundName = "pulsegun_01";
         reloadTime = 2;
+        range = 20;
 
         //Temp reloadbar
         if (isLocalPlayer)
@@ -32,28 +33,43 @@ public class Gun_PulseGun : Gun
     protected override void ShootPrimary(string objectHit, Vector3 point, float charge)
     {
         float f = -force;
-        ShootPulseGun(objectHit, new Vector3(f, f, f));
+        ShootPulseGun(objectHit, point, new Vector3(f, f, f));
     }
 
     protected override void ShootSecondary(string objectHit, Vector3 point, float charge)
     {
         float f = force / 2;
-        ShootPulseGun(objectHit, new Vector3(f, -f, f));
+        ShootPulseGun(objectHit, point, new Vector3(f, -f, f));
     }
 
-    void ShootPulseGun(string objectHit, Vector3 dir)
+    void ShootPulseGun(string objectHit, Vector3 point, Vector3 dir)
+    {
+        Collider[] objectsHit = Physics.OverlapSphere(point, range);
+        for (int n = 0; n < objectsHit.Length; n++)
+        {
+            GameObject obj = objectsHit [n].gameObject;
+            if (obj.tag == "Player" || obj.tag == "PhysicsObject")
+            {
+                Pulse(obj, dir);
+            }
+        }
+
+        StartCoroutine(ShootTimer(reloadTime));
+    }
+
+    /*void ShootPulseGun(string objectHit, Vector3 dir)
     {
         GameObject col = GameObject.Find(objectHit);
         if (col != null)
         {
             bool hasHit = false;
-
-            if (col.transform.tag == "Player" || col.transform.tag == "PhysicsObject")
+            
+            if (col.tag == "Player" || col.tag == "PhysicsObject")
             {
                 Vector3 extraAngle = new Vector3(0, 2, 0); // Schiet objecten iets omhoog
                 Vector3 direction = Vector3.Scale(Vector3.Normalize(transform.position - (col.transform.position + extraAngle)), dir);
-                 
-                if (col.transform.tag == "Player")
+                
+                if (col.tag == "Player")
                 {
                     if (isServer)
                     {
@@ -71,11 +87,44 @@ public class Gun_PulseGun : Gun
                     hasHit = true;
                 }
             }
-
+            
             if (hasHit)
             {
                 StartCoroutine(ShootTimer(reloadTime));
             }
         }
+    }
+    */
+
+    void Pulse(GameObject obj, Vector3 dir)
+    {
+        Vector3 extraAngle = new Vector3(0, 2, 0); // Schiet objecten iets omhoog
+        Vector3 direction = Vector3.Scale(Vector3.Normalize(transform.position - (obj.transform.position + extraAngle)), dir);
+            
+        if (obj.tag == "Player" && obj.name != gameObject.name)
+        {
+            if (isServer)
+            {
+                GM_Flag flag = obj.GetComponentInChildren<GM_Flag>();
+                if (flag != null)
+                {
+                    flag.CmdChangeFlagHolder("");
+                }
+            }
+            obj.gameObject.GetComponent<Player_Force>().AddImpact(direction, direction.magnitude);
+        } else if (obj.tag == "PhysicsObject")
+        {
+            obj.GetComponent<Rigidbody>().AddForce(direction * 25);
+        }
+    }
+
+    public override RaycastHit ShootRayCast()
+    {
+        RaycastHit hit = new RaycastHit();
+        Ray ray = GetComponentInChildren<Camera>().ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        Vector3 point = ray.origin + (ray.direction * range);
+        hit.point = point;
+
+        return hit;
     }
 }

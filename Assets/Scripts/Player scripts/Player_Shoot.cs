@@ -76,11 +76,17 @@ public class Player_Shoot : NetworkBehaviour
                 pulseGun.ChargeGun(Time.deltaTime);
             } else if (Input.GetButtonUp("FirePulse1") || Input.GetButtonUp("FirePulse2"))
             {
-                RaycastHit hit = pulseGun.ShootRayCast();
+                /*RaycastHit hit = pulseGun.ShootRayCast();
                 if (hit.point != Vector3.zero)
                 {
                     CmdPulse(hit.transform.name, hit.point, pulseGun.Charge, Input.GetButtonUp("FirePulse1"));
-                }
+                }*/
+
+                RaycastHit hit = pulseGun.ShootRayCast();
+
+                //Instantiate(Resources.Load<GameObject>("Prefabs/Magnet") as GameObject, hit.point, Quaternion.identity);
+
+                CmdPulse("", hit.point, 0, Input.GetButtonUp("FirePulse1"));
             }
         }
 

@@ -98,7 +98,7 @@ public class Network_Manager : NetworkManager
         yield return new WaitForSeconds(3);
 
         GameObject gameModeObject = null;
-        if (manager.GM == GM_Manager.GameMode.HP)
+        if (manager.GM == GM_Manager.GameMode.HP || manager.GM == GM_Manager.GameMode.BB)
         {
             gameModeObject = Instantiate(Resources.Load<GameObject>("Prefabs/Ball") as GameObject, new Vector3(112, 23, 97), Quaternion.identity) as GameObject;
         } else if (manager.GM == GM_Manager.GameMode.CTF)
