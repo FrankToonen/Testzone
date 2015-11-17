@@ -1,0 +1,33 @@
+Initialize engine version: 5.2.1f1 (44735ea161b3)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce 840M      (ID=0x1341)
+    Vendor:   NVIDIA
+    VRAM:     1972 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Jip\Documents\GitHub\Testzone\Testzone_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Jip\Documents\GitHub\Testzone\Testzone_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Jip\Documents\GitHub\Testzone\Testzone_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\Jip\Documents\GitHub\Testzone\Testzone_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\Jip\Documents\GitHub\Testzone\Testzone_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Jip\Documents\GitHub\Testzone\Testzone_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Jip\Documents\GitHub\Testzone\Testzone_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Jip\Documents\GitHub\Testzone\Testzone_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Jip\Documents\GitHub\Testzone\Testzone_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\Jip\Documents\GitHub\Testzone\Testzone_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\Jip\Documents\GitHub\Testzone\Testzone_Data\Managed\System.Core.dll (this message is harmless)
+- Completed reload, in  0.194 seconds
+desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+Platform assembly: C:\Users\Jip\Documents\GitHub\Testzone\Testzone_Data\Managed\System.dll (this message is harmless)
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 46d4 -> priority: 1 
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 6.636662 ms
+
+Unloading 9 unused Assets to reduce memory usage. Loaded Objects now: 153390.
+Total: 56.311756 ms (FindLiveObjects: 11.807590 ms CreateObjectMapping: 7.944493 ms MarkObjects: 36.267551 ms  DeleteObjects: 0.291331 ms)
+
