@@ -8,6 +8,7 @@ public class Gun : NetworkBehaviour
     protected AudioSource audioSource;
     protected string soundName;
 
+    public ParticleSystem primaryParticles, secondaryParticles;
     protected Camera cam;
     protected Image reloadBar;
     protected Vector3 startScale;

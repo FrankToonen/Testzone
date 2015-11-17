@@ -34,12 +34,14 @@ public class Gun_PulseGun : Gun
     {
         float f = -force;
         ShootPulseGun(objectHit, point, new Vector3(f, f, f));
+        primaryParticles.Play();
     }
 
     protected override void ShootSecondary(string objectHit, Vector3 point, float charge)
     {
         float f = force / 2;
         ShootPulseGun(objectHit, point, new Vector3(f, -f, f));
+        secondaryParticles.Play();
     }
 
     void ShootPulseGun(string objectHit, Vector3 point, Vector3 dir)
