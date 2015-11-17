@@ -82,7 +82,7 @@ public class Network_Manager : NetworkManager
         // disable player movement totdat de server vol zit
         //
 
-        if (numPlayers == 1 && GameObject.Find("Ball") == null && GameObject .Find("Flag") == null) // Bij 4 spelers "numPlayers == 3"
+        if (numPlayers == 0 && GameObject.Find("Ball") == null && GameObject .Find("Flag") == null) // Bij 4 spelers "numPlayers == 3"
         {
             manager = GameObject.Find("GameModeManager").GetComponent<GM_Manager>();
             StartCoroutine(SpawnGameMode());
