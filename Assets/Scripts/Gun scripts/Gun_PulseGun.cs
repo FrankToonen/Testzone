@@ -16,8 +16,10 @@ public class Gun_PulseGun : Gun
         GetComponent<Player_Shoot>().EventPulse += Shoot;
         rayCastLayerMask = 1 << 10;
         soundName = "pulsegun_01";
-        reloadTime = 2;
+        reloadTime = 5;
         range = 20;
+        maxCharges = 1;
+        charges = maxCharges;
 
         //Temp reloadbar
         if (isLocalPlayer)
@@ -32,6 +34,8 @@ public class Gun_PulseGun : Gun
 
     protected override void ShootPrimary(string objectHit, Vector3 point, float charge)
     {
+        base.ShootPrimary(objectHit, point, charge);
+
         float f = -force;
         ShootPulseGun(objectHit, point, new Vector3(f, f, f));
         primaryParticles.Play();
@@ -39,6 +43,8 @@ public class Gun_PulseGun : Gun
 
     protected override void ShootSecondary(string objectHit, Vector3 point, float charge)
     {
+        base.ShootSecondary(objectHit, point, charge);
+
         float f = force / 2;
         ShootPulseGun(objectHit, point, new Vector3(f, -f, f));
         secondaryParticles.Play();

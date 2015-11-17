@@ -13,8 +13,10 @@ public class Gun_Terraformer : Gun
     {
         base.Start();
         soundName = /*"terraformer_01"*/ "pulsegun_02";
-        reloadTime = 1;
+        reloadTime = 2;
         radius = 3;
+        maxCharges = 3;
+        charges = maxCharges;
 
         //GetComponent<Player_Shoot>().EventShoot -= Shoot;
         GetComponent<Player_Shoot>().EventShoot += Shoot;
@@ -32,11 +34,15 @@ public class Gun_Terraformer : Gun
 
     protected override void ShootPrimary(string objectHit, Vector3 point, float charge)
     {
+        base.ShootPrimary(objectHit, point, charge);
+
         ShootTerraformer(objectHit, point, charge, 1);
     }
 
     protected override void ShootSecondary(string objectHit, Vector3 point, float charge)
     {
+        base.ShootSecondary(objectHit, point, charge);
+
         ShootTerraformer(objectHit, point, charge, -1);
     }
 

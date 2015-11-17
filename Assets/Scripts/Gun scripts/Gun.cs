@@ -16,8 +16,8 @@ public class Gun : NetworkBehaviour
     protected LayerMask rayCastLayerMask;
 
     public bool canShoot;
-    protected float reloadTime, maxChargeTime, charge;
-    protected int range;
+    protected float reloadTime, reloadTimeLeft, maxChargeTime, charge;
+    protected int range, charges, maxCharges;
 
     protected virtual void Start()
     {        
@@ -47,32 +47,50 @@ public class Gun : NetworkBehaviour
         {
             reloadBar.transform.localScale = targetScale;
         }
+
+        ChargeCharges();
+    }
+
+    protected void ChargeCharges()
+    {
+        if (charges < maxCharges)
+        {
+            reloadTimeLeft -= Time.deltaTime;
+            if (reloadTimeLeft <= 0)
+            {
+                charges++;
+                reloadTimeLeft = reloadTime;
+            }
+        }
     }
 
     public void Shoot(string objectHit, Vector3 point, float charge, bool isPrimary)
     {
-        if (isPrimary)
+        if (charges > 0)
         {
-            ShootPrimary(objectHit, point, charge);
-        } else
-        {
-            ShootSecondary(objectHit, point, charge);
+            if (isPrimary)
+            {
+                ShootPrimary(objectHit, point, charge);
+            } else
+            {
+                ShootSecondary(objectHit, point, charge);
+            }
+
+            AudioClip audioClip = Resources.Load<AudioClip>("Sounds/snd_" + soundName);
+            audioSource.PlayOneShot(audioClip);
+
+            Discharge();
         }
-
-        AudioClip audioClip = Resources.Load<AudioClip>("Sounds/snd_" + soundName);
-        audioSource.PlayOneShot(audioClip);
-
-        Discharge();
     }
 
     protected virtual void ShootPrimary(string objectHit, Vector3 point, float charge)
     {
-
+        charges--;
     }
     
     protected virtual void ShootSecondary(string objectHit, Vector3 point, float charge)
     {
-        
+        charges--;
     }
 
     public void ChargeGun(float timeHeld)
@@ -103,7 +121,7 @@ public class Gun : NetworkBehaviour
 
     protected IEnumerator ShootTimer(float seconds)
     {
-        canShoot = false;
+        //canShoot = false;
         yield return new WaitForSeconds(seconds);
         canShoot = true;
     }
