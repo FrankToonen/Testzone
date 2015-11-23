@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+//using UnityEngine.Networking;
 using System.Collections;
 
 public class Gun_PulseGun : Gun
@@ -21,7 +22,7 @@ public class Gun_PulseGun : Gun
         maxCharges = 1;
         charges = maxCharges;
 
-        //Temp reloadbar
+        /*Temp reloadbar
         if (isLocalPlayer)
         {
             reloadBar = GameObject.Find("Reload Bar Pulsegun").GetComponent<Image>();
@@ -29,7 +30,7 @@ public class Gun_PulseGun : Gun
             targetScale = new Vector3(0, startScale.y, 0);
             reloadBar.transform.localScale = targetScale;
         }
-        //
+        */
     }
 
     protected override void ShootPrimary(string objectHit, Vector3 point, float charge)
@@ -52,7 +53,10 @@ public class Gun_PulseGun : Gun
 
     void ShootPulseGun(string objectHit, Vector3 point, Vector3 dir)
     {
-        Collider[] objectsHit = Physics.OverlapSphere(point, range);
+        // DEBUG
+        // GameObject m = Instantiate(Resources.Load<GameObject>("Prefabs/Magnet") as GameObject, point, Quaternion.identity) as GameObject;
+
+        Collider[] objectsHit = Physics.OverlapSphere(point, Vector3.Distance(transform.position, point));
         for (int n = 0; n < objectsHit.Length; n++)
         {
             GameObject obj = objectsHit [n].gameObject;
@@ -108,7 +112,9 @@ public class Gun_PulseGun : Gun
     {
         Vector3 extraAngle = new Vector3(0, 2, 0); // Schiet objecten iets omhoog
         Vector3 direction = Vector3.Scale(Vector3.Normalize(transform.position - (obj.transform.position + extraAngle)), dir);
-            
+
+        Debug.Log(obj.tag);
+
         if (obj.tag == "Player" && obj.name != gameObject.name)
         {
             if (isServer)

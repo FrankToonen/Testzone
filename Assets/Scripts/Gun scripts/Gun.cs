@@ -10,9 +10,9 @@ public class Gun : NetworkBehaviour
 
     public ParticleSystem primaryParticles, secondaryParticles;
     protected Camera cam;
-    protected Image reloadBar;
-    protected Vector3 startScale;
-    protected Vector3 targetScale;
+    //protected Image reloadBar;
+    //protected Vector3 startScale;
+    //protected Vector3 targetScale;
     protected LayerMask rayCastLayerMask;
 
     public bool canShoot;
@@ -40,18 +40,18 @@ public class Gun : NetworkBehaviour
 
     void Update()
     {
+        ChargeCharges();
+
         if (!isLocalPlayer)
             return;
 
-        if (!canShoot)
+        /*if (!canShoot)
         {
             reloadBar.transform.localScale = Vector3.Lerp(reloadBar.transform.localScale, targetScale, 3 * (1 / reloadTime) * Time.deltaTime);
         } else
         {
             reloadBar.transform.localScale = targetScale;
-        }
-
-        ChargeCharges();
+        }*/
     }
 
     protected void ChargeCharges()
@@ -64,6 +64,9 @@ public class Gun : NetworkBehaviour
                 charges++;
                 reloadTimeLeft = reloadTime;
             }
+        } else
+        {
+            reloadTimeLeft = reloadTime;
         }
     }
 
@@ -117,7 +120,7 @@ public class Gun : NetworkBehaviour
         if (Physics.Raycast(ray, out hit, range, rayCastLayerMask))
         { 
             //Debug.DrawRay(cam.transform.TransformPoint(0, 0, 0.5f), cam.transform.forward * hit.distance, Color.blue, 10);
-            reloadBar.transform.localScale = startScale;
+            //reloadBar.transform.localScale = startScale;
 
             return hit;
         }

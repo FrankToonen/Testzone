@@ -22,6 +22,11 @@ public class GM_Base : GM_GameMode
 
     public void GetPosition()
     {
+        if (!isServer)
+        {
+            return;
+        }
+
         switch (manager.GM)
         {
             case GM_Manager.GameMode.BB:

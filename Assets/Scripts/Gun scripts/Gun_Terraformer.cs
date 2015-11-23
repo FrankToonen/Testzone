@@ -22,7 +22,7 @@ public class Gun_Terraformer : Gun
         //GetComponent<Player_Shoot>().EventShoot -= Shoot;
         GetComponent<Player_Shoot>().EventShoot += Shoot;
 
-        //Temp reloadbar
+        /*Temp reloadbar
         if (isLocalPlayer)
         {
             reloadBar = GameObject.Find("Reload Bar Terraformer").GetComponent<Image>();
@@ -30,7 +30,7 @@ public class Gun_Terraformer : Gun
             targetScale = new Vector3(0, startScale.y, 0);
             reloadBar.transform.localScale = targetScale;
         }
-        //
+        */
     }
 
     protected override void ShootPrimary(string objectHit, Vector3 point, float charge)

@@ -84,8 +84,6 @@ public class Player_Shoot : NetworkBehaviour
 
                 RaycastHit hit = pulseGun.ShootRayCast();
 
-                //Instantiate(Resources.Load<GameObject>("Prefabs/Magnet") as GameObject, hit.point, Quaternion.identity);
-
                 CmdPulse("", hit.point, 0, Input.GetButtonUp("FirePulse1"));
             }
         }
