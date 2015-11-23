@@ -8,6 +8,7 @@ public class Gun_Terraformer : Gun
     [SerializeField]
     float
         radius;
+    public float chargedRadius;
 
     protected override void Start()
     {
@@ -95,7 +96,7 @@ public class Gun_Terraformer : Gun
         {
             StartCoroutine(ShootTimer(reloadTime));
             StartCoroutine(PlayRubbleSound());
-        }
+        }        
     }
 
     /*void ShootTerraformer(string objectHit, Vector3 point, int dir)
