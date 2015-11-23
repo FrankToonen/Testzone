@@ -19,6 +19,9 @@ public class Gun : NetworkBehaviour
     protected float reloadTime, reloadTimeLeft, maxChargeTime, charge;
     protected int range, charges, maxCharges;
 
+    // DEBUG
+    public int timesShot;
+
     protected virtual void Start()
     {        
         audioSource = GetComponent<AudioSource>();
@@ -68,6 +71,9 @@ public class Gun : NetworkBehaviour
     {
         if (charges > 0)
         {
+            // DEBUG
+            timesShot++;
+
             if (isPrimary)
             {
                 ShootPrimary(objectHit, point, charge);

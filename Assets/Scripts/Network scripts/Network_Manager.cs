@@ -33,6 +33,24 @@ public class Network_Manager : NetworkManager
                 selectedGameMode = gameModeDropDown.GetComponent<Dropdown>().captionText.text;
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+            
+            for (int p = 0; p < 4; p++)
+            {
+                if (p < players.Length)
+                {
+                    Debug.Log(players [p].name);
+                    Debug.Log("Pulsegun times shot: " + players [p].GetComponent<Gun_PulseGun>().timesShot);
+                    Debug.Log("Terraformer times shot: " + players [p].GetComponent<Gun_Terraformer>().timesShot);
+                    Debug.Log("Score: " + players [p].GetComponent<Player_Score>().Score);
+                }
+            }
+
+            Application.Quit();
+        }
     }
 
     public void SetPlayerColor()

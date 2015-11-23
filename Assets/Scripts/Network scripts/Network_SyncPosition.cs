@@ -26,8 +26,8 @@ public class Network_SyncPosition : NetworkBehaviour
     float closeEnough = 0.1f;
 
     int lerpRate;
-    int normalLerpRate = 18;
-    int fasterLerpRate = 30;
+    int normalLerpRate = 30;
+    int fasterLerpRate = 45;
 
     void Start()
     {
@@ -100,6 +100,10 @@ public class Network_SyncPosition : NetworkBehaviour
     void SyncPositionValues(Vector3 latestPos)
     {
         syncPos = latestPos;
-        syncPosList.Add(syncPos);
+
+        if (useHistoricalLerping)
+        {
+            syncPosList.Add(syncPos);
+        }
     }
 }
