@@ -25,33 +25,16 @@ public class Gun : NetworkBehaviour
     {        
         audioSource = GetComponent<AudioSource>();
         cam = GetComponentInChildren<Camera>();
-        uiCharges = GameObject.Find("Bar Overlap").GetComponent<expand>();
-        //GetComponent<Player_Shoot>().EventShoot += Shoot;
         rayCastLayerMask = ~((1 << 9) | (1 << 2));
         canShoot = true;
         range = 200;
         maxChargeTime = 3;
     }
 
-    /*public void UnsubscribeEvent()
-    {
-        GetComponent<Player_Shoot>().EventShoot -= Shoot;
-    }*/
 
     void Update()
     {
         ChargeCharges();
-
-        if (!isLocalPlayer)
-            return;
-
-        /*if (!canShoot)
-        {
-            reloadBar.transform.localScale = Vector3.Lerp(reloadBar.transform.localScale, targetScale, 3 * (1 / reloadTime) * Time.deltaTime);
-        } else
-        {
-            reloadBar.transform.localScale = targetScale;
-        }*/
     }
 
     protected void ChargeCharges()
@@ -124,9 +107,6 @@ public class Gun : NetworkBehaviour
 
         if (Physics.Raycast(ray, out hit, range, rayCastLayerMask))
         { 
-            //Debug.DrawRay(cam.transform.TransformPoint(0, 0, 0.5f), cam.transform.forward * hit.distance, Color.blue, 10);
-            //reloadBar.transform.localScale = startScale;
-
             return hit;
         }
 

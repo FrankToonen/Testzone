@@ -9,11 +9,12 @@ public class Gun_PulseGun : Gun
     float
         force;
 
-    // Use this for initialization
     protected override void Start()
     {
         base.Start();
-        //GetComponent<Player_Shoot>().EventShoot -= Shoot;
+
+        uiCharges = GameObject.Find("Pulse Indicator").GetComponent<expand>();
+
         GetComponent<Player_Shoot>().EventPulse += Shoot;
         rayCastLayerMask = 1 << 10;
         soundName = "pulsegun_01";
@@ -21,16 +22,6 @@ public class Gun_PulseGun : Gun
         range = 20;
         maxCharges = 1;
         charges = maxCharges;
-
-        /*Temp reloadbar
-        if (isLocalPlayer)
-        {
-            reloadBar = GameObject.Find("Reload Bar Pulsegun").GetComponent<Image>();
-            startScale = reloadBar.transform.localScale;
-            targetScale = new Vector3(0, startScale.y, 0);
-            reloadBar.transform.localScale = targetScale;
-        }
-        */
     }
 
     protected override void ShootPrimary(string objectHit, Vector3 point, float charge)
@@ -69,51 +60,10 @@ public class Gun_PulseGun : Gun
         StartCoroutine(ShootTimer(reloadTime));
     }
 
-    /*void ShootPulseGun(string objectHit, Vector3 dir)
-    {
-        GameObject col = GameObject.Find(objectHit);
-        if (col != null)
-        {
-            bool hasHit = false;
-            
-            if (col.tag == "Player" || col.tag == "PhysicsObject")
-            {
-                Vector3 extraAngle = new Vector3(0, 2, 0); // Schiet objecten iets omhoog
-                Vector3 direction = Vector3.Scale(Vector3.Normalize(transform.position - (col.transform.position + extraAngle)), dir);
-                
-                if (col.tag == "Player")
-                {
-                    if (isServer)
-                    {
-                        GM_Flag flag = col.GetComponentInChildren<GM_Flag>();
-                        if (flag != null)
-                        {
-                            flag.CmdChangeFlagHolder("");
-                        }
-                    }
-                    col.gameObject.GetComponent<Player_Force>().AddImpact(direction, direction.magnitude);
-                    hasHit = true;
-                } else
-                {
-                    col.GetComponent<Rigidbody>().AddForce(direction * 25);
-                    hasHit = true;
-                }
-            }
-            
-            if (hasHit)
-            {
-                StartCoroutine(ShootTimer(reloadTime));
-            }
-        }
-    }
-    */
-
     void Pulse(GameObject obj, Vector3 dir)
     {
         Vector3 extraAngle = new Vector3(0, 2, 0); // Schiet objecten iets omhoog
         Vector3 direction = Vector3.Scale(Vector3.Normalize(transform.position - (obj.transform.position + extraAngle)), dir);
-
-        Debug.Log(obj.tag);
 
         if (obj.tag == "Player" && obj.name != gameObject.name)
         {

@@ -4,9 +4,20 @@ using System.Collections;
 
 public class expand : MonoBehaviour
 {
+    enum Shape
+    {
+        Bar,
+        Square
+    }
+    ;
+
+    [SerializeField]
+    Shape
+        shape;
+
     [SerializeField]
     GameObject[]
-        bars = new GameObject[3];
+        bars;
 
     private GameObject player;
     private float width;
@@ -25,22 +36,37 @@ public class expand : MonoBehaviour
             }
         } else
         {
-            width = player.GetComponent<Gun_Terraformer>().Charge * 3;
-            this.transform.localScale = new Vector3(width, 6, 6);
+            Scale();
+        }
+    }
+
+    void Scale()
+    {
+        if (shape == Shape.Bar)
+        {
+            width = player.GetComponent<Gun_Terraformer>().Charge / 3;
+            this.transform.localScale = new Vector3(width, 1, 1);
         }
     }
 
     public void ChangeBarsVisible(int amount)
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < bars.Length; i++)
         {
             if (i >= amount)
             {
-                bars [i].transform.localScale = new Vector3(0, 6, 6);
+                if (shape == Shape.Bar)
+                {
+                    bars [i].transform.localScale = new Vector3(0, 1, 1);
+                } else if (shape == Shape.Square)
+                {
+                    bars [i].transform.localScale = new Vector3(0, 0, 0);
+                }
+
                 bars [i].GetComponent<Image>().color = Color.gray;
             } else
             {
-                bars [i].transform.localScale = new Vector3(8.8f, 6, 6);
+                bars [i].transform.localScale = new Vector3(1, 1, 1);
                 bars [i].GetComponent<Image>().color = Color.white;
             }
         }
@@ -49,6 +75,13 @@ public class expand : MonoBehaviour
     public void ChargeBar(int i, float r)
     {
         float ratio = Mathf.Clamp(r, 0, 1);
-        bars [i].transform.localScale = new Vector3(8.8f * ratio, 6, 6);
+
+        if (shape == Shape.Bar)
+        {
+            bars [i].transform.localScale = new Vector3(ratio, 1, 1);
+        } else if (shape == Shape.Square)
+        {
+            bars [i].transform.localScale = new Vector3(ratio, ratio, ratio);
+        }
     }
 }
