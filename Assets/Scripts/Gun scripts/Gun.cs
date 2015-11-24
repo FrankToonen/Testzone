@@ -10,14 +10,13 @@ public class Gun : NetworkBehaviour
 
     public ParticleSystem primaryParticles, secondaryParticles;
     protected Camera cam;
-    //protected Image reloadBar;
-    //protected Vector3 startScale;
-    //protected Vector3 targetScale;
     protected LayerMask rayCastLayerMask;
 
     public bool canShoot;
     protected float reloadTime, reloadTimeLeft, maxChargeTime, charge;
     protected int range, charges, maxCharges;
+
+    protected expand uiCharges;
 
     // DEBUG
     public int timesShot;
@@ -26,6 +25,7 @@ public class Gun : NetworkBehaviour
     {        
         audioSource = GetComponent<AudioSource>();
         cam = GetComponentInChildren<Camera>();
+        uiCharges = GameObject.Find("Bar Overlap").GetComponent<expand>();
         //GetComponent<Player_Shoot>().EventShoot += Shoot;
         rayCastLayerMask = ~((1 << 9) | (1 << 2));
         canShoot = true;
@@ -59,9 +59,11 @@ public class Gun : NetworkBehaviour
         if (charges < maxCharges)
         {
             reloadTimeLeft -= Time.deltaTime;
+            uiCharges.ChargeBar(charges, 1 - (reloadTimeLeft / reloadTime));
             if (reloadTimeLeft <= 0)
             {
                 charges++;
+                uiCharges.ChangeBarsVisible(charges);
                 reloadTimeLeft = reloadTime;
             }
         } else
@@ -94,16 +96,19 @@ public class Gun : NetworkBehaviour
 
     protected virtual void ShootPrimary(string objectHit, Vector3 point, float charge)
     {
-        charges--;
+        charges -= (int)Mathf.Floor(Mathf.Clamp(charge, 1, 3));
+        uiCharges.ChangeBarsVisible(charges);
     }
     
     protected virtual void ShootSecondary(string objectHit, Vector3 point, float charge)
     {
-        charges--;
+        charges -= (int)Mathf.Floor(Mathf.Clamp(charge, 1, 3));
+        uiCharges.ChangeBarsVisible(charges);
     }
 
     public void ChargeGun(float timeHeld)
     {
+        maxChargeTime = Mathf.Clamp(maxCharges, 0, charges);
         charge = Mathf.Clamp(charge + timeHeld, 0, maxChargeTime);
     }
 
@@ -144,4 +149,9 @@ public class Gun : NetworkBehaviour
     {
         get { return charge; }
     }
+    public int Charges
+    {
+        get { return charges; }
+    }
+
 }
