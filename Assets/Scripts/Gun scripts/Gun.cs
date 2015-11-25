@@ -13,7 +13,8 @@ public class Gun : NetworkBehaviour
     protected LayerMask rayCastLayerMask;
 
     public bool canShoot;
-    protected float reloadTime, reloadTimeLeft, maxChargeTime, charge;
+	[SerializeField] protected float reloadTime;
+    protected float reloadTimeLeft, maxChargeTime, charge;
     protected int range, charges, maxCharges;
 
     protected expand uiCharges;

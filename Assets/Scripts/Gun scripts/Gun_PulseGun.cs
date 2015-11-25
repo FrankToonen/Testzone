@@ -18,7 +18,7 @@ public class Gun_PulseGun : Gun
         GetComponent<Player_Shoot>().EventPulse += Shoot;
         rayCastLayerMask = 1 << 10;
         soundName = "pulsegun_01";
-        reloadTime = 5;
+        //reloadTime = 5;
         range = 20;
         maxCharges = 1;
         charges = maxCharges;
