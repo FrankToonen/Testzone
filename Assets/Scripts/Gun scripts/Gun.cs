@@ -42,11 +42,18 @@ public class Gun : NetworkBehaviour
         if (charges < maxCharges)
         {
             reloadTimeLeft -= Time.deltaTime;
-            uiCharges.ChargeBar(charges, 1 - (reloadTimeLeft / reloadTime));
+            if (isLocalPlayer)
+            {
+                uiCharges.ChargeBar(charges, 1 - (reloadTimeLeft / reloadTime));
+            }
+
             if (reloadTimeLeft <= 0)
             {
                 charges++;
-                uiCharges.ChangeBarsVisible(charges);
+                if (isLocalPlayer)
+                {
+                    uiCharges.ChangeBarsVisible(charges);
+                }
                 reloadTimeLeft = reloadTime;
             }
         } else
@@ -80,13 +87,19 @@ public class Gun : NetworkBehaviour
     protected virtual void ShootPrimary(string objectHit, Vector3 point, float charge)
     {
         charges -= (int)Mathf.Floor(Mathf.Clamp(charge, 1, 3));
-        uiCharges.ChangeBarsVisible(charges);
+        if (isLocalPlayer)
+        {
+            uiCharges.ChangeBarsVisible(charges);
+        }
     }
     
     protected virtual void ShootSecondary(string objectHit, Vector3 point, float charge)
     {
         charges -= (int)Mathf.Floor(Mathf.Clamp(charge, 1, 3));
-        uiCharges.ChangeBarsVisible(charges);
+        if (isLocalPlayer)
+        {
+            uiCharges.ChangeBarsVisible(charges);
+        }
     }
 
     public void ChargeGun(float timeHeld)
