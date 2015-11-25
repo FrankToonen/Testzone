@@ -8,12 +8,14 @@ public class Gun : NetworkBehaviour
     protected AudioSource audioSource;
     protected string soundName;
 
-    public ParticleSystem primaryParticles, secondaryParticles;
+    public ParticleSystem primaryParticles, secondaryParticles, chargeParticles;
     protected Camera cam;
     protected LayerMask rayCastLayerMask;
 
     public bool canShoot;
-	[SerializeField] protected float reloadTime;
+    [SerializeField]
+    protected float
+        reloadTime;
     protected float reloadTimeLeft, maxChargeTime, charge;
     protected int range, charges, maxCharges;
 
@@ -92,6 +94,8 @@ public class Gun : NetworkBehaviour
         {
             uiCharges.ChangeBarsVisible(charges);
         }
+
+        primaryParticles.Play();
     }
     
     protected virtual void ShootSecondary(string objectHit, Vector3 point, float charge)
@@ -101,17 +105,32 @@ public class Gun : NetworkBehaviour
         {
             uiCharges.ChangeBarsVisible(charges);
         }
+
+        secondaryParticles.Play();
     }
 
     public void ChargeGun(float timeHeld)
     {
         maxChargeTime = Mathf.Clamp(maxCharges, 0, charges);
         charge = Mathf.Clamp(charge + timeHeld, 0, maxChargeTime);
+
+        if (chargeParticles != null)
+        {
+            if (!chargeParticles.isPlaying)
+            {
+                chargeParticles.Play();
+            }
+        }
     }
 
     void Discharge()
     {
         charge = 0;
+
+        if (chargeParticles != null)
+        {
+            chargeParticles.Stop();
+        }
     }
 
     public virtual RaycastHit ShootRayCast()

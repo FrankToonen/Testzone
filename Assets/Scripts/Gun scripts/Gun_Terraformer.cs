@@ -97,7 +97,7 @@ public class Gun_Terraformer : Gun
         AudioClip audioClip = Resources.Load<AudioClip>("Sounds/snd_terraformer_rubble");
         audioSource.PlayOneShot(audioClip);
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(10);
 
         audioSource.PlayOneShot(audioClip);
     }

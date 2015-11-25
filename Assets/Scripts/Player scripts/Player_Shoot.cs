@@ -15,8 +15,7 @@ public class Player_Shoot : NetworkBehaviour
         EventPulse;
 
     float prevLTValue, prevRTValue;
-    public Gun primaryGun;
-    Gun pulseGun;
+    Gun primaryGun, pulseGun;
 
     void Start()
     {
@@ -24,6 +23,7 @@ public class Player_Shoot : NetworkBehaviour
         if (primaryGun == null)
             primaryGun = GetComponent<Gun_MagnetGun>();*/
 
+        primaryGun = GetComponent<Gun_Terraformer>();
         pulseGun = GetComponent<Gun_PulseGun>();
     }
 

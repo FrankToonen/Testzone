@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Collections;
 
@@ -19,7 +20,9 @@ public class Network_HUD : MonoBehaviour
     [SerializeField]
     public int
         offsetY;
-    
+
+    public Button host, client, mm;
+
     // Runtime variable
     bool showServer = false;
     
@@ -56,6 +59,21 @@ public class Network_HUD : MonoBehaviour
             }
         }
     }*/
+
+    public void StartClient()
+    {
+        manager.StartClient();
+    }
+
+    public void StartHost()
+    {
+        manager.StartHost();
+    }
+
+    public void StartMatchmaker()
+    {
+        manager.StartMatchMaker();
+    }
     
     void OnGUI()
     {
@@ -68,27 +86,27 @@ public class Network_HUD : MonoBehaviour
         
         if (!NetworkClient.active && !NetworkServer.active && manager.matchMaker == null)
         {
-            if (GUI.Button(new Rect(xpos, ypos, 200, 20), "LAN Host"))
+            /*if (GUI.Button(new Rect(xpos, ypos, 200, 20), "LAN Host"))
             {
                 manager.StartHost();
-            }
+            }*/
             ypos += spacing;
             
-            if (GUI.Button(new Rect(xpos, ypos, 105, 20), "LAN Client"))
+            /*if (GUI.Button(new Rect(xpos, ypos, 105, 20), "LAN Client"))
             {
                 manager.StartClient();
-            }
-            manager.networkAddress = GUI.TextField(new Rect(xpos + 100, ypos, 95, 20), manager.networkAddress);
+            }*/
+            //manager.networkAddress = GUI.TextField(new Rect(xpos + 100, ypos, 95, 20), manager.networkAddress);
             ypos += spacing;
             
-            if (GUI.Button(new Rect(xpos, ypos, 200, 20), "LAN Server Only"))
+            /*if (GUI.Button(new Rect(xpos, ypos, 200, 20), "LAN Server Only"))
             {
                 manager.StartServer();
-            }
+            }*/
             ypos += spacing;
         } else
         {
-            if (NetworkServer.active)
+            /*if (NetworkServer.active)
             {
                 GUI.Label(new Rect(xpos, ypos, 300, 20), "Server: port=" + manager.networkPort);
                 ypos += spacing;
@@ -97,10 +115,10 @@ public class Network_HUD : MonoBehaviour
             {
                 GUI.Label(new Rect(xpos, ypos, 300, 20), "Client: address=" + manager.networkAddress + " port=" + manager.networkPort);
                 ypos += spacing;
-            }
+            }*/
         }
         
-        if (NetworkClient.active && !ClientScene.ready)
+        /*if (NetworkClient.active && !ClientScene.ready)
         {
             if (GUI.Button(new Rect(xpos, ypos, 200, 20), "Client Ready"))
             {
@@ -112,16 +130,16 @@ public class Network_HUD : MonoBehaviour
                 }
             }
             ypos += spacing;
-        }
+        }*/
         
-        if (NetworkServer.active || NetworkClient.active)
+        /*if (NetworkServer.active || NetworkClient.active)
         {
             if (GUI.Button(new Rect(xpos, ypos, 200, 20), "Stop"))
             {
                 manager.StopHost();
             }
             ypos += spacing;
-        }
+        }*/
         
         if (!NetworkServer.active && !NetworkClient.active)
         {
@@ -129,11 +147,11 @@ public class Network_HUD : MonoBehaviour
             
             if (manager.matchMaker == null)
             {
-                if (GUI.Button(new Rect(xpos, ypos, 200, 20), "Enable Match Maker"))
+                /*if (GUI.Button(new Rect(xpos, ypos, 200, 20), "Enable Match Maker"))
                 {
                     manager.StartMatchMaker();
                 }
-                ypos += spacing;
+                ypos += spacing;*/
             } else
             {
                 if (manager.matchInfo == null)
@@ -206,6 +224,9 @@ public class Network_HUD : MonoBehaviour
                 if (GUI.Button(new Rect(xpos, ypos, 200, 20), "Disable Match Maker"))
                 {
                     manager.StopMatchMaker();
+                    host.gameObject.SetActive(true);
+                    client.gameObject.SetActive(true);
+                    mm.gameObject.SetActive(true);
                 }
                 ypos += spacing;
             }

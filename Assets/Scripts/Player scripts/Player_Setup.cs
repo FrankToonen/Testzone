@@ -56,21 +56,21 @@ public class Player_Setup : NetworkBehaviour
         }
     }
 
-    void AddGun()
+    /* void AddGun()
     {
-        /*if (selectedGun == "Magnet gun")
+        if (selectedGun == "Magnet gun")
         {
             gameObject.AddComponent<Gun_MagnetGun>();
             GetComponent<Player_Shoot>().primaryGun = GetComponent<Gun_MagnetGun>();
         } else if (selectedGun == "Terraformer")
-        {*/
+        {
         if (GetComponent<Gun_Terraformer>() == null)
         {
             gameObject.AddComponent<Gun_Terraformer>();
             GetComponent<Player_Shoot>().primaryGun = GetComponent<Gun_Terraformer>();
         }
-        //}
-    }
+        }
+    }*/
     
     [Command]
     void CmdSyncData(string name/*, string gun*/)
@@ -89,7 +89,7 @@ public class Player_Setup : NetworkBehaviour
     {
         transform.name = isLocalPlayer ? MakeUniqueIdentity() : playerUniqueIdentity;
         GameObject.FindWithTag("NetworkManager").GetComponent<Network_DisplayScore>().DisplayScore();
-        AddGun();
+        //AddGun();
     }
     
     string MakeUniqueIdentity()
