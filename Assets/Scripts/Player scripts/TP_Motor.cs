@@ -4,27 +4,20 @@ using System.Collections;
 
 public class TP_Motor : NetworkBehaviour
 {
-
-    //public static TP_Motor Instance;
     CharacterController controller;
 
     public float moveSpeed = 10f;
-//<<<<<<< HEAD
     public float jumpForce = 200f;
     public float gravity = 550f;
     public float gravityCap = 800, gravityMax;
     public float fallSpeed = 25;
 
-//=======
-    //public float Gravity = 10f;
-//>>>>>>> origin/master
     public Vector3 moveVector { get; set; }
     public float verticalVelocity { get; set; }
 
 
     void Awake()
     {
-        //Instance = this;
         controller = GetComponent<CharacterController>();
         gravityMax = gravityCap;
     }
