@@ -2,15 +2,15 @@
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Collections;
-
+using System.Collections.Generic;
 
 [AddComponentMenu("Network/NetworkManagerHUD")]
 [RequireComponent(typeof(NetworkManager))]
 [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
 public class Network_HUD : MonoBehaviour
 {
-    public NetworkManager
-        manager;
+    NetworkManager manager;
+
     [SerializeField]
     public bool
         showGUI = true;
@@ -21,7 +21,9 @@ public class Network_HUD : MonoBehaviour
     public int
         offsetY;
 
-    public Button host, client, mm;
+    public Button hostButton, clientButton, startMMButton, createMatchButton, findMatchButton, stopMMButton;
+    public GameObject joinButton;
+    List<GameObject> joinButtons;
 
     // Runtime variable
     bool showServer = false;
@@ -29,11 +31,14 @@ public class Network_HUD : MonoBehaviour
     void Awake()
     {
         manager = GetComponent<NetworkManager>();
+        joinButtons = new List<GameObject>();
     }
     
-    /*void Update()
+    void Update()
     {
-        if (!showGUI)
+        ListMatches();
+
+        /*if (!showGUI)
             return;
         
         if (!NetworkClient.active && !NetworkServer.active && manager.matchMaker == null)
@@ -57,12 +62,7 @@ public class Network_HUD : MonoBehaviour
             {
                 manager.StopHost();
             }
-        }
-    }*/
-
-    public void StartClient()
-    {
-        manager.StartClient();
+        }*/
     }
 
     public void StartHost()
@@ -70,12 +70,90 @@ public class Network_HUD : MonoBehaviour
         manager.StartHost();
     }
 
+    public void StartClient()
+    {
+        manager.StartClient();
+    }
+
     public void StartMatchmaker()
     {
         manager.StartMatchMaker();
+
+        hostButton.gameObject.SetActive(false);
+        clientButton.gameObject.SetActive(false);
+        startMMButton.gameObject.SetActive(false);
+        createMatchButton.gameObject.SetActive(true);
+        findMatchButton.gameObject.SetActive(true);
+        stopMMButton.gameObject.SetActive(true);
     }
-    
-    void OnGUI()
+
+    public void CreateMatch()
+    {
+        if (manager.matchInfo == null)
+        {
+            if (manager.matches == null)
+            {
+                manager.matchName = "Default";
+                manager.matchMaker.CreateMatch(manager.matchName, manager.matchSize, true, "", manager.OnMatchCreate);
+            }
+        }
+    }
+
+    public void FindMatch()
+    {
+        if (manager.matchInfo == null)
+        {
+            if (manager.matches == null)
+            {
+                manager.matchMaker.ListMatches(0, 20, "", manager.OnMatchList);
+                ListMatches();
+            }
+        }
+    }
+
+    public void ListMatches()
+    {
+        if (manager.matchInfo == null)
+        {
+            if (manager.matches != null)
+            {
+                float yPos = 80;
+                float xPos = 350;
+                int counter = 0;
+                foreach (var match in manager.matches)
+                {
+                    if (joinButtons.Count <= counter)
+                    {
+                        GameObject button = Instantiate(joinButton, Vector3.zero, Quaternion.identity) as GameObject;
+                        button.transform.parent = GameObject.FindWithTag("Canvas").transform;
+                        button.transform.localPosition = new Vector3(xPos, yPos, 0);
+                        button.GetComponent<Network_Match>().match = match;
+                        button.GetComponent<Button>().GetComponentInChildren<Text>().text = "Join: " + match.name;
+                        joinButtons.Add(button);
+                    }
+
+                    yPos += 70;
+                    counter++;
+                }
+        
+                createMatchButton.gameObject.SetActive(manager.matches.Count == 0);
+            }
+        }
+    }
+
+    public void StopMatchmaker()
+    {
+        manager.StopMatchMaker();
+
+        hostButton.gameObject.SetActive(true);
+        clientButton.gameObject.SetActive(true);
+        startMMButton.gameObject.SetActive(true);
+        createMatchButton.gameObject.SetActive(false);
+        findMatchButton.gameObject.SetActive(false);
+        stopMMButton.gameObject.SetActive(false);
+    }
+
+    /*void OnGUI()
     {
         if (!showGUI)
             return;
@@ -86,27 +164,27 @@ public class Network_HUD : MonoBehaviour
         
         if (!NetworkClient.active && !NetworkServer.active && manager.matchMaker == null)
         {
-            /*if (GUI.Button(new Rect(xpos, ypos, 200, 20), "LAN Host"))
+            if (GUI.Button(new Rect(xpos, ypos, 200, 20), "LAN Host"))
             {
                 manager.StartHost();
-            }*/
+            }
             ypos += spacing;
             
-            /*if (GUI.Button(new Rect(xpos, ypos, 105, 20), "LAN Client"))
+            if (GUI.Button(new Rect(xpos, ypos, 105, 20), "LAN Client"))
             {
                 manager.StartClient();
-            }*/
+            }
             //manager.networkAddress = GUI.TextField(new Rect(xpos + 100, ypos, 95, 20), manager.networkAddress);
             ypos += spacing;
             
-            /*if (GUI.Button(new Rect(xpos, ypos, 200, 20), "LAN Server Only"))
+            if (GUI.Button(new Rect(xpos, ypos, 200, 20), "LAN Server Only"))
             {
                 manager.StartServer();
-            }*/
+            }
             ypos += spacing;
         } else
         {
-            /*if (NetworkServer.active)
+            if (NetworkServer.active)
             {
                 GUI.Label(new Rect(xpos, ypos, 300, 20), "Server: port=" + manager.networkPort);
                 ypos += spacing;
@@ -115,10 +193,10 @@ public class Network_HUD : MonoBehaviour
             {
                 GUI.Label(new Rect(xpos, ypos, 300, 20), "Client: address=" + manager.networkAddress + " port=" + manager.networkPort);
                 ypos += spacing;
-            }*/
+            }
         }
         
-        /*if (NetworkClient.active && !ClientScene.ready)
+        if (NetworkClient.active && !ClientScene.ready)
         {
             if (GUI.Button(new Rect(xpos, ypos, 200, 20), "Client Ready"))
             {
@@ -130,16 +208,16 @@ public class Network_HUD : MonoBehaviour
                 }
             }
             ypos += spacing;
-        }*/
+        }
         
-        /*if (NetworkServer.active || NetworkClient.active)
+        if (NetworkServer.active || NetworkClient.active)
         {
             if (GUI.Button(new Rect(xpos, ypos, 200, 20), "Stop"))
             {
                 manager.StopHost();
             }
             ypos += spacing;
-        }*/
+        }
         
         if (!NetworkServer.active && !NetworkClient.active)
         {
@@ -147,11 +225,11 @@ public class Network_HUD : MonoBehaviour
             
             if (manager.matchMaker == null)
             {
-                /*if (GUI.Button(new Rect(xpos, ypos, 200, 20), "Enable Match Maker"))
+                if (GUI.Button(new Rect(xpos, ypos, 200, 20), "Enable Match Maker"))
                 {
                     manager.StartMatchMaker();
                 }
-                ypos += spacing;*/
+                ypos += spacing;
             } else
             {
                 if (manager.matchInfo == null)
@@ -224,12 +302,12 @@ public class Network_HUD : MonoBehaviour
                 if (GUI.Button(new Rect(xpos, ypos, 200, 20), "Disable Match Maker"))
                 {
                     manager.StopMatchMaker();
-                    host.gameObject.SetActive(true);
-                    client.gameObject.SetActive(true);
-                    mm.gameObject.SetActive(true);
+                    hostButton.gameObject.SetActive(true);
+                    clientButton.gameObject.SetActive(true);
+                    startMMButton.gameObject.SetActive(true);
                 }
                 ypos += spacing;
             }
         }
-    }
+    }*/
 }
