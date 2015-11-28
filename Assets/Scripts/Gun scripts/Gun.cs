@@ -12,12 +12,17 @@ public class Gun : NetworkBehaviour
     protected Camera cam;
     protected LayerMask rayCastLayerMask;
 
-    public bool canShoot;
+    [SerializeField]
+    GameObject
+        indicator;
+
     [SerializeField]
     protected float
         reloadTime;
+
     protected float reloadTimeLeft, maxChargeTime, charge;
     protected int range, charges, maxCharges;
+    public bool canShoot;
 
     protected expand uiCharges;
 
@@ -26,6 +31,12 @@ public class Gun : NetworkBehaviour
 
     protected virtual void Start()
     {        
+        if (indicator != null && isLocalPlayer)
+        {
+            indicator = Instantiate(indicator, Vector3.zero, Quaternion.identity) as GameObject;
+            indicator.SetActive(false);
+        }
+
         audioSource = GetComponent<AudioSource>();
         cam = GetComponentInChildren<Camera>();
         rayCastLayerMask = ~((1 << 9) | (1 << 2));
@@ -114,6 +125,17 @@ public class Gun : NetworkBehaviour
         maxChargeTime = Mathf.Clamp(maxCharges, 0, charges);
         charge = Mathf.Clamp(charge + timeHeld, 0, maxChargeTime);
 
+        if (indicator != null)
+        {
+            indicator.SetActive(true);
+
+            float ratio = (/*Mathf.Floor(Mathf.Clamp(*/charge/*, 1, maxChargeTime))*/ / maxCharges) * 15;
+            indicator.transform.localScale = new Vector3(ratio, ratio * 3, ratio);
+
+            RaycastHit hit = ShootRayCast();
+            indicator.transform.position = hit.point;
+        }
+
         if (chargeParticles != null)
         {
             if (!chargeParticles.isPlaying)
@@ -130,6 +152,11 @@ public class Gun : NetworkBehaviour
         if (chargeParticles != null)
         {
             chargeParticles.Stop();
+        }
+
+        if (indicator != null)
+        {
+            indicator.SetActive(false);
         }
     }
 

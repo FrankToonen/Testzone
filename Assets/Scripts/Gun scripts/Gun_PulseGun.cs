@@ -21,6 +21,7 @@ public class Gun_PulseGun : Gun
         //reloadTime = 5;
         range = 20;
         maxCharges = 1;
+        maxChargeTime = 1;
         charges = maxCharges;
     }
 
