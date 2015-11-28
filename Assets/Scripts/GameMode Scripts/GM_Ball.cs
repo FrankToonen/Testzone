@@ -22,6 +22,7 @@ public class GM_Ball : GM_GameMode
 
     public void ResetPosition()
     {
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
         transform.position = startPosition;
     }
 }

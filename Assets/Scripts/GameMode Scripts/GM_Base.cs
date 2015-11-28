@@ -32,7 +32,7 @@ public class GM_Base : GM_GameMode
             case GM_Manager.GameMode.BB:
                 {
                     //Bases ophogen
-                    transform.position += new Vector3(0, 25, 0);
+                    //transform.position += new Vector3(0, 25, 0);
                     break;
                 }
             case GM_Manager.GameMode.HP:
@@ -97,7 +97,7 @@ public class GM_Base : GM_GameMode
 
     void OnTriggerEnter(Collider other)
     {
-        if (manager.GM != GM_Manager.GameMode.CTF || manager.GM != GM_Manager.GameMode.BB)
+        if (manager.GM != GM_Manager.GameMode.CTF && manager.GM != GM_Manager.GameMode.BB)
         {
             return;
         }
@@ -120,11 +120,10 @@ public class GM_Base : GM_GameMode
         {
             if (isServer)
             {
-                GM_Ball ball = GameObject.Find("Ball").GetComponent<GM_Ball>();
-                if (ball != null)
+                if (other.tag == "Ball")
                 {
                     GivePoints(-1);
-                    ball.ResetPosition();
+                    other.GetComponent<GM_Ball>().ResetPosition();
                 }
             }
         }

@@ -50,7 +50,7 @@ public class Gun_PulseGun : Gun
         for (int n = 0; n < objectsHit.Length; n++)
         {
             GameObject obj = objectsHit [n].gameObject;
-            if (obj.tag == "Player" || obj.tag == "PhysicsObject")
+            if (obj.tag == "Player" || obj.tag == "PhysicsObject" || obj.tag == "Ball")
             {
                 Pulse(obj, dir);
             }
@@ -75,7 +75,7 @@ public class Gun_PulseGun : Gun
                 }
             }
             obj.gameObject.GetComponent<Player_Force>().AddImpact(direction, direction.magnitude);
-        } else if (obj.tag == "PhysicsObject")
+        } else if (obj.tag == "PhysicsObject" || obj.tag == "Ball")
         {
             obj.GetComponent<Rigidbody>().AddForce(direction * 25);
         }
