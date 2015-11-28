@@ -11,7 +11,8 @@ public class GM_Manager : NetworkBehaviour
         None, // Default
         CTF, // Capture the flag
         HP, // Hot potato
-        BB // "Basketball"
+        BB, // "Basketball"
+        KOTH // King of the hill
     }
     ;
 
@@ -41,16 +42,57 @@ public class GM_Manager : NetworkBehaviour
                     gameMode = GM_Manager.GameMode.BB;
                     break;
                 }
+            case "King of the Hill":
+                {
+                    gameMode = GM_Manager.GameMode.KOTH;
+                    break;
+                }
         }
 
         bases = new GameObject[4];
         for (int i  = 0; i < 4; i++)
         {
             bases [i] = GameObject.Find("Base" + i);
-            bases [i].GetComponent<GM_Base>().GetPosition();
+
+            switch (gameMode)
+            {
+                case GM_Manager.GameMode.BB:
+                    {
+                        bases [i].AddComponent<GM_Base_BB>();
+                        break;
+                    }
+                case GM_Manager.GameMode.HP:
+                    {
+                        // Vorm aanpassen aan volledige gebied speler
+                        bases [i].AddComponent<GM_Base_HP>();
+                        break;
+                    }
+                case     GM_Manager.GameMode.CTF:
+                    {
+                        bases [i].AddComponent<GM_Base_CTF>();
+                        break;
+                    }
+                case GM_Manager.GameMode.KOTH:
+                    {
+                        if (i == 0)
+                        {
+                            bases [i].AddComponent<GM_Base_KOTH>();
+                        } else
+                        {
+                            bases [i].gameObject.SetActive(false);
+                        }
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
         }
         
         timerText = GameObject.Find("Timer Text").GetComponent<Text>();
+
+        GameObject.FindWithTag("Hexgrid").GetComponent<HexGrid>().GenerateGrid();
         initialized = true;
     }
 

@@ -5,20 +5,16 @@ using System.Collections;
 public class Player_Score : NetworkBehaviour
 {
     [SyncVar (hook = "SyncScore")]
-    int
+    float
         score;
 	
     void Update()
     {
         if (!isLocalPlayer)
             return;
-
-        //Temp input
-        if (Input.GetKeyDown(KeyCode.J))
-            ChangeScore(10);
     }
 
-    public void ChangeScore(int amount)
+    public void ChangeScore(float amount)
     {
         score += amount;
         TransmitScore();
@@ -34,19 +30,19 @@ public class Player_Score : NetworkBehaviour
     }
 
     [Command]
-    void CmdProvideScoreToServer(int s)
+    void CmdProvideScoreToServer(float s)
     {
         score = s;
     }
 
     [Client]
-    void SyncScore(int s)
+    void SyncScore(float s)
     {
         score = s;
         GameObject.FindWithTag("NetworkManager").GetComponent<Network_DisplayScore>().DisplayScore();
     }
 
-    public int Score
+    public float Score
     {
         get { return score; }
     }

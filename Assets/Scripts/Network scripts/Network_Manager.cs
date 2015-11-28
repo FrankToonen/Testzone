@@ -123,7 +123,11 @@ public class Network_Manager : NetworkManager
         {
             gameModeObject = Instantiate(Resources.Load<GameObject>("Prefabs/Flag") as GameObject, new Vector3(112, 23, 97), Quaternion.identity) as GameObject;
         }
-        NetworkServer.Spawn(gameModeObject);
+
+        if (gameModeObject != null)
+        {
+            NetworkServer.Spawn(gameModeObject);
+        }
 
         manager.RpcStartTimer(30);
     }

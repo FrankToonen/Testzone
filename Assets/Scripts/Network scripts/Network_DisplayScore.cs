@@ -20,7 +20,7 @@ public class Network_DisplayScore : NetworkBehaviour
                     if (pName != "")
                         pName = pName.Remove(pName.Length - 1);
 
-                    scoreText.GetComponent<Text>().text = pName + ": " + players [p].GetComponent<Player_Score>().Score;
+                    scoreText.GetComponent<Text>().text = pName + ": " + (int)players [p].GetComponent<Player_Score>().Score;
                 } else
                 {
                     scoreText.GetComponent<Text>().text = "";

@@ -13,10 +13,22 @@ public class HexGrid : MonoBehaviour
     Texture2D colorMap;
 
     // Use this for initialization
-    void Start()
+    public void GenerateGrid()
     {
+        if (chunks != null)
+        {
+            return;
+        }
+
         heightMap = Resources.Load<Texture2D>("Images/heightmap");
         colorMap = Resources.Load<Texture2D>("Images/colormap");
+
+        GM_Manager manager = GameObject.Find("GameModeManager").GetComponent<GM_Manager>();
+        if (manager.GM == GM_Manager.GameMode.KOTH)
+        {
+            heightMap = Resources.Load<Texture2D>("Images/koth_heightmap");
+            colorMap = Resources.Load<Texture2D>("Images/koth_colormap");
+        }
 
         hexagons = new GameObject[length, width];
         for (int x = 0; x < length; x++)

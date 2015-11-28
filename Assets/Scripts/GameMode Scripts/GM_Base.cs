@@ -5,52 +5,17 @@ using System.Collections;
 public class GM_Base : GM_GameMode
 {
     [SerializeField]
-    int
+    protected int
         playerNumber;
 
-    GameObject whoseBase;
+    protected GameObject whoseBase;
 
-    // Use this for initialization
     protected override void Start()
     {
         base.Start();
 
-        transform.name = "Base" + playerNumber;
-
+        playerNumber = name [name.Length - 1] - 48;
         GetColor();
-    }
-
-    public void GetPosition()
-    {
-        if (!isServer)
-        {
-            return;
-        }
-
-        switch (manager.GM)
-        {
-            case GM_Manager.GameMode.BB:
-                {
-                    //Bases ophogen
-                    //transform.position += new Vector3(0, 25, 0);
-                    break;
-                }
-            case GM_Manager.GameMode.HP:
-                {
-                    // Vorm aanpassen aan volledige gebied speler
-                    break;
-                }
-            case     GM_Manager.GameMode.CTF:
-                {
-                    // Niks doen
-                    break;
-                }
-            case GM_Manager.GameMode.None:
-                {
-                    // Niks doen
-                    break;
-                }
-        }
     }
 
     void GetColor()
@@ -83,7 +48,7 @@ public class GM_Base : GM_GameMode
         GetComponent<Renderer>().material.color = baseColor;
     }
 
-    void FindWhoseBase()
+    protected void FindWhoseBase()
     {
         if (whoseBase == null)
         {
@@ -95,6 +60,7 @@ public class GM_Base : GM_GameMode
         }
     }
 
+    /*
     void OnTriggerEnter(Collider other)
     {
         if (manager.GM != GM_Manager.GameMode.CTF && manager.GM != GM_Manager.GameMode.BB)
@@ -145,9 +111,9 @@ public class GM_Base : GM_GameMode
             ball.ResetPosition();
             manager.RpcStartTimer(30);
         }
-    }
+    }*/
 
-    public void GivePoints(int points)
+    public void GivePoints(float points)
     {
         if (whoseBase != null)
         {
