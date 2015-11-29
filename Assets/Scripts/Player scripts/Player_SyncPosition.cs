@@ -26,8 +26,8 @@ public class Player_SyncPosition : NetworkBehaviour
     float threshold = 0.1f;
     float closeEnough = 0.1f;
     int lerpRate;
-    int normalLerpRate = 45;
-    int fasterLerpRate = 60;
+    int normalLerpRate = 60;
+    int fasterLerpRate = 90;
     int latency;
 
     void Start()
