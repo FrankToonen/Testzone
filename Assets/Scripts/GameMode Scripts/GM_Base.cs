@@ -26,6 +26,10 @@ public class GM_Base : GM_GameMode
             case 0:
                 {
                     baseColor = Color.red;
+                    if (manager.GM == GM_Manager.GameMode.KOTH)
+                    {
+                        baseColor = Color.cyan;
+                    }
                     break;
                 }
             case 1: 
