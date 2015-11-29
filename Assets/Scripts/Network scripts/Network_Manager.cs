@@ -61,29 +61,59 @@ public class Network_Manager : NetworkManager
         {
             if (p < players.Length)
             {
-                Renderer renderer = players [p].GetComponentInChildren<Renderer>();
+                //Renderer renderer = players [p].GetComponentInChildren<Renderer>();
+
+                if (players [p].transform.FindChild("Bot") != null)
+                {
+                    return;
+                }
+
                 players [p].GetComponent<Player_Setup>().playerNumber = p;
 
                 switch (p)
                 {
                     case 0:
                         {
-                            renderer.material.color = Color.red;
+                            GameObject model = Instantiate(Resources.Load<GameObject>("Models/bot_red"), Vector3.zero, Quaternion.identity) as GameObject;
+                            model.name = "Bot";
+                            model.transform.parent = players [p].transform;
+                            model.transform.localPosition = new Vector3(-0.375f, -1.25f, 0);
+                            model.transform.Rotate(Vector3.up, 180);
+                            model.transform.localScale = new Vector3(13, 13, 13);
+                            //renderer.material.color = Color.red;
                             break;
                         }
                     case 1:
                         {
-                            renderer.material.color = Color.green;
+                            GameObject model = Instantiate(Resources.Load<GameObject>("Models/bot_green"), Vector3.zero, Quaternion.identity) as GameObject;
+                            model.name = "Bot";
+                            model.transform.parent = players [p].transform;
+                            model.transform.localPosition = new Vector3(-0.375f, -1.25f, 0);
+                            model.transform.Rotate(Vector3.up, 180);
+                            model.transform.localScale = new Vector3(13, 13, 13);
+                            //renderer.material.color = Color.green;
                             break;
                         }
                     case 2:
                         {
-                            renderer.material.color = Color.blue;
+                            GameObject model = Instantiate(Resources.Load<GameObject>("Models/bot_blue"), Vector3.zero, Quaternion.identity) as GameObject;
+                            model.name = "Bot";
+                            model.transform.parent = players [p].transform;
+                            model.transform.localPosition = new Vector3(-0.375f, -1.25f, 0);
+                            model.transform.Rotate(Vector3.up, 180);
+                            model.transform.localScale = new Vector3(13, 13, 13);
+                            //renderer.material.color = Color.blue;
                             break;
                         }
                     case 3: 
                         {
-                            renderer.material.color = Color.yellow;
+                            GameObject model = Instantiate(Resources.Load<GameObject>("Models/bot_yellow"), Vector3.zero, Quaternion.identity) as GameObject;
+                            model.name = "Bot";
+                            model.transform.parent = players [p].transform;
+                            model.transform.localPosition = new Vector3(-0.375f, -1.25f, 0);
+                            model.transform.Rotate(Vector3.up, 180);
+                            model.transform.localScale = new Vector3(13, 13, 13);
+                            //renderer.material.color = Color.yellow;
                             break;
                         }
                 }
