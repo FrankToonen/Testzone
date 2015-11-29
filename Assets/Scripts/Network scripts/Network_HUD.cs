@@ -11,9 +11,9 @@ public class Network_HUD : MonoBehaviour
 {
     NetworkManager manager;
 
-    [SerializeField]
+    /*[SerializeField]
     public bool
-        showGUI = true;
+        showGUI = true;*/
     [SerializeField]
     public int
         offsetX;
@@ -26,7 +26,7 @@ public class Network_HUD : MonoBehaviour
     List<GameObject> joinButtons;
 
     // Runtime variable
-    bool showServer = false;
+    //bool showServer = false;
     
     void Awake()
     {
