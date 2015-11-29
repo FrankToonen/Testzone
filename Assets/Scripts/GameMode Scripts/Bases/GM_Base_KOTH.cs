@@ -8,7 +8,9 @@ public class GM_Base_KOTH : GM_Base
     {
         if (other.tag == "Player")
         {
+            whoseBase = other.gameObject;
             GivePoints(0.1f);
+            whoseBase = null;
         }
     }
 }
