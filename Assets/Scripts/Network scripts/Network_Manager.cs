@@ -162,6 +162,6 @@ public class Network_Manager : NetworkManager
             NetworkServer.Spawn(gameModeObject);
         }
 
-        manager.RpcStartTimer(30);
+        manager.RpcStartTimer(300);
     }
 }

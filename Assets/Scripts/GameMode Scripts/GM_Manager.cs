@@ -136,6 +136,15 @@ public class GM_Manager : NetworkBehaviour
     }
 
     [ClientRpc]
+    public void RpcChangeBasePosition(int i)
+    {
+        if (GM == GameMode.KOTH)
+        {
+            GameObject.Find("Base0").GetComponent<GM_Base_KOTH>().ChangeIndex(i);
+        }
+    }
+
+    [ClientRpc]
     public void RpcStartTimer(int duration)
     {
         timer = duration;
