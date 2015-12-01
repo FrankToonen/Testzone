@@ -34,6 +34,12 @@ public class Gun : NetworkBehaviour
         if (indicator != null && isLocalPlayer)
         {
             indicator = Instantiate(indicator, Vector3.zero, Quaternion.identity) as GameObject;
+            if (indicator.name == "IndicatorCone(Clone)")
+            {
+                indicator.transform.parent = transform;
+                indicator.transform.localPosition = new Vector3(-1.1f, 0, 6);
+                indicator.transform.localRotation = Quaternion.Euler(0, 180, 0);
+            }
             indicator.SetActive(false);
         }
 
@@ -44,7 +50,6 @@ public class Gun : NetworkBehaviour
         range = 200;
         maxChargeTime = 3;
     }
-
 
     void Update()
     {
@@ -128,12 +133,17 @@ public class Gun : NetworkBehaviour
         if (indicator != null)
         {
             indicator.SetActive(true);
+            if (maxChargeTime == 1)
+            {
+                //indicator.transform.position = transform.position;
+            } else
+            {
+                float ratio = (/*Mathf.Floor(Mathf.Clamp(*/charge/*, 1, maxChargeTime))*/ / maxCharges) * 15;                
+                indicator.transform.localScale = new Vector3(ratio, ratio * 3, ratio);
 
-            float ratio = (/*Mathf.Floor(Mathf.Clamp(*/charge/*, 1, maxChargeTime))*/ / maxCharges) * 15;
-            indicator.transform.localScale = new Vector3(ratio, ratio * 3, ratio);
-
-            RaycastHit hit = ShootRayCast();
-            indicator.transform.position = hit.point;
+                RaycastHit hit = ShootRayCast();
+                indicator.transform.position = hit.point;
+            }
         }
 
         if (chargeParticles != null)
