@@ -167,13 +167,20 @@ public class GM_Manager : NetworkBehaviour
         for (int i = 1; i < 11; i++)
         {
             int t = 11 - i;
-            RpcSetCountdownTimer(t.ToString());
+            string ts = t.ToString();
+            if (t < 10)
+            {
+                ts = "0" + ts;
+            }
+
+            RpcSetCountdownTimer(ts);
+
             yield return new WaitForSeconds(1);
         }
         
-        RpcSetCountdownTimer("Start");
+        RpcSetCountdownTimer("start");
         yield return new WaitForSeconds(.5f);
-        RpcSetCountdownTimer("");
+        RpcSetCountdownTimer("empty");
         roundStarted = true;
 
         EnablePlayerMovement(true);
@@ -185,8 +192,8 @@ public class GM_Manager : NetworkBehaviour
     [ClientRpc]
     void RpcSetCountdownTimer(string t)
     {
-        Text timerText = GameObject.Find("Countdown Timer Text").GetComponent<Text>();
-        timerText.text = t;
+        RawImage timerImage = GameObject.Find("Countdown Timer Image").GetComponent<RawImage>();
+        timerImage.texture = Resources.Load<Texture>("Images/countdown_" + t);
     }
 
     [ClientRpc]
