@@ -134,7 +134,7 @@ public class Network_Manager : NetworkManager
         // disable player movement totdat de server vol zit
         //
         manager = GameObject.Find("GameModeManager").GetComponent<GM_Manager>();
-        if (numPlayers == 0 && !manager.roundStarted) // Bij 4 spelers "numPlayers == 3"
+        if (numPlayers == 3 && !manager.roundStarted) // Bij 4 spelers "numPlayers == 3"
         {
             manager.StartRound();
         }

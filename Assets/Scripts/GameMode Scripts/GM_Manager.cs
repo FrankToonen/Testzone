@@ -16,13 +16,17 @@ public class GM_Manager : NetworkBehaviour
     }
     ;
 
+    [SerializeField]
+    RawImage
+        scoreboardImage;
+
     public bool roundStarted { get; private set; }
 
     GameObject[] bases;
 
     Text timerText;
     float timer;
-    bool timerStarted, initialized;
+    bool timerStarted, initialized, roundEnded;
 
     void Initialize()
     {
@@ -96,6 +100,8 @@ public class GM_Manager : NetworkBehaviour
 
         GameObject.FindWithTag("Hexgrid").GetComponent<HexGrid>().GenerateGrid();
 
+        timer = 1;
+
         initialized = true;
     }
 
@@ -104,9 +110,29 @@ public class GM_Manager : NetworkBehaviour
         if (!RoundFinished && timerStarted && initialized)
         {
             UpdateTimer();
+        } else if (RoundFinished && timerStarted && !roundEnded && initialized)
+        {
+
         } else if (!initialized)
         {
             Initialize();
+        }
+
+        if (isServer && RoundFinished && initialized && !roundEnded)
+        {
+            RpcShowScoreboard();
+            roundEnded = true;
+        }
+
+        if (roundEnded)
+        {
+            if (NetworkServer.active || NetworkClient.active)
+            {
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    GameObject.FindWithTag("NetworkManager").GetComponent<Network_Manager>().StopHost();
+                }
+            }
         }
     }
 
@@ -141,6 +167,13 @@ public class GM_Manager : NetworkBehaviour
     public void SetGameMode(GameMode gm)
     {
         gameMode = gm;
+    }
+
+    [ClientRpc]
+    void RpcShowScoreboard()
+    {
+        scoreboardImage.gameObject.SetActive(true);
+        GameObject.FindWithTag("NetworkManager").GetComponent<Network_DisplayScore>().ShowScoreboard();
     }
     
     [ClientRpc]

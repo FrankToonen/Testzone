@@ -119,7 +119,7 @@ public class GM_Base : GM_GameMode
 
     public void GivePoints(float points)
     {
-        if (whoseBase != null)
+        if (whoseBase != null && !manager.RoundFinished)
         {
             whoseBase.GetComponent<Player_Score>().ChangeScore(points);
         }

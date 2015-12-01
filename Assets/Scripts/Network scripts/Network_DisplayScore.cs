@@ -28,4 +28,28 @@ public class Network_DisplayScore : MonoBehaviour
             }
         }
     }
+
+    public void ShowScoreboard()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        
+        for (int p = 0; p < 4; p++)
+        {
+            GameObject scoreText = GameObject.Find("Scoreboard Text " + p);
+            if (scoreText != null)
+            {
+                if (p < players.Length)
+                {
+                    string pName = players [p].name;
+                    if (pName != "")
+                        pName = pName.Remove(pName.Length - 1);
+                    
+                    scoreText.GetComponent<Text>().text = pName + ": " + (int)players [p].GetComponent<Player_Score>().Score;
+                } else
+                {
+                    scoreText.GetComponent<Text>().text = "";
+                }
+            }
+        }
+    }
 }

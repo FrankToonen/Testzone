@@ -18,8 +18,6 @@ public class Player_SyncPosition : NetworkBehaviour
     bool
         useHistoricalLerping;
 
-    NetworkClient nClient;
-    Text latencyText;
     List<Vector3> syncPosList = new List<Vector3>();
 
     Vector3 lastPos;
@@ -28,19 +26,15 @@ public class Player_SyncPosition : NetworkBehaviour
     int lerpRate;
     int normalLerpRate = 60;
     int fasterLerpRate = 90;
-    int latency;
 
     void Start()
     {
-        nClient = GameObject.Find("NetworkManager").GetComponent<NetworkManager>().client;
-        latencyText = GameObject.Find("Latency Text").GetComponent<Text>();
         lerpRate = normalLerpRate;
     }
 
     void Update()
     {
         LerpPosition();
-        //ShowLatency();
     }
 
     void FixedUpdate()
@@ -102,14 +96,5 @@ public class Player_SyncPosition : NetworkBehaviour
         syncPos = latestPos;
         if (useHistoricalLerping)
             syncPosList.Add(syncPos);
-    }
-
-    void ShowLatency()
-    {
-        if (isLocalPlayer)
-        {
-            latency = nClient.GetRTT();
-            latencyText.text = "Latency: " + latency.ToString();
-        }
     }
 }

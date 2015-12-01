@@ -14,7 +14,7 @@ public class Gun_Terraformer : Gun
     {
         base.Start();
 
-        uiCharges = GameObject.Find("Bar Overlap").GetComponent<expand>();
+        uiCharges = GameObject.Find("Bar Overlap").GetComponent<Expand>();
 
         primarySoundName = "terraformer_primary";
         secondarySoundName = "terraformer_secondary";

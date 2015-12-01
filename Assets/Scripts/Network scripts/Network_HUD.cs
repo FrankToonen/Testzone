@@ -10,6 +10,7 @@ using System.Collections.Generic;
 public class Network_HUD : MonoBehaviour
 {
     NetworkManager manager;
+    ButtonContainer buttons;
 
     /*[SerializeField]
     public bool
@@ -21,7 +22,7 @@ public class Network_HUD : MonoBehaviour
     public int
         offsetY;
 
-    public Button hostButton, clientButton, startMMButton, createMatchButton, findMatchButton, stopMMButton;
+    //public Button hostButton, clientButton, startMMButton, createMatchButton, findMatchButton, stopMMButton;
     public GameObject joinButton;
     List<GameObject> joinButtons;
 
@@ -32,10 +33,42 @@ public class Network_HUD : MonoBehaviour
     {
         manager = GetComponent<NetworkManager>();
         joinButtons = new List<GameObject>();
+
+        FindButtonContainer();
+        ResetButtons();
     }
-    
+
+    void FindButtonContainer()
+    {
+        GameObject found = GameObject.Find("ButtonContainer");
+        if (found != null)
+        {
+            buttons = found.GetComponent<ButtonContainer>();
+        }
+    }
+
+    public void ResetButtons()
+    {
+        buttons.FindButton("Host Button").SetActive(true);
+        buttons.FindButton("Client Button").SetActive(true);
+        buttons.FindButton("Start Matchmaking Button").SetActive(true);
+        buttons.FindButton("Create Match Button").SetActive(false);
+        buttons.FindButton("Find Match Button").SetActive(false);
+        buttons.FindButton("Stop Matchmaking Button").SetActive(false);
+    }
+
     void Update()
     {
+        if (NetworkServer.active || NetworkClient.active)
+        {
+            return;
+        }
+
+        if (buttons == null)
+        {
+            FindButtonContainer();
+        }
+
         ListMatches();
 
         /*if (!showGUI)
@@ -79,12 +112,18 @@ public class Network_HUD : MonoBehaviour
     {
         manager.StartMatchMaker();
 
-        hostButton.gameObject.SetActive(false);
-        clientButton.gameObject.SetActive(false);
-        startMMButton.gameObject.SetActive(false);
-        createMatchButton.gameObject.SetActive(true);
-        findMatchButton.gameObject.SetActive(true);
-        stopMMButton.gameObject.SetActive(true);
+        if (buttons == null)
+        {
+            Debug.Log("Buttons == null");
+            return;
+        }
+
+        buttons.FindButton("Host Button").SetActive(false);
+        buttons.FindButton("Client Button").SetActive(false);
+        buttons.FindButton("Start Matchmaking Button").SetActive(false);
+        buttons.FindButton("Create Match Button").SetActive(true);
+        buttons.FindButton("Find Match Button").SetActive(true);
+        buttons.FindButton("Stop Matchmaking Button").SetActive(true);
     }
 
     public void CreateMatch()
@@ -135,8 +174,8 @@ public class Network_HUD : MonoBehaviour
                     yPos += 70;
                     counter++;
                 }
-        
-                createMatchButton.gameObject.SetActive(manager.matches.Count == 0);
+
+                buttons.FindButton("Create Match Button").gameObject.SetActive(manager.matches.Count == 0);
             }
         }
     }
@@ -145,12 +184,12 @@ public class Network_HUD : MonoBehaviour
     {
         manager.StopMatchMaker();
 
-        hostButton.gameObject.SetActive(true);
-        clientButton.gameObject.SetActive(true);
-        startMMButton.gameObject.SetActive(true);
-        createMatchButton.gameObject.SetActive(false);
-        findMatchButton.gameObject.SetActive(false);
-        stopMMButton.gameObject.SetActive(false);
+        buttons.FindButton("Host Button").gameObject.SetActive(true);
+        buttons.FindButton("Client Button").gameObject.SetActive(true);
+        buttons.FindButton("Start Matchmaking Button").gameObject.SetActive(true);
+        buttons.FindButton("Create Match Button").gameObject.SetActive(false);
+        buttons.FindButton("Find Match Button").gameObject.SetActive(false);
+        buttons.FindButton("Stop Matchmaking Button").gameObject.SetActive(false);
     }
 
     /*void OnGUI()

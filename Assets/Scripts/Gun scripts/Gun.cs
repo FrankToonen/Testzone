@@ -24,7 +24,7 @@ public class Gun : NetworkBehaviour
     protected int range, charges, maxCharges;
     public bool canShoot;
 
-    protected expand uiCharges;
+    protected Expand uiCharges;
 
     // DEBUG
     public int timesShot;

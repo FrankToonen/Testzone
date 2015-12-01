@@ -13,7 +13,7 @@ public class Gun_PulseGun : Gun
     {
         base.Start();
 
-        uiCharges = GameObject.Find("Pulse Indicator").GetComponent<expand>();
+        uiCharges = GameObject.Find("Pulse Indicator").GetComponent<Expand>();
 
         GetComponent<Player_Shoot>().EventPulse += Shoot;
         rayCastLayerMask = 1 << 10;
