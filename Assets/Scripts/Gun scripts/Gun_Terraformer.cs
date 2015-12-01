@@ -16,7 +16,8 @@ public class Gun_Terraformer : Gun
 
         uiCharges = GameObject.Find("Bar Overlap").GetComponent<expand>();
 
-        soundName = /*"terraformer_01"*/ "pulsegun_02";
+        primarySoundName = "terraformer_primary";
+        secondarySoundName = "terraformer_secondary";
         reloadTime = 2;
         radius = 3;
         maxCharges = 3;

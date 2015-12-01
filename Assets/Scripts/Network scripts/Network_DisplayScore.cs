@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Collections;
 
-public class Network_DisplayScore : NetworkBehaviour
+public class Network_DisplayScore : MonoBehaviour
 {
     public void DisplayScore()
     {

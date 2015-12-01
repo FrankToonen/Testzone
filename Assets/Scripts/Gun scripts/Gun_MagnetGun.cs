@@ -12,18 +12,8 @@ public class Gun_MagnetGun : Gun
     {
         base.Start();
         magnetPrefab = Resources.Load<Gun_Magnet>("Prefabs/Magnet");
-        soundName = /*"magnetgun_01"*/ "pulsegun_02";
+        //soundName = /*"magnetgun_01"*/ "pulsegun_02";
         reloadTime = 1;
-
-        /*Temp reloadbar
-        if (isLocalPlayer)
-        {
-            reloadBar = GameObject.Find("Reload Bar Terraformer").GetComponent<Image>();
-            startScale = reloadBar.transform.localScale;
-            targetScale = new Vector3(0, startScale.y, 0);
-            reloadBar.transform.localScale = targetScale;
-        }
-        */
     }
     
     protected override void ShootPrimary(string objectHit, Vector3 point, float charge)

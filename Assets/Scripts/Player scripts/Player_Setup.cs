@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.Networking;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Player_Setup : NetworkBehaviour
 {
@@ -18,14 +19,17 @@ public class Player_Setup : NetworkBehaviour
 
     public int playerNumber;
 
+    Vector3 startPosition;
     /*[SyncVar]
     public string
         selectedGun;*/
 
     void Start()
     {
+        startPosition = transform.position;
         if (isLocalPlayer)
         {
+            transform.FindChild("Nametag").gameObject.SetActive(false);
             GetComponent<TP_Controller>().enabled = true;
             
             cam.enabled = true;
@@ -49,10 +53,29 @@ public class Player_Setup : NetworkBehaviour
 
     void Update()
     {
-        if (transform.name == "" || transform.name == "Player(Clone)"
-            /*|| transform.name == "PlayerTerraformer(Clone)" || transform.name == "PlayerMagnetGun(Clone)"*/)
+        if (transform.name == "" || transform.name == "Player(Clone)")
         { // Aanpassen als prefabnaam verandert
             SetIdentity();
+        }
+    }
+
+    [ClientRpc]
+    public void RpcResetToStartRound(bool m)
+    {
+        if (isLocalPlayer)
+        {
+            // Reset position
+            if (startPosition != Vector3.zero)
+            {
+                transform.position = startPosition;
+            } else
+            {
+                startPosition = transform.position;
+            }
+
+            // Set movement bool
+            GetComponent<TP_Controller>().enabled = m;
+            GetComponent<Player_Shoot>().enabled = m;
         }
     }
 
@@ -88,6 +111,11 @@ public class Player_Setup : NetworkBehaviour
     void SetIdentity()
     {
         transform.name = isLocalPlayer ? MakeUniqueIdentity() : playerUniqueIdentity;
+        if (transform.name.Length != 0)
+        {
+            transform.FindChild("Nametag").GetComponent<TextMesh>().text = transform.name.Remove(transform.name.Length - 1);
+        }
+
         GameObject.FindWithTag("NetworkManager").GetComponent<Network_DisplayScore>().DisplayScore();
         //AddGun();
     }
@@ -96,7 +124,10 @@ public class Player_Setup : NetworkBehaviour
     {
         string uniqueName = GameObject.Find("NetworkManager").GetComponent<Network_Manager>().playername;
         if (uniqueName == "")
-            uniqueName = "Player";
+        {
+            List<string> names = new List<string>() { "Henk", "Arend", "Hans", "Ronald" };
+            uniqueName = names [playerNumber];
+        }
         uniqueName += playerNumber;
         return uniqueName;
     }

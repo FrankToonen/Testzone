@@ -9,6 +9,7 @@ public class Network_Manager : NetworkManager
     //public string selectedGun { get; private set; }
     public string selectedGameMode { get; private set; }
 
+    GameObject[] players;
     GM_Manager manager;
 
     void Update()
@@ -55,7 +56,7 @@ public class Network_Manager : NetworkManager
 
     public void SetPlayerColor()
     {
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        players = GameObject.FindGameObjectsWithTag("Player");
 
         for (int p = 0; p < 4; p++)
         {
@@ -132,36 +133,10 @@ public class Network_Manager : NetworkManager
         // numplayers aanpassen naar == 3
         // disable player movement totdat de server vol zit
         //
-
-        if (numPlayers == 0 && GameObject.Find("Ball") == null && GameObject .Find("Flag") == null) // Bij 4 spelers "numPlayers == 3"
+        manager = GameObject.Find("GameModeManager").GetComponent<GM_Manager>();
+        if (numPlayers == 3 && !manager.roundStarted) // Bij 4 spelers "numPlayers == 3"
         {
-            manager = GameObject.Find("GameModeManager").GetComponent<GM_Manager>();
-            StartCoroutine(SpawnGameMode());
+            manager.StartRound();
         }
-    }
-
-    IEnumerator SpawnGameMode()
-    {
-        //
-        // Start countdown?
-        //
-
-        yield return new WaitForSeconds(3);
-
-        GameObject gameModeObject = null;
-        if (manager.GM == GM_Manager.GameMode.HP || manager.GM == GM_Manager.GameMode.BB)
-        {
-            gameModeObject = Instantiate(Resources.Load<GameObject>("Prefabs/Ball") as GameObject, new Vector3(112, 23, 97), Quaternion.identity) as GameObject;
-        } else if (manager.GM == GM_Manager.GameMode.CTF)
-        {
-            gameModeObject = Instantiate(Resources.Load<GameObject>("Prefabs/Flag") as GameObject, new Vector3(112, 23, 97), Quaternion.identity) as GameObject;
-        }
-
-        if (gameModeObject != null)
-        {
-            NetworkServer.Spawn(gameModeObject);
-        }
-
-        manager.RpcStartTimer(300);
     }
 }

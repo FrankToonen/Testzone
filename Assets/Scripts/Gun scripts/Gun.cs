@@ -6,7 +6,7 @@ using System.Collections;
 public class Gun : NetworkBehaviour
 {
     protected AudioSource audioSource;
-    protected string soundName;
+    protected string primarySoundName, secondarySoundName;
 
     public ParticleSystem primaryParticles, secondaryParticles, chargeParticles;
     protected Camera cam;
@@ -95,16 +95,16 @@ public class Gun : NetworkBehaviour
             {
                 ShootSecondary(objectHit, point, charge);
             }
-
-            AudioClip audioClip = Resources.Load<AudioClip>("Sounds/snd_" + soundName);
-            audioSource.PlayOneShot(audioClip);
-
-            Discharge();
         }
+
+        Discharge();
     }
 
     protected virtual void ShootPrimary(string objectHit, Vector3 point, float charge)
     {
+        AudioClip audioClip = Resources.Load<AudioClip>("Sounds/snd_" + primarySoundName);
+        audioSource.PlayOneShot(audioClip);
+
         charges -= (int)Mathf.Floor(Mathf.Clamp(charge, 1, 3));
         if (isLocalPlayer)
         {
@@ -116,6 +116,9 @@ public class Gun : NetworkBehaviour
     
     protected virtual void ShootSecondary(string objectHit, Vector3 point, float charge)
     {
+        AudioClip audioClip = Resources.Load<AudioClip>("Sounds/snd_" + secondarySoundName);
+        audioSource.PlayOneShot(audioClip);
+
         charges -= (int)Mathf.Floor(Mathf.Clamp(charge, 1, 3));
         if (isLocalPlayer)
         {
@@ -133,7 +136,7 @@ public class Gun : NetworkBehaviour
         if (indicator != null)
         {
             indicator.SetActive(true);
-            if (maxChargeTime == 1)
+            if (indicator.name == "IndicatorCone(Clone)")
             {
                 //indicator.transform.position = transform.position;
             } else

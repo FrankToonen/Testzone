@@ -16,6 +16,8 @@ public class GM_Manager : NetworkBehaviour
     }
     ;
 
+    public bool roundStarted { get; private set; }
+
     GameObject[] bases;
 
     Text timerText;
@@ -93,6 +95,7 @@ public class GM_Manager : NetworkBehaviour
         timerText = GameObject.Find("Timer Text").GetComponent<Text>();
 
         GameObject.FindWithTag("Hexgrid").GetComponent<HexGrid>().GenerateGrid();
+
         initialized = true;
     }
 
@@ -109,7 +112,7 @@ public class GM_Manager : NetworkBehaviour
 
     void UpdateTimer()
     {
-        timer = Mathf.Clamp(timer - Time.deltaTime, 0, 120);
+        timer = Mathf.Clamp(timer - Time.deltaTime, 0, 600);
 
         int min = (int)(timer / 60);
 
@@ -135,13 +138,55 @@ public class GM_Manager : NetworkBehaviour
         timerStarted = timer > 0;
     }
 
+    public void SetGameMode(GameMode gm)
+    {
+        gameMode = gm;
+    }
+    
     [ClientRpc]
     public void RpcChangeBasePosition(int i)
     {
         if (GM == GameMode.KOTH)
         {
-            GameObject.Find("Base0").GetComponent<GM_Base_KOTH>().ChangeIndex(i);
+            bases [0].GetComponent<GM_Base_KOTH>().ChangeIndex(i);
         }
+    }
+
+    public void StartRound()
+    {
+        StartCoroutine(SpawnGameMode());
+    }
+
+    IEnumerator SpawnGameMode()
+    {
+        yield return new WaitForSeconds(1);
+
+        EnablePlayerMovement(false);
+
+        // Countdown
+        for (int i = 1; i < 11; i++)
+        {
+            int t = 11 - i;
+            RpcSetCountdownTimer(t.ToString());
+            yield return new WaitForSeconds(1);
+        }
+        
+        RpcSetCountdownTimer("Start");
+        yield return new WaitForSeconds(.5f);
+        RpcSetCountdownTimer("");
+        roundStarted = true;
+
+        EnablePlayerMovement(true);
+        SpawnGameModeObject();
+
+        RpcStartTimer(300);
+    }
+
+    [ClientRpc]
+    void RpcSetCountdownTimer(string t)
+    {
+        Text timerText = GameObject.Find("Countdown Timer Text").GetComponent<Text>();
+        timerText.text = t;
     }
 
     [ClientRpc]
@@ -150,10 +195,32 @@ public class GM_Manager : NetworkBehaviour
         timer = duration;
         timerStarted = true;
     }
-
-    public void SetGameMode(GameMode gm)
+    
+    void EnablePlayerMovement(bool m)
     {
-        gameMode = gm;
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        
+        foreach (GameObject p in players)
+        {
+            p.GetComponent<Player_Setup>().RpcResetToStartRound(m);
+        }
+    }
+    
+    void SpawnGameModeObject()
+    {
+        GameObject gameModeObject = null;
+        if (GM == GM_Manager.GameMode.HP || GM == GM_Manager.GameMode.BB)
+        {
+            gameModeObject = Instantiate(Resources.Load<GameObject>("Prefabs/Ball") as GameObject, new Vector3(112, 23, 97), Quaternion.identity) as GameObject;
+        } else if (GM == GM_Manager.GameMode.CTF)
+        {
+            gameModeObject = Instantiate(Resources.Load<GameObject>("Prefabs/Flag") as GameObject, new Vector3(112, 23, 97), Quaternion.identity) as GameObject;
+        }
+        
+        if (gameModeObject != null)
+        {
+            NetworkServer.Spawn(gameModeObject);
+        }
     }
 
     public GameMode GM
