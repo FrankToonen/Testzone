@@ -7,7 +7,6 @@ public class GM_Base_KOTH : GM_Base
     public Vector3[] positions;
     int currentIndex = 0;
     float timeLeft, rotationTime;
-    bool timeStarted;
 
     protected override void Start()
     {
@@ -31,7 +30,7 @@ public class GM_Base_KOTH : GM_Base
             return;
         }
 
-        if (timeStarted)
+        if (manager.roundStarted)
         {
             timeLeft -= Time.deltaTime;
             if (timeLeft <= 0)
@@ -44,7 +43,7 @@ public class GM_Base_KOTH : GM_Base
 
     void OnTriggerStay(Collider other)
     {
-        if (!timeStarted)
+        if (!manager.roundStarted)
         {
             return;
         }
@@ -74,11 +73,5 @@ public class GM_Base_KOTH : GM_Base
         {
             manager.RpcChangeBasePosition(i);
         }
-    }
-
-    public bool TimeStarted
-    {
-        get { return timeStarted; }
-        set { timeStarted = value;}
     }
 }

@@ -77,7 +77,7 @@ public class Network_Manager : NetworkManager
                     {
                         case 0:
                             {
-                                GameObject model = Instantiate(Resources.Load<GameObject>("Models/bot_red"), Vector3.zero, Quaternion.identity) as GameObject;
+                                GameObject model = Instantiate(Resources.Load<GameObject>("Prefabs/bot_blue"), Vector3.zero, Quaternion.identity) as GameObject;
                                 model.name = "Bot";
                                 model.transform.parent = players [p].transform;
                                 model.transform.localPosition = new Vector3(-0.375f, -1.25f, 0);
