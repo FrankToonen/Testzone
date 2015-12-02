@@ -32,8 +32,8 @@ public class Player_SyncPosition : NetworkBehaviour
     float threshold = 0.1f;
     float closeEnough = 0.1f;
     int lerpRate;
-    int normalLerpRate = 60;
-    int fasterLerpRate = 90;
+    int normalLerpRate = 25;
+    int fasterLerpRate = 35;
 
     void Start()
     {
@@ -114,8 +114,11 @@ public class Player_SyncPosition : NetworkBehaviour
     void SyncPlayerPosition(Vector3 latestPos)
     {
         syncPlayerPos = latestPos;
-        if (useHistoricalLerping)
+        if (useHistoricalLerping && !isLocalPlayer)
+        {
             syncPosList.Add(syncPlayerPos);
+            Debug.Log(transform.name + " " + syncPosList.Count);
+        }
     }
 
     [Client]
