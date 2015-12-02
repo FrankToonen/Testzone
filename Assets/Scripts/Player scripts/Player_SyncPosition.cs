@@ -6,13 +6,21 @@ using System.Collections.Generic;
 
 public class Player_SyncPosition : NetworkBehaviour
 {
-    [SyncVar (hook = "SyncPositionValues")]
+    [SyncVar (hook = "SyncPlayerPosition")]
     Vector3
-        syncPos;
+        syncPlayerPos;
+
+    [SyncVar (hook = "SyncCamPosition")]
+    Vector3
+        syncCamPos;
 
     [SerializeField]
     Transform
-        myTransform;
+        playerTransform;
+
+    [SerializeField]
+    Transform
+        camTransform;
 
     [SerializeField]
     bool
@@ -20,7 +28,7 @@ public class Player_SyncPosition : NetworkBehaviour
 
     List<Vector3> syncPosList = new List<Vector3>();
 
-    Vector3 lastPos;
+    Vector3 lastPlayerPos, lastCamPos;
     float threshold = 0.1f;
     float closeEnough = 0.1f;
     int lerpRate;
@@ -53,6 +61,8 @@ public class Player_SyncPosition : NetworkBehaviour
             {
                 NormalLerping();
             }
+
+            CameraLerping();
         }
     }
 
@@ -60,9 +70,9 @@ public class Player_SyncPosition : NetworkBehaviour
     {
         if (syncPosList.Count > 0)
         {
-            myTransform.position = Vector3.Lerp(myTransform.position, syncPosList [0], Time.deltaTime * lerpRate);
+            playerTransform.position = Vector3.Lerp(playerTransform.position, syncPosList [0], Time.deltaTime * lerpRate);
             
-            if (Vector3.Distance(myTransform.position, syncPosList [0]) < closeEnough)
+            if (Vector3.Distance(playerTransform.position, syncPosList [0]) < closeEnough)
                 syncPosList.RemoveAt(0);
                         
             lerpRate = syncPosList.Count > 10 ? fasterLerpRate : normalLerpRate;
@@ -71,30 +81,46 @@ public class Player_SyncPosition : NetworkBehaviour
     
     void NormalLerping()
     {
-        myTransform.position = Vector3.Lerp(myTransform.position, syncPos, Time.deltaTime * lerpRate);
+        playerTransform.position = Vector3.Lerp(playerTransform.position, syncPlayerPos, Time.deltaTime * lerpRate);
+    }
+
+    void CameraLerping()
+    {
+        camTransform.position = Vector3.Lerp(camTransform.position, syncCamPos, Time.deltaTime * lerpRate);
     }
 
     [Command]
-    void CmdProvidePositionToServer(Vector3 pos)
+    void CmdProvidePositionToServer(Vector3 playerPos, Vector3 camPos)
     {
-        syncPos = pos;
+        syncPlayerPos = playerPos;
+        syncCamPos = camPos;
     }
 
     [ClientCallback]
     void TransmitPosition()
     {
-        if (isLocalPlayer && Vector3.Distance(myTransform.position, lastPos) > threshold)
+        if (isLocalPlayer)
         {
-            CmdProvidePositionToServer(myTransform.position);
-            lastPos = myTransform.position;
+            if (Vector3.Distance(playerTransform.position, lastPlayerPos) > threshold || Vector3.Distance(camTransform.position, lastCamPos) > threshold)
+            {
+                CmdProvidePositionToServer(playerTransform.position, camTransform.position);
+                lastPlayerPos = playerTransform.position;
+                lastCamPos = camTransform.position;
+            }
         }
     }
 
     [Client]
-    void SyncPositionValues(Vector3 latestPos)
+    void SyncPlayerPosition(Vector3 latestPos)
     {
-        syncPos = latestPos;
+        syncPlayerPos = latestPos;
         if (useHistoricalLerping)
-            syncPosList.Add(syncPos);
+            syncPosList.Add(syncPlayerPos);
+    }
+
+    [Client]
+    void SyncCamPosition(Vector3 latestPos)
+    {
+        syncCamPos = latestPos;
     }
 }

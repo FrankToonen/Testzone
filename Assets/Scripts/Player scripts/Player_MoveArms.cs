@@ -33,7 +33,7 @@ public class Player_MoveArms : MonoBehaviour
             FindArms();
         } else
         {
-            lookAt = cam.position;
+            lookAt = cam.position + new Vector3(0, -3, 0);
             arms.LookAt(lookAt);
         }
     }
