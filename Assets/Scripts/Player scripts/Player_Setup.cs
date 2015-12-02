@@ -27,6 +27,7 @@ public class Player_Setup : NetworkBehaviour
     void Start()
     {
         startPosition = transform.position;
+
         if (isLocalPlayer)
         {
             transform.FindChild("Nametag").gameObject.SetActive(false);

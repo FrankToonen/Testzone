@@ -62,13 +62,6 @@ public class Network_Manager : NetworkManager
         {
             if (p < players.Length)
             {
-                //Renderer renderer = players [p].GetComponentInChildren<Renderer>();
-
-                /*if (players [p].transform.FindChild("Bot") != null)
-                {
-                    return;
-                }*/
-
                 if (players [p].GetComponent<Player_Setup>().playerNumber != p || players [p].transform.FindChild("Bot") == null)
                 {
                     players [p].GetComponent<Player_Setup>().playerNumber = p;
@@ -77,46 +70,42 @@ public class Network_Manager : NetworkManager
                     {
                         case 0:
                             {
-                                GameObject model = Instantiate(Resources.Load<GameObject>("Prefabs/bot_blue"), Vector3.zero, Quaternion.identity) as GameObject;
+                                GameObject model = Instantiate(Resources.Load<GameObject>("Prefabs/bot_red"), Vector3.zero, Quaternion.identity) as GameObject;
                                 model.name = "Bot";
                                 model.transform.parent = players [p].transform;
-                                model.transform.localPosition = new Vector3(-0.375f, -1.25f, 0);
+                                model.transform.localPosition = new Vector3(0, -1.25f, 0);
                                 model.transform.Rotate(Vector3.up, 180);
                                 model.transform.localScale = new Vector3(13, 13, 13);
-                                //renderer.material.color = Color.red;
                                 break;
                             }
                         case 1:
                             {
-                                GameObject model = Instantiate(Resources.Load<GameObject>("Models/bot_green"), Vector3.zero, Quaternion.identity) as GameObject;
+                                GameObject model = Instantiate(Resources.Load<GameObject>("Prefabs/bot_green"), Vector3.zero, Quaternion.identity) as GameObject;
                                 model.name = "Bot";
                                 model.transform.parent = players [p].transform;
-                                model.transform.localPosition = new Vector3(-0.375f, -1.25f, 0);
+                                model.transform.localPosition = new Vector3(0, -1.25f, 0);
                                 model.transform.Rotate(Vector3.up, 180);
                                 model.transform.localScale = new Vector3(13, 13, 13);
-                                //renderer.material.color = Color.green;
                                 break;
                             }
                         case 2:
                             {
-                                GameObject model = Instantiate(Resources.Load<GameObject>("Models/bot_blue"), Vector3.zero, Quaternion.identity) as GameObject;
+                                GameObject model = Instantiate(Resources.Load<GameObject>("Prefabs/bot_blue"), Vector3.zero, Quaternion.identity) as GameObject;
                                 model.name = "Bot";
                                 model.transform.parent = players [p].transform;
-                                model.transform.localPosition = new Vector3(-0.375f, -1.25f, 0);
+                                model.transform.localPosition = new Vector3(0, -1.25f, 0);
                                 model.transform.Rotate(Vector3.up, 180);
                                 model.transform.localScale = new Vector3(13, 13, 13);
-                                //renderer.material.color = Color.blue;
                                 break;
                             }
                         case 3: 
                             {
-                                GameObject model = Instantiate(Resources.Load<GameObject>("Models/bot_yellow"), Vector3.zero, Quaternion.identity) as GameObject;
+                                GameObject model = Instantiate(Resources.Load<GameObject>("Prefabs/bot_yellow"), Vector3.zero, Quaternion.identity) as GameObject;
                                 model.name = "Bot";
                                 model.transform.parent = players [p].transform;
-                                model.transform.localPosition = new Vector3(-0.375f, -1.25f, 0);
+                                model.transform.localPosition = new Vector3(0, -1.25f, 0);
                                 model.transform.Rotate(Vector3.up, 180);
                                 model.transform.localScale = new Vector3(13, 13, 13);
-                                //renderer.material.color = Color.yellow;
                                 break;
                             }
                     }

@@ -73,9 +73,9 @@ public class TP_Camera : MonoBehaviour
         //if (Input.GetMouseButton(1) == true) {
         mouseX += Input.GetAxis("Mouse X") * X_MouseSensitivity;
         mouseY += Input.GetAxis("Mouse Y") * -Y_MouseSensitivity; // min weghalen voor inverten
-                                                                  //}
+        //}
 
-            mouseY = TP_Helper.ClampAngle(mouseY, Y_MinLimit, Y_MaxLimit);
+        mouseY = TP_Helper.ClampAngle(mouseY, Y_MinLimit, Y_MaxLimit);
         
         if (Input.GetAxis("Mouse ScrollWheel") < -deadZone || Input.GetAxis("Mouse ScrollWheel") > deadZone)
         {
@@ -105,24 +105,23 @@ public class TP_Camera : MonoBehaviour
 
     bool CheckIfOccluded(int count)
     {
-        var  isOccluded = false;
+        var isOccluded = false;
 
         var nearestDistance = CheckCameraPoints(TargetLookAt.position, desiredPosition);
 
-        if(nearestDistance != -1)
+        if (nearestDistance != -1)
         {
             
-            if(count < MaxOcclusionChecks)
+            if (count < MaxOcclusionChecks)
             {
                 isOccluded = true;
                 distance -= OccusionDistanceStep; 
 
-                if(distance <= 1f)
+                if (distance <= 1f)
                 {
                     distance = 1f;
                 }
-            }
-            else
+            } else
             {
                 distance = nearestDistance - Camera.main.nearClipPlane;
             }
@@ -154,7 +153,7 @@ public class TP_Camera : MonoBehaviour
         Debug.DrawLine(clipPlanePoints.LowerRight, clipPlanePoints.LowerLeft); 
         Debug.DrawLine(clipPlanePoints.LowerLeft, clipPlanePoints.UpperRight);
 
-        if(Physics.Linecast(from, clipPlanePoints.UpperLeft, out hitInfo) && hitInfo.collider.tag != "Player")
+        if (Physics.Linecast(from, clipPlanePoints.UpperLeft, out hitInfo) && hitInfo.collider.tag != "Player")
         {
             NearestDistance = hitInfo.distance;
 
@@ -162,7 +161,7 @@ public class TP_Camera : MonoBehaviour
 
         if (Physics.Linecast(from, clipPlanePoints.LowerLeft, out hitInfo) && hitInfo.collider.tag != "Player")
         {
-            if(hitInfo.distance < NearestDistance || NearestDistance == -1)
+            if (hitInfo.distance < NearestDistance || NearestDistance == -1)
             {
                 NearestDistance = hitInfo.distance;
             }
@@ -197,13 +196,13 @@ public class TP_Camera : MonoBehaviour
 
     void ResetDesiredDistance()
     {
-        if(desiredDistance < _preOccludedDistance)
+        if (desiredDistance < _preOccludedDistance)
         {
             var pos = CalculatePosition(mouseY, mouseX, _preOccludedDistance);
 
             var nearestDistance = CheckCameraPoints(TargetLookAt.position, pos);
 
-            if(nearestDistance == -1 || nearestDistance > _preOccludedDistance)
+            if (nearestDistance == -1 || nearestDistance > _preOccludedDistance)
             {
                 desiredDistance = _preOccludedDistance;
             }
