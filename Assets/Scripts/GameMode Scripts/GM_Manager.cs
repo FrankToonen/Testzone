@@ -43,12 +43,6 @@ public class GM_Manager : NetworkBehaviour
                 }
             case "Basketball":
                 {
-                    GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-                    foreach (GameObject p in players)
-                    {
-                        p.GetComponent<Player_Score>().ChangeScore(5);
-                    }
-
                     gameMode = GM_Manager.GameMode.BB;
                     break;
                 }
@@ -144,9 +138,23 @@ public class GM_Manager : NetworkBehaviour
         StartCoroutine(SpawnGameMode());
     }
 
+    void SetScore()
+    {
+        if (gameMode == GameMode.BB)
+        {
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+            foreach (GameObject p in players)
+            {
+                p.GetComponent<Player_Score>().ChangeScore(5);
+            }
+        }
+    }
+
     IEnumerator SpawnGameMode()
     {
         yield return new WaitForSeconds(1);
+
+        SetScore();
 
         EnablePlayerMovement(false);
 
