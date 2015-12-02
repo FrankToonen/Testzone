@@ -49,21 +49,20 @@ public class TP_Camera : MonoBehaviour
         if (TargetLookAt == null)
         {
             return;
-        } else
-        {
-            HandlePlayerInput();
+        }
+
+        HandlePlayerInput();
             
-            var count = 0;
-            do
-            {
-                CalculateDesiredPosition();
-                count++;
-            } while (CheckIfOccluded(count));
+        var count = 0;
+        do
+        {
+            CalculateDesiredPosition();
+            count++;
+        } while (CheckIfOccluded(count));
             
 
-            CheckCameraPoints(TargetLookAt.position, desiredPosition);
-            UpdatePosition();
-        }
+        CheckCameraPoints(TargetLookAt.position, desiredPosition);
+        UpdatePosition();
     }
 
     void HandlePlayerInput()
