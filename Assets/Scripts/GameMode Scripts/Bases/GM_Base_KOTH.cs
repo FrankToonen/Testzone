@@ -21,14 +21,6 @@ public class GM_Base_KOTH : GM_Base
         transform.position = positions [0];
     }
 
-    void Update()
-    {
-        if (!isServer)
-        {
-            return;
-        }
-    }
-
     void OnTriggerStay(Collider other)
     {
         if (!manager.roundStarted)

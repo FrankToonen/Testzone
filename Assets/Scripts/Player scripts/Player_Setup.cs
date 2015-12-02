@@ -74,10 +74,14 @@ public class Player_Setup : NetworkBehaviour
                 startPosition = transform.position;
             }
 
+            transform.rotation = Quaternion.Euler(0, playerNumber * -90, 0);
+
             // Set movement bool
             GetComponent<TP_Controller>().enabled = m;
             GetComponent<Player_Shoot>().enabled = m;
         }
+
+        GetComponent<Player_MoveArms>().enabled = m;
     }
 
     /* void AddGun()

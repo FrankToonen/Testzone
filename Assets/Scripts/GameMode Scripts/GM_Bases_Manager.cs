@@ -64,7 +64,7 @@ public class GM_Bases_Manager : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (manager == null)
+        if (manager == null || !isServer)
         {
             return;
         }

@@ -8,7 +8,12 @@ public class GM_Base_BB : GM_Base
     protected override void Start()
     {
         base.Start();
-        transform.position += new Vector3(0, 29, 0);
+
+        if (isServer)
+        {
+            transform.position += new Vector3(0, 29, 0);
+        }
+
         hasBeenActive = new bool[4];
     }
 

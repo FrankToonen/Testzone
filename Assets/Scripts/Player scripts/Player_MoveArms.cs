@@ -8,7 +8,6 @@ public class Player_MoveArms : MonoBehaviour
 
     void FindArms()
     {
-
         Transform bot = transform.FindChild("Bot");
         if (bot != null)
         {
@@ -36,5 +35,14 @@ public class Player_MoveArms : MonoBehaviour
             lookAt = cam.position + new Vector3(0, -3, 0);
             arms.LookAt(lookAt);
         }
+    }
+
+    void OnDisable()
+    {
+        if (arms == null)
+        {
+            return;
+        }
+        arms.localRotation = Quaternion.identity;
     }
 }

@@ -26,8 +26,8 @@ public class Network_SyncPosition : NetworkBehaviour
     float closeEnough = 0.1f;
 
     int lerpRate;
-    int normalLerpRate = 30;
-    int fasterLerpRate = 45;
+    int normalLerpRate = 20;
+    int fasterLerpRate = 30;
 
     void Start()
     {

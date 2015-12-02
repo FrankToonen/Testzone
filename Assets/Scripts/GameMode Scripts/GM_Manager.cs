@@ -188,7 +188,11 @@ public class GM_Manager : NetworkBehaviour
     {
         timer = duration;
         timerStarted = true;
-        GetComponent<GM_Bases_Manager>().SetStartBase();
+
+        if (isServer)
+        {
+            GetComponent<GM_Bases_Manager>().SetStartBase();
+        }
     }
     
     void EnablePlayerMovement(bool m)
