@@ -1,25 +1,23 @@
 fileFormatVersion: 2
-guid: 5d09bb25734292747a71e74084bfe4d7
-timeCreated: 1444240341
+guid: c06172eff447ed44a8d5a9073a132c3f
+timeCreated: 1449085843
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: Camera
-    100004: Cylinder
-    100006: Lamp
-    400000: //RootNode
-    400002: Camera
-    400004: Cylinder
-    400006: Lamp
-    2300000: //RootNode
-    2300002: Cylinder
-    3300000: //RootNode
-    3300002: Cylinder
-    4300000: Cylinder
+    100000: Camera
+    100002: //RootNode
+    100004: Lamp
+    100006: Torus
+    400000: Camera
+    400002: //RootNode
+    400004: Lamp
+    400006: Torus
+    2300000: Torus
+    3300000: Torus
+    4300000: Torus
   materials:
-    importMaterials: 0
+    importMaterials: 1
     materialName: 0
     materialSearch: 1
   animations:
@@ -59,7 +57,7 @@ ModelImporter:
   tangentSpace:
     normalSmoothAngle: 60
     splitTangentsAcrossUV: 1
-    normalImportMode: 1
+    normalImportMode: 0
     tangentImportMode: 1
   importAnimation: 1
   copyAvatar: 0

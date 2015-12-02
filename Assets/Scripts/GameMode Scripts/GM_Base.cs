@@ -48,7 +48,7 @@ public class GM_Base : GM_GameMode
                     break;
                 }
         }
-        baseColor.a = 0.5f;
+        baseColor.a = 0.75f;
         GetComponent<Renderer>().material.color = baseColor;
     }
 
@@ -116,6 +116,11 @@ public class GM_Base : GM_GameMode
             manager.RpcStartTimer(30);
         }
     }*/
+
+    public virtual void SelectNewIndex()
+    {
+
+    }
 
     public void GivePoints(float points)
     {

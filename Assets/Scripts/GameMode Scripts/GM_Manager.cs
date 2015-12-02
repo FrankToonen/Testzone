@@ -22,8 +22,6 @@ public class GM_Manager : NetworkBehaviour
 
     public bool roundStarted { get; private set; }
 
-    GameObject[] bases;
-
     Text timerText;
     float timer;
     bool timerStarted, initialized, roundEnded;
@@ -45,6 +43,12 @@ public class GM_Manager : NetworkBehaviour
                 }
             case "Basketball":
                 {
+                    GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+                    foreach (GameObject p in players)
+                    {
+                        p.GetComponent<Player_Score>().ChangeScore(5);
+                    }
+
                     gameMode = GM_Manager.GameMode.BB;
                     break;
                 }
@@ -54,52 +58,11 @@ public class GM_Manager : NetworkBehaviour
                     break;
                 }
         }
-
-        bases = new GameObject[4];
-        for (int i  = 0; i < 4; i++)
-        {
-            bases [i] = GameObject.Find("Base" + i);
-
-            switch (gameMode)
-            {
-                case GM_Manager.GameMode.BB:
-                    {
-                        bases [i].AddComponent<GM_Base_BB>();
-                        break;
-                    }
-                case GM_Manager.GameMode.HP:
-                    {
-                        // Vorm aanpassen aan volledige gebied speler
-                        bases [i].AddComponent<GM_Base_HP>();
-                        break;
-                    }
-                case     GM_Manager.GameMode.CTF:
-                    {
-                        bases [i].AddComponent<GM_Base_CTF>();
-                        break;
-                    }
-                case GM_Manager.GameMode.KOTH:
-                    {
-                        if (i == 0)
-                        {
-                            bases [i].AddComponent<GM_Base_KOTH>();
-                        } else
-                        {
-                            bases [i].gameObject.SetActive(false);
-                        }
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }
-        }
-        
+                
         timerText = GameObject.Find("Timer Text").GetComponent<Text>();
 
         GameObject.FindWithTag("Hexgrid").GetComponent<HexGrid>().GenerateGrid();
-
+        GetComponent<GM_Bases_Manager>().Initialize(gameMode);
         timer = 1;
 
         initialized = true;
@@ -175,15 +138,6 @@ public class GM_Manager : NetworkBehaviour
         scoreboardImage.gameObject.SetActive(true);
         GameObject.FindWithTag("NetworkManager").GetComponent<Network_DisplayScore>().ShowScoreboard();
     }
-    
-    [ClientRpc]
-    public void RpcChangeBasePosition(int i)
-    {
-        if (GM == GameMode.KOTH)
-        {
-            bases [0].GetComponent<GM_Base_KOTH>().ChangeIndex(i);
-        }
-    }
 
     public void StartRound()
     {
@@ -219,7 +173,7 @@ public class GM_Manager : NetworkBehaviour
         EnablePlayerMovement(true);
         SpawnGameModeObject();
 
-        RpcStartTimer(300);
+        RpcStartTimer(120);
     }
 
     [ClientRpc]
@@ -234,6 +188,7 @@ public class GM_Manager : NetworkBehaviour
     {
         timer = duration;
         timerStarted = true;
+        GetComponent<GM_Bases_Manager>().SetStartBase();
     }
     
     void EnablePlayerMovement(bool m)

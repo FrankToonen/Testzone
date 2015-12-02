@@ -6,7 +6,6 @@ public class GM_Base_KOTH : GM_Base
 {
     public Vector3[] positions;
     int currentIndex = 0;
-    float timeLeft, rotationTime;
 
     protected override void Start()
     {
@@ -18,9 +17,8 @@ public class GM_Base_KOTH : GM_Base
         positions [3] = new Vector3(134.5f, 10, 29.5f);
         positions [4] = new Vector3(186, 10, 116);
 
+        transform.rotation = Quaternion.Euler(90, 0, 0);
         transform.position = positions [0];
-        rotationTime = 30;
-        timeLeft = rotationTime;
     }
 
     void Update()
@@ -28,16 +26,6 @@ public class GM_Base_KOTH : GM_Base
         if (!isServer)
         {
             return;
-        }
-
-        if (manager.roundStarted)
-        {
-            timeLeft -= Time.deltaTime;
-            if (timeLeft <= 0)
-            {
-                SelectRandomPosition();
-                timeLeft = rotationTime;
-            }
         }
     }
 
@@ -62,16 +50,16 @@ public class GM_Base_KOTH : GM_Base
         transform.position = positions [i];
     }
 
-    void SelectRandomPosition()
+    public override void SelectNewIndex()
     {
-        int i = (int)Random.Range(0, 5);
+        int newIndex = (int)Random.Range(0, 5);
 
-        if (i == currentIndex)
+        if (newIndex == currentIndex)
         {
-            SelectRandomPosition();
+            SelectNewIndex();
         } else
         {
-            manager.RpcChangeBasePosition(i);
+            basesManager.RpcChangeBasePosition(newIndex);
         }
     }
 }
