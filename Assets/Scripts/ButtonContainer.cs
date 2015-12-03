@@ -9,10 +9,15 @@ public class ButtonContainer : MonoBehaviour
 
     void FindButtons()
     {
+        Debug.Log(transform.childCount);
         for (int i = 0; i < transform.childCount; i++)
         {
             buttons.Add(transform.GetChild(i).gameObject);
-            buttons [i].GetComponent<ButtonScript>().Initialize();
+            ButtonScript bScript = buttons [i].GetComponent<ButtonScript>();
+            if (bScript != null)
+            {
+                bScript.Initialize();
+            }
         }
     }
 

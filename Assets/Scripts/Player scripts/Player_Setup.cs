@@ -77,11 +77,26 @@ public class Player_Setup : NetworkBehaviour
             transform.rotation = Quaternion.Euler(0, playerNumber * -90, 0);
 
             // Set movement bool
-            GetComponent<TP_Controller>().enabled = m;
-            GetComponent<Player_Shoot>().enabled = m;
+            EnableControls(m);
         }
 
+        EnableArmMovement(m);
+    }
+
+    public void EnableControls(bool m)
+    {
+        GetComponent<TP_Controller>().enabled = m;
+        GetComponent<Player_Shoot>().enabled = m;
+    }
+
+    public void EnableArmMovement(bool m)
+    {
         GetComponent<Player_MoveArms>().enabled = m;
+    }
+
+    public void EnableCameraMovement(bool m)
+    {
+        cam.GetComponent<TP_Camera>().enabled = m;
     }
 
     /* void AddGun()

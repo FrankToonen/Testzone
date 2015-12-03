@@ -192,6 +192,11 @@ public class Network_HUD : MonoBehaviour
         buttons.FindButton("Stop Matchmaking Button").gameObject.SetActive(false);
     }
 
+    public void Disconnect()
+    {
+        manager.StopHost();
+    }
+
     /*void OnGUI()
     {
         if (!showGUI)

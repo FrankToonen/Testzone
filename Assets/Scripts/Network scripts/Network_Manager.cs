@@ -35,7 +35,7 @@ public class Network_Manager : NetworkManager
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        /*if (Input.GetKeyDown(KeyCode.Escape))
         {
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
             
@@ -51,7 +51,7 @@ public class Network_Manager : NetworkManager
             }
 
             Application.Quit();
-        }
+        }*/
     }
 
     public void SetPlayerColor()

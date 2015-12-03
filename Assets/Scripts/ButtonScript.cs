@@ -15,12 +15,13 @@ public class ButtonScript : MonoBehaviour
         StartMatchmaker,
         StopMatchmaker,
         CreateMatch,
-        FindMatch
+        FindMatch,
+        Disconnect
     }
     ;
 
-    public Network_HUD networkHUD;
-    public Button button;
+    Network_HUD networkHUD;
+    Button button;
 
     public void Initialize()
     {        
@@ -67,7 +68,11 @@ public class ButtonScript : MonoBehaviour
                     networkHUD.FindMatch();
                     break;
                 }
-
+            case Function.Disconnect:
+                {
+                    networkHUD.Disconnect();
+                    break;
+                }
         }
     }
 }
