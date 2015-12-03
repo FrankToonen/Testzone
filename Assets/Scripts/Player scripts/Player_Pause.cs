@@ -49,10 +49,10 @@ public class Player_Pause : MonoBehaviour
         }
     }
 
-    void Pause(bool p)
+    public void Pause(bool p)
     {
         overlay.SetActive(p);
-        EnableButtons(isPaused);
+        EnableButtons(p);
 
         if (setup == null)
         {
@@ -61,9 +61,9 @@ public class Player_Pause : MonoBehaviour
 
         if (setup != null)
         {        
-            setup.EnableControls(!isPaused);
-            setup.EnableArmMovement(!isPaused);
-            setup.EnableCameraMovement(!isPaused);
+            setup.EnableControls(!p);
+            setup.EnableArmMovement(!p);
+            setup.EnableCameraMovement(!p);
         }
     }
     

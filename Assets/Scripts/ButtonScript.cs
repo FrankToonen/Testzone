@@ -16,7 +16,8 @@ public class ButtonScript : MonoBehaviour
         StopMatchmaker,
         CreateMatch,
         FindMatch,
-        Disconnect
+        Disconnect,
+        Quit
     }
     ;
 
@@ -71,6 +72,11 @@ public class ButtonScript : MonoBehaviour
             case Function.Disconnect:
                 {
                     networkHUD.Disconnect();
+                    break;
+                }
+            case Function.Quit:
+                {
+                    Application.Quit();
                     break;
                 }
         }

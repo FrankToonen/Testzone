@@ -218,7 +218,7 @@ public class GM_Manager : NetworkBehaviour
         GameObject gameModeObject = null;
         if (GM == GM_Manager.GameMode.HP || GM == GM_Manager.GameMode.BB)
         {
-            gameModeObject = Instantiate(Resources.Load<GameObject>("Prefabs/Ball") as GameObject, new Vector3(112, 23, 97), Quaternion.identity) as GameObject;
+            gameModeObject = Instantiate(Resources.Load<GameObject>("Prefabs/Ball") as GameObject, new Vector3(109, 150, 97), Quaternion.identity) as GameObject;
         } else if (GM == GM_Manager.GameMode.CTF)
         {
             gameModeObject = Instantiate(Resources.Load<GameObject>("Prefabs/Flag") as GameObject, new Vector3(112, 23, 97), Quaternion.identity) as GameObject;
