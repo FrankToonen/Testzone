@@ -22,6 +22,25 @@ public class GM_Ball : GM_GameMode
 
     public void ResetPosition()
     {
+        /*GetComponent<Rigidbody>().velocity = Vector3.zero;
+        transform.position = startPosition;*/
+
+        StartCoroutine(ResetBall());
+
+    }
+
+    IEnumerator ResetBall()
+    {
+        GetComponent<SphereCollider>().enabled = false;
+        GetComponent<MeshRenderer>().enabled = false;
+        GetComponent<ParticleSystem>().Stop();
+
+        yield return new WaitForSeconds(3);
+
+        GetComponent<SphereCollider>().enabled = true;
+        GetComponent<MeshRenderer>().enabled = true;
+        GetComponent<ParticleSystem>().Play();
+
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         transform.position = startPosition;
     }

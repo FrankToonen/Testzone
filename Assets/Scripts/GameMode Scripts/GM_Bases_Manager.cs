@@ -86,6 +86,13 @@ public class GM_Bases_Manager : NetworkBehaviour
     public void SetStartBase()
     {
         bases [0].GetComponent<GM_Base>().SelectNewIndex();
+        for (int i = 0; i < bases.Length; i++)
+        {
+            if (bases [i].activeInHierarchy)
+            {
+                RpcPlayScoreParticles(i);
+            }
+        }
     }
 
     [ClientRpc]
@@ -102,5 +109,11 @@ public class GM_Bases_Manager : NetworkBehaviour
                 bases [j].SetActive(j == i);
             }
         }
+    }
+
+    [ClientRpc]
+    public void RpcPlayScoreParticles(int i)
+    {
+        bases [i].GetComponent<GM_Base>().PlayScoreParticles();
     }
 }

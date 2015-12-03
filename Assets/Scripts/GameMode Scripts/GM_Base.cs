@@ -8,6 +8,7 @@ public class GM_Base : GM_GameMode
     protected int
         playerNumber;
 
+    protected ParticleSystem[] scoreParticles;
     protected GameObject whoseBase;
 
     protected override void Start()
@@ -15,6 +16,13 @@ public class GM_Base : GM_GameMode
         base.Start();
 
         playerNumber = name [name.Length - 1] - 48;
+
+        scoreParticles = new ParticleSystem[4];
+        for (int i = 0; i < 4; i++)
+        {
+            scoreParticles [i] = GameObject.Find("ArenaScoreParticle" + playerNumber.ToString() + i.ToString()).GetComponent<ParticleSystem>();
+        }
+
         GetColor();
     }
 
@@ -64,59 +72,6 @@ public class GM_Base : GM_GameMode
         }
     }
 
-    /*
-    void OnTriggerEnter(Collider other)
-    {
-        if (manager.GM != GM_Manager.GameMode.CTF && manager.GM != GM_Manager.GameMode.BB)
-        {
-            return;
-        }
-
-        FindWhoseBase();
-
-        if (manager.GM == GM_Manager.GameMode.CTF)
-        {
-            if (other.gameObject == whoseBase && isServer)
-            {
-                GM_Flag flag = other.gameObject.GetComponentInChildren<GM_Flag>();
-                if (flag != null)
-                {
-                    GivePoints(1);
-                    flag.CmdChangeFlagHolder("");
-                    flag.ResetPosition();
-                }
-            }
-        } else if (manager.GM == GM_Manager.GameMode.BB)
-        {
-            if (isServer)
-            {
-                if (other.tag == "Ball")
-                {
-                    GivePoints(-1);
-                    other.GetComponent<GM_Ball>().ResetPosition();
-                }
-            }
-        }
-    }
-
-    void OnTriggerStay(Collider other)
-    {
-        if (manager.GM != GM_Manager.GameMode.HP || !manager.RoundFinished)
-        {
-            return;
-        }
-
-        FindWhoseBase();
-
-        GM_Ball ball = other.GetComponent<GM_Ball>();
-        if (ball != null)
-        {
-            GivePoints(-1);
-            ball.ResetPosition();
-            manager.RpcStartTimer(30);
-        }
-    }*/
-
     public virtual void SelectNewIndex()
     {
 
@@ -127,6 +82,15 @@ public class GM_Base : GM_GameMode
         if (whoseBase != null && !manager.RoundFinished)
         {
             whoseBase.GetComponent<Player_Score>().ChangeScore(points);
+            basesManager.RpcPlayScoreParticles(playerNumber);
+        }
+    }
+
+    public void PlayScoreParticles()
+    {
+        foreach (ParticleSystem ps in scoreParticles)
+        {
+            ps.Play();
         }
     }
 }
