@@ -9,10 +9,7 @@ public class GM_Base_BB : GM_Base
     {
         base.Start();
 
-        if (isServer)
-        {
-            transform.position += new Vector3(0, 29, 0);
-        }
+        transform.position += new Vector3(0, 29, 0);
 
         hasBeenActive = new bool[4];
     }

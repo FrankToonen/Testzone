@@ -2,8 +2,9 @@
 using UnityEngine.Networking;
 using System.Collections;
 
-public class GM_GameMode : NetworkBehaviour
+public class GM_GameMode : MonoBehaviour
 {
+    public bool isServer;
     protected GM_Manager manager;
     protected GM_Bases_Manager basesManager;
 

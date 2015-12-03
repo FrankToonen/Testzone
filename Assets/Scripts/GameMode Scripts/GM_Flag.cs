@@ -6,7 +6,7 @@ using System.Collections;
 // Als iemand joined en de vlag is opgepakt, kan hij m afpakken
 // Waarschijnlijk niet relevant
 
-public class GM_Flag : GM_GameMode
+public class GM_Flag : NetworkBehaviour
 {
     public delegate void FlagHolderChange(string obj);
     [SyncEvent]
@@ -22,9 +22,8 @@ public class GM_Flag : GM_GameMode
     bool isHeld, onCoolDown;
     float coolDownTime;
 
-    protected override void Start()
+    void Start()
     {
-        base.Start();
 
         rigidBody = GetComponent<Rigidbody>();
         startPosition = transform.position;

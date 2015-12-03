@@ -20,7 +20,6 @@ public class GM_Bases_Manager : NetworkBehaviour
         {
             particles [i] = GameObject.Find("ArenaFire" + i);
             bases [i] = GameObject.Find("Base" + i);
-            
             switch (gameMode)
             {
                 case GM_Manager.GameMode.BB:
@@ -55,6 +54,8 @@ public class GM_Bases_Manager : NetworkBehaviour
                         break;
                     }
             }
+            
+            bases [i].GetComponent<GM_GameMode>().isServer = isServer;
         }
 
         rotationTime = 30;
