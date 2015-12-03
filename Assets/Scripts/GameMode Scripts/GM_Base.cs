@@ -65,6 +65,7 @@ public class GM_Base : GM_GameMode
         if (whoseBase == null)
         {
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
             if (players.Length > playerNumber)
             {
                 whoseBase = players [playerNumber];
@@ -79,6 +80,11 @@ public class GM_Base : GM_GameMode
 
     public void GivePoints(float points)
     {
+        if (whoseBase == null)
+        {
+            FindWhoseBase();
+        }
+
         if (whoseBase != null && !manager.RoundFinished)
         {
             whoseBase.GetComponent<Player_Score>().ChangeScore(points);
