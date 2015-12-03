@@ -35,7 +35,7 @@ public class Network_HUD : MonoBehaviour
         joinButtons = new List<GameObject>();
 
         FindButtonContainer();
-        ResetButtons();
+        //ResetButtons();
     }
 
     void FindButtonContainer()

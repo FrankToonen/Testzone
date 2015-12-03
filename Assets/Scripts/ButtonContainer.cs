@@ -5,10 +5,11 @@ using System.Collections.Generic;
 
 public class ButtonContainer : MonoBehaviour
 {
-    public List<GameObject> buttons;
+    List<GameObject> buttons;
 
-    void FindButtons()
+    void Awake()
     {
+        buttons = new List<GameObject>();
         for (int i = 0; i < transform.childCount; i++)
         {
             buttons.Add(transform.GetChild(i).gameObject);
@@ -22,10 +23,10 @@ public class ButtonContainer : MonoBehaviour
 
     public GameObject FindButton(string bName)
     {
-        if (buttons.Count == 0)
+        /*if (buttons.Count == 0)
         {
             FindButtons();
-        }
+        }*/
 
         return buttons.Find(found => found.name == bName);
     }

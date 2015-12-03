@@ -65,6 +65,11 @@ public class Player_Pause : MonoBehaviour
             setup.EnableArmMovement(!p);
             setup.EnableCameraMovement(!p);
         }
+
+        /*if (!p)
+        {
+            GameObject.Find("HowToPlaySlides").GetComponent<SlideShow>().StopSlideShow();
+        }*/
     }
     
     void EnableButtons(bool e)
