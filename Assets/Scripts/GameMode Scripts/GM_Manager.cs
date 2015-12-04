@@ -152,7 +152,7 @@ public class GM_Manager : NetworkBehaviour
 
     IEnumerator SpawnGameMode()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(3);
 
         SetScore();
 
