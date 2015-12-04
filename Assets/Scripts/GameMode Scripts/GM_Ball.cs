@@ -5,26 +5,17 @@ using System.Collections;
 public class GM_Ball : GM_GameMode
 {
     Vector3 startPosition;
+    public string lastHitBy;
 
-    // Use this for initialization
     protected override void Start()
     {
         base.Start();
         startPosition = transform.position;
         transform.name = "Ball";
     }
-	
-    // Update is called once per frame
-    void Update()
-    {
-	
-    }
 
     public void ResetPosition()
     {
-        /*GetComponent<Rigidbody>().velocity = Vector3.zero;
-        transform.position = startPosition;*/
-
         StartCoroutine(ResetBall());
 
     }
@@ -37,6 +28,7 @@ public class GM_Ball : GM_GameMode
 
         yield return new WaitForSeconds(3);
 
+        lastHitBy = "";
         GetComponent<SphereCollider>().enabled = true;
         GetComponent<MeshRenderer>().enabled = true;
         GetComponent<ParticleSystem>().Play();

@@ -77,10 +77,15 @@ public class Gun_Terraformer : Gun
                 {
                     Vector3 launchDir = Vector3.Normalize(objectsHit [n].transform.position - point);
                     launchDir.y = 1;
-                    objectsHit [n].GetComponent<Player_Force>().AddImpact(launchDir, 50 * chargedRadius);
+                    objectsHit [n].GetComponent<Player_Force>().AddImpact(launchDir, (100 / objectsHit [n].transform.localScale.x) * chargedRadius);
                 } else if (objectsHit [n].tag == "PhysicsObject" || objectsHit [n].tag == "Flag" || objectsHit [n].tag == "Ball")
                 {
                     objectsHit [n].GetComponent<Rigidbody>().AddForce(Vector3.up * 1000 * chargedRadius);
+
+                    if (objectsHit [n].tag == "Ball")
+                    {
+                        objectsHit [n].GetComponent<GM_Ball>().lastHitBy = transform.name;
+                    }
                 }
             }
         }

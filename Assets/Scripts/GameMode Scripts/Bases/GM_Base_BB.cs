@@ -20,7 +20,13 @@ public class GM_Base_BB : GM_Base
         {
             if (other.tag == "Ball")
             {
-                GivePoints(-1);
+                string lastHit = GameObject.FindWithTag("Ball").GetComponent<GM_Ball>().lastHitBy;
+                if (lastHit.Length > 0)
+                {
+                    lastHit = lastHit.Remove(lastHit.Length - 1);
+                }
+
+                GivePoints(-1, lastHit);
                 other.GetComponent<GM_Ball>().ResetPosition();
             }
         }

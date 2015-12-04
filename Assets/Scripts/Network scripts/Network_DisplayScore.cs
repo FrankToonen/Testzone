@@ -24,8 +24,8 @@ public class Network_DisplayScore : MonoBehaviour
                             pName = pName.Remove(10);
                         } else
                         {
-                        pName = pName.Remove(pName.Length - 1);
-                        //}
+                            pName = pName.Remove(pName.Length - 1);
+                        }
                     }
 
                     scoreText.GetComponent<Text>().text = pName + ": " + (int)players [p].GetComponent<Player_Score>().Score;

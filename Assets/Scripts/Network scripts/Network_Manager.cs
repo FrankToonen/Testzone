@@ -56,7 +56,6 @@ public class Network_Manager : NetworkManager
         // TEST
         if (Input.GetKeyDown(KeyCode.J) && (manager != null && !manager.roundStarted))
         {
-            Debug.Log(NetworkClient.active + "" + NetworkServer.active);
             manager.StartRound();
         }
     }

@@ -58,7 +58,7 @@ public class GM_Bases_Manager : NetworkBehaviour
             bases [i].GetComponent<GM_GameMode>().isServer = isServer;
         }
 
-        rotationTime = 30;
+        rotationTime = 60;
         timeLeft = rotationTime;
     }
 	
@@ -110,6 +110,15 @@ public class GM_Bases_Manager : NetworkBehaviour
                 particles [j].SetActive(j == i);
                 bases [j].SetActive(j == i);
                 shields.transform.GetChild(j).gameObject.SetActive(j == i);
+
+            }
+
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+            for (int j = 0; j < players.Length; j++)
+            {
+                int scale = i == j ? 4 : 2;
+                players [j].transform.localScale = new Vector3(scale, scale, scale);
+
             }
         }
     }

@@ -79,6 +79,17 @@ public class GM_Manager : NetworkBehaviour
         {
             RpcShowScoreboard();
             roundEnded = true;
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+            foreach (GameObject p in players)
+            {
+                Player_Setup setup = p.GetComponent<Player_Setup>();
+                if (setup != null)
+                {
+                    setup.EnableControls(false);
+                    setup.EnableArmMovement(false);
+                    setup.EnableCameraMovement(false);
+                }
+            }
         }
 
         if (roundEnded)
@@ -181,7 +192,7 @@ public class GM_Manager : NetworkBehaviour
         EnablePlayerMovement(true);
         SpawnGameModeObject();
 
-        RpcStartTimer(120);
+        RpcStartTimer(240);
     }
 
     [ClientRpc]

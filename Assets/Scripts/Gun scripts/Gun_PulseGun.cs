@@ -75,10 +75,14 @@ public class Gun_PulseGun : Gun
                     flag.CmdChangeFlagHolder("");
                 }
             }
-            obj.gameObject.GetComponent<Player_Force>().AddImpact(direction, direction.magnitude);
+            obj.gameObject.GetComponent<Player_Force>().AddImpact(direction, (2 * direction.magnitude) / obj.transform.localScale.x);
         } else if (obj.tag == "PhysicsObject" || obj.tag == "Ball")
         {
             obj.GetComponent<Rigidbody>().AddForce(direction * 25);
+            if (obj.tag == "Ball")
+            {
+                obj.GetComponent<GM_Ball>().lastHitBy = transform.name;
+            }
         }
     }
 
