@@ -110,15 +110,14 @@ public class GM_Bases_Manager : NetworkBehaviour
                 particles [j].SetActive(j == i);
                 bases [j].SetActive(j == i);
                 shields.transform.GetChild(j).gameObject.SetActive(j == i);
-
             }
 
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
             for (int j = 0; j < players.Length; j++)
             {
                 int scale = i == j ? 4 : 2;
-                players [j].transform.localScale = new Vector3(scale, scale, scale);
-
+                //players [j].transform.localScale = new Vector3(scale, scale, scale);
+                StartCoroutine(LerpScale(players [j], new Vector3(scale, scale, scale)));
             }
         }
     }
@@ -127,5 +126,17 @@ public class GM_Bases_Manager : NetworkBehaviour
     public void RpcPlayScoreParticles(int i)
     {
         bases [i].GetComponent<GM_Base>().PlayScoreParticles();
+    }
+
+    IEnumerator LerpScale(GameObject obj, Vector3 targetScale)
+    {
+        while (targetScale.x - obj.transform.localScale.x > 0.01f)
+        {
+            Debug.Log(obj.transform.localScale.x + " | " + targetScale.x);
+            obj.transform.localScale = Vector3.Lerp(obj.transform.localScale, targetScale, Time.deltaTime);
+            yield return null;
+        }
+
+        obj.transform.localScale = targetScale;
     }
 }
