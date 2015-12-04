@@ -52,6 +52,13 @@ public class Network_Manager : NetworkManager
 
             Application.Quit();
         }*/
+
+        // TEST
+        if (Input.GetKeyDown(KeyCode.J) && (manager != null && !manager.roundStarted))
+        {
+            Debug.Log(NetworkClient.active + "" + NetworkServer.active);
+            manager.StartRound();
+        }
     }
 
     public void SetPlayerColor()
@@ -119,7 +126,7 @@ public class Network_Manager : NetworkManager
         base.OnServerReady(conn);
 
         manager = GameObject.Find("GameModeManager").GetComponent<GM_Manager>();
-        if (numPlayers == 1 && !manager.roundStarted) // Bij 4 spelers "numPlayers == 3"
+        if (numPlayers == 3 && !manager.roundStarted) // Bij 4 spelers "numPlayers == 3"
         {
             manager.StartRound();
         }

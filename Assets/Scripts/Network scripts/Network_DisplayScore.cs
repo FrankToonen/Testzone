@@ -18,7 +18,15 @@ public class Network_DisplayScore : MonoBehaviour
                 {
                     string pName = players [p].name;
                     if (pName != "")
+                    {
+                        if (pName.Length > 10)
+                        {
+                            pName = pName.Remove(10);
+                        } else
+                        {
                         pName = pName.Remove(pName.Length - 1);
+                        //}
+                    }
 
                     scoreText.GetComponent<Text>().text = pName + ": " + (int)players [p].GetComponent<Player_Score>().Score;
                     GameObject.Find("Scoreboard Overlay " + p).GetComponent<RawImage>().enabled = true;
