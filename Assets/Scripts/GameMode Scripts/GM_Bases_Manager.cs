@@ -104,10 +104,12 @@ public class GM_Bases_Manager : NetworkBehaviour
             bases [0].GetComponent<GM_Base_KOTH>().ChangeIndex(i);
         } else if (manager.GM == GM_Manager.GameMode.BB)
         {
+            GameObject shields = GameObject.Find("Shields");
             for (int j = 0; j < bases.Length; j++)
             {
                 particles [j].SetActive(j == i);
                 bases [j].SetActive(j == i);
+                shields.transform.GetChild(j).gameObject.SetActive(j == i);
             }
         }
     }

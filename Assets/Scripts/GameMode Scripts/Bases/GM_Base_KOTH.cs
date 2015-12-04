@@ -36,6 +36,20 @@ public class GM_Base_KOTH : GM_Base
         }
     }
 
+    public override void GivePoints(float points)
+    {
+        if (whoseBase == null)
+        {
+            FindWhoseBase();
+        }
+        
+        if (whoseBase != null && !manager.RoundFinished)
+        {
+            whoseBase.GetComponent<Player_Score>().ChangeScore(points);
+            basesManager.RpcPlayScoreParticles(playerNumber);
+        }
+    }
+
     public void ChangeIndex(int i)
     {
         currentIndex = i;

@@ -78,7 +78,7 @@ public class GM_Base : GM_GameMode
 
     }
 
-    public void GivePoints(float points)
+    public virtual void GivePoints(float points)
     {
         if (whoseBase == null)
         {
@@ -89,6 +89,7 @@ public class GM_Base : GM_GameMode
         {
             whoseBase.GetComponent<Player_Score>().ChangeScore(points);
             basesManager.RpcPlayScoreParticles(playerNumber);
+            messageManager.RpcShowMessage("Score!", 5);
         }
     }
 

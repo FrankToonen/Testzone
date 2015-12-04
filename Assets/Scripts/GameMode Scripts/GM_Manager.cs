@@ -188,7 +188,7 @@ public class GM_Manager : NetworkBehaviour
     void RpcSetCountdownTimer(string t)
     {
         RawImage timerImage = GameObject.Find("Countdown Timer Image").GetComponent<RawImage>();
-        timerImage.texture = Resources.Load<Texture>("Images/countdown_" + t);
+        timerImage.texture = Resources.Load<Texture>("Images/HUD/countdown_" + t);
     }
 
     [ClientRpc]
