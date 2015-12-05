@@ -22,7 +22,8 @@ public class Gun : NetworkBehaviour
 
     protected float reloadTimeLeft, maxChargeTime, charge;
     protected int range, charges, maxCharges;
-    public bool canShoot;
+    bool canShoot;
+    protected bool isPlayer = true;
 
     protected Expand uiCharges;
 
@@ -43,8 +44,12 @@ public class Gun : NetworkBehaviour
             indicator.SetActive(false);
         }
 
+        if (isPlayer)
+        {
+            cam = GetComponentInChildren<Camera>();
+        }
+
         audioSource = GetComponent<AudioSource>();
-        cam = GetComponentInChildren<Camera>();
         rayCastLayerMask = ~((1 << 9) | (1 << 2));
         canShoot = true;
         range = 200;
@@ -61,7 +66,7 @@ public class Gun : NetworkBehaviour
         if (charges < maxCharges)
         {
             reloadTimeLeft -= Time.deltaTime;
-            if (isLocalPlayer)
+            if (isLocalPlayer && uiCharges != null)
             {
                 uiCharges.ChargeBar(charges, 1 - (reloadTimeLeft / reloadTime));
             }
@@ -69,7 +74,7 @@ public class Gun : NetworkBehaviour
             if (reloadTimeLeft <= 0)
             {
                 charges++;
-                if (isLocalPlayer)
+                if (isLocalPlayer && uiCharges != null)
                 {
                     uiCharges.ChangeBarsVisible(charges);
                 }
@@ -106,12 +111,15 @@ public class Gun : NetworkBehaviour
         audioSource.PlayOneShot(audioClip);
 
         charges -= (int)Mathf.Floor(Mathf.Clamp(charge, 1, 3));
-        if (isLocalPlayer)
+        if (isLocalPlayer && uiCharges != null)
         {
             uiCharges.ChangeBarsVisible(charges);
         }
 
-        primaryParticles.Play();
+        if (primaryParticles != null)
+        {
+            primaryParticles.Play();
+        }
     }
     
     protected virtual void ShootSecondary(string objectHit, Vector3 point, float charge)
@@ -120,12 +128,15 @@ public class Gun : NetworkBehaviour
         audioSource.PlayOneShot(audioClip);
 
         charges -= (int)Mathf.Floor(Mathf.Clamp(charge, 1, 3));
-        if (isLocalPlayer)
+        if (isLocalPlayer && uiCharges != null)
         {
             uiCharges.ChangeBarsVisible(charges);
         }
 
-        secondaryParticles.Play();
+        if (secondaryParticles != null)
+        {
+            secondaryParticles.Play();
+        }
     }
 
     public void ChargeGun(float timeHeld)
@@ -206,5 +217,4 @@ public class Gun : NetworkBehaviour
     {
         get { return charges; }
     }
-
 }

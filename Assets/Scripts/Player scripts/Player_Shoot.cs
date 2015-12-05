@@ -40,7 +40,7 @@ public class Player_Shoot : NetworkBehaviour
         //bool RTPressed = prevRTValue < currentRTValue;
         bool RTReleased = prevRTValue > currentRTValue;
 
-        if (primaryGun.canShoot)
+        if (primaryGun.CanShoot)
         {
             if (Input.GetAxis("Fire1") == 1 || Input.GetAxis("Fire2") == 1)
             {
@@ -69,7 +69,7 @@ public class Player_Shoot : NetworkBehaviour
 
 
 
-        if (pulseGun.canShoot)
+        if (pulseGun.CanShoot)
         {
             if (Input.GetButton("FirePulse1") || Input.GetButton("FirePulse2"))
             {

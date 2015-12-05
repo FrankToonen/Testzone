@@ -5,16 +5,12 @@ using System.Collections;
 
 public class Gun_Terraformer : Gun
 {
-    [SerializeField]
-    float
-        radius;
-    public float chargedRadius;
+    //[SerializeField]
+    protected float radius;
 
     protected override void Start()
     {
         base.Start();
-
-        uiCharges = GameObject.Find("Bar Overlap").GetComponent<Expand>();
 
         primarySoundName = "terraformer_primary";
         secondarySoundName = "terraformer_secondary";
@@ -23,7 +19,11 @@ public class Gun_Terraformer : Gun
         maxCharges = 3;
         charges = maxCharges;
 
-        GetComponent<Player_Shoot>().EventShoot += Shoot;
+        if (isPlayer)
+        {
+            uiCharges = GameObject.Find("Bar Overlap").GetComponent<Expand>();
+            GetComponent<Player_Shoot>().EventShoot += Shoot;
+        }
     }
 
     protected override void ShootPrimary(string objectHit, Vector3 point, float charge)
