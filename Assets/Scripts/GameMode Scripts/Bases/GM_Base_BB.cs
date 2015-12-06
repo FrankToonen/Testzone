@@ -28,6 +28,8 @@ public class GM_Base_BB : GM_Base
 
                 GivePoints(100, lastHit);
                 other.GetComponent<GM_Ball>().ResetPosition();
+
+                manager.RpcPlaySound("score");
             }
         }
     }
@@ -92,9 +94,6 @@ public class GM_Base_BB : GM_Base
             SelectNewIndex();
         } else
         {
-            // TEST
-            newIndex = 0;
-
             hasBeenActive [newIndex] = true;
             basesManager.RpcChangeBasePosition(newIndex);
         }

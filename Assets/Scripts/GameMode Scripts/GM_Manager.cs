@@ -22,12 +22,15 @@ public class GM_Manager : NetworkBehaviour
 
     public bool roundStarted { get; private set; }
 
+    AudioSource audioSource;
     Text timerText;
     float timer;
     bool timerStarted, initialized, roundEnded;
 
     void Initialize()
     {
+        audioSource = GetComponent<AudioSource>();
+
         string gm = GameObject.FindWithTag("NetworkManager").GetComponent<Network_Manager>().selectedGameMode;
         switch (gm)
         {
@@ -142,6 +145,8 @@ public class GM_Manager : NetworkBehaviour
     {
         scoreboardImage.gameObject.SetActive(true);
         GameObject.FindWithTag("NetworkManager").GetComponent<Network_DisplayScore>().ShowScoreboard();
+
+        RpcPlaySound("endround");
     }
 
     public void StartRound()
@@ -149,7 +154,7 @@ public class GM_Manager : NetworkBehaviour
         StartCoroutine(SpawnGameMode());
     }
 
-    void SetScore()
+    /*void SetScore()
     {
         if (gameMode == GameMode.BB)
         {
@@ -159,13 +164,13 @@ public class GM_Manager : NetworkBehaviour
                 p.GetComponent<Player_Score>().ChangeScore(5);
             }
         }
-    }
+    }*/
 
     IEnumerator SpawnGameMode()
     {
         yield return new WaitForSeconds(3);
 
-        SetScore();
+        //SetScore();
 
         EnablePlayerMovement(false);
 
@@ -180,12 +185,16 @@ public class GM_Manager : NetworkBehaviour
             }
 
             RpcSetCountdownTimer(ts);
+            RpcPlaySound("countdown");
 
             yield return new WaitForSeconds(1);
         }
         
         RpcSetCountdownTimer("start");
+        RpcPlaySound("startround");
+
         yield return new WaitForSeconds(.5f);
+
         RpcSetCountdownTimer("empty");
         roundStarted = true;
 
@@ -239,6 +248,13 @@ public class GM_Manager : NetworkBehaviour
         {
             NetworkServer.Spawn(gameModeObject);
         }
+    }
+
+    [ClientRpc]
+    public void RpcPlaySound(string name)
+    {
+        AudioClip audioClip = Resources.Load<AudioClip>("Sounds/snd_" + name);
+        audioSource.PlayOneShot(audioClip);
     }
 
     public GameMode GM

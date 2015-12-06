@@ -107,8 +107,7 @@ public class Gun : NetworkBehaviour
 
     protected virtual void ShootPrimary(string objectHit, Vector3 point, float charge)
     {
-        AudioClip audioClip = Resources.Load<AudioClip>("Sounds/snd_" + primarySoundName);
-        audioSource.PlayOneShot(audioClip);
+        PlaySound(primarySoundName);
 
         charges -= (int)Mathf.Floor(Mathf.Clamp(charge, 1, 3));
         if (isLocalPlayer && uiCharges != null)
@@ -124,8 +123,7 @@ public class Gun : NetworkBehaviour
     
     protected virtual void ShootSecondary(string objectHit, Vector3 point, float charge)
     {
-        AudioClip audioClip = Resources.Load<AudioClip>("Sounds/snd_" + secondarySoundName);
-        audioSource.PlayOneShot(audioClip);
+        PlaySound(secondarySoundName);
 
         charges -= (int)Mathf.Floor(Mathf.Clamp(charge, 1, 3));
         if (isLocalPlayer && uiCharges != null)
@@ -195,6 +193,12 @@ public class Gun : NetworkBehaviour
         }
 
         return new RaycastHit();
+    }
+
+    void PlaySound(string name)
+    {
+        AudioClip audioClip = Resources.Load<AudioClip>("Sounds/snd_" + name);
+        audioSource.PlayOneShot(audioClip);
     }
 
     protected IEnumerator ShootTimer(float seconds)

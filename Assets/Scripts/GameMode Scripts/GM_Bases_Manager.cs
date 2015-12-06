@@ -120,6 +120,11 @@ public class GM_Bases_Manager : NetworkBehaviour
                 StartCoroutine(LerpScale(players [j], new Vector3(scale, scale, scale)));
             }
         }
+
+        if (isServer)
+        {
+            manager.RpcPlaySound("basechange");
+        }
     }
 
     [ClientRpc]
@@ -130,9 +135,8 @@ public class GM_Bases_Manager : NetworkBehaviour
 
     IEnumerator LerpScale(GameObject obj, Vector3 targetScale)
     {
-        while (targetScale.x - obj.transform.localScale.x > 0.01f)
+        while (Mathf.Abs(targetScale.x - obj.transform.localScale.x) > 0.1f)
         {
-            Debug.Log(obj.transform.localScale.x + " | " + targetScale.x);
             obj.transform.localScale = Vector3.Lerp(obj.transform.localScale, targetScale, Time.deltaTime);
             yield return null;
         }
