@@ -26,7 +26,7 @@ public class GM_Base_BB : GM_Base
                     lastHit = lastHit.Remove(lastHit.Length - 1);
                 }
 
-                GivePoints(100, lastHit);
+                GivePoints(100, lastHit + " has scored!");
                 other.GetComponent<GM_Ball>().ResetPosition();
 
                 manager.RpcPlaySound("score");

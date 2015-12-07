@@ -185,13 +185,16 @@ public class GM_Manager : NetworkBehaviour
             }
 
             RpcSetCountdownTimer(ts);
-            RpcPlaySound("countdown");
+            if (11 - i == 3)
+            {
+                RpcPlaySound("countdown");
+            }
 
             yield return new WaitForSeconds(1);
         }
         
         RpcSetCountdownTimer("start");
-        RpcPlaySound("startround");
+        //RpcPlaySound("startround");
 
         yield return new WaitForSeconds(.5f);
 

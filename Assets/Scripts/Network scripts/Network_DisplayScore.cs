@@ -44,7 +44,10 @@ public class Network_DisplayScore : MonoBehaviour
     public void ShowScoreboard()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        
+
+        string bestPlayer = "";
+        int bestScore = 0;
+
         for (int p = 0; p < 4; p++)
         {
             GameObject scoreText = GameObject.Find("Scoreboard Text " + p);
@@ -55,13 +58,24 @@ public class Network_DisplayScore : MonoBehaviour
                     string pName = players [p].name;
                     if (pName != "")
                         pName = pName.Remove(pName.Length - 1);
-                    
-                    scoreText.GetComponent<Text>().text = pName + ": " + (int)players [p].GetComponent<Player_Score>().Score;
+
+                    int score = (int)players [p].GetComponent<Player_Score>().Score;
+
+                    scoreText.GetComponent<Text>().text = pName + ": " + score;
+
+                    if (score > bestScore)
+                    {
+                        bestPlayer = pName;
+                        bestScore = score;
+                    }
+
                 } else
                 {
                     scoreText.GetComponent<Text>().text = "";
                 }
             }
         }
+
+        GameObject.Find("Scoreboard Text Winner").GetComponent<Text>().text = bestPlayer + " has won with " + bestScore + " points!";
     }
 }

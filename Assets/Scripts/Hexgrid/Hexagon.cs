@@ -21,7 +21,7 @@ public class Hexagon : MonoBehaviour
     public void SetPositions(Vector3 pos, bool init = false)
     {
         startPosition = pos;
-        maxHeight = pos.y + 20;
+        maxHeight = pos.y + 30;
         minHeight = pos.y - 20;
 
         if (!init)
@@ -36,9 +36,11 @@ public class Hexagon : MonoBehaviour
         Vector2 hexXZ = new Vector2(transform.position.x, transform.position.z);
         Vector2 pointXZ = new Vector2(point.x, point.z);
             
-        float distance = (radius + 0.5f) - Vector2.Distance(hexXZ, pointXZ);
-        distance = distance > 0 ? Mathf.Pow(distance, 2) : 0;
+        //float distance = (radius + 0.5f) - Vector2.Distance(hexXZ, pointXZ);
+        //distance = distance > 0 ? Mathf.Pow(distance, 2) : 0;
             
+        float distance = (Mathf.Pow(radius - .5f, 2) - Mathf.Pow(Vector2.Distance(hexXZ, pointXZ), 2)) / 2;
+
         if (distance > 0)
         {
             Vector3 target = Vector3.up * distance * dir;

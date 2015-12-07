@@ -7,6 +7,7 @@ public class ObjectiveMarker : MonoBehaviour
 {
     GameObject ball;
     Camera cam;
+    bool isVisible;
 
     void Start()
     {
@@ -28,7 +29,7 @@ public class ObjectiveMarker : MonoBehaviour
 
             if (screenPos.z > 0 && screenPos.x > 0 && screenPos.x < Screen.width && screenPos.y > 0 && screenPos.y < Screen.height)
             {
-                float distance = Vector3.Distance(transform.position, cam.transform.position) / 1000;
+                float distance = Vector3.Distance(transform.position, cam.transform.position) / 1250;
                 transform.localScale = new Vector3(distance, distance, distance);
                 transform.position = screenPos + new Vector3(0, distance * 100, 0);
                 transform.localRotation = Quaternion.Euler(0, 0, 180);
@@ -51,7 +52,8 @@ public class ObjectiveMarker : MonoBehaviour
 
                 screenPos = screenCenter + new Vector3(sin * 150, cos * 150, 0);
 
-                float m = cos / sin;
+                /// Rand scherm
+                /*float m = cos / sin;
 
                 Vector3 screenBounds = screenCenter * 0.9f;
 
@@ -69,9 +71,15 @@ public class ObjectiveMarker : MonoBehaviour
                 } else if (screenPos.x < -screenBounds.x)
                 {
                     screenPos = new Vector3(-screenBounds.x, -screenBounds.x * m, 0);
-                }
+                }*/
+                ///
 
-                transform.localScale = new Vector3(.5f, .5f, .5f);
+                /// Radius om midden scherm
+                int radius = 75;
+                screenPos = new Vector3(sin * radius, cos * radius, 0);
+                ///
+
+                transform.localScale = new Vector3(.3f, .3f, .3f);
                 transform.localPosition = screenPos;
                 transform.localRotation = Quaternion.Euler(0, 0, angle * Mathf.Rad2Deg);
             }
