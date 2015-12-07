@@ -30,7 +30,7 @@ public class ObjectiveMarker : MonoBehaviour
             {
                 float distance = Vector3.Distance(transform.position, cam.transform.position) / 1000;
                 transform.localScale = new Vector3(distance, distance, distance);
-                transform.position = screenPos + new Vector3(0, 50, 0);
+                transform.position = screenPos + new Vector3(0, distance * 100, 0);
                 transform.localRotation = Quaternion.Euler(0, 0, 180);
             } else
             {
