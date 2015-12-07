@@ -10,6 +10,7 @@ public class Gun_Terraformer_Sentry : Gun_Terraformer
         EventShoot;
 
     public float shootCharge = 1;
+    public bool isPrimary = true;
 
     protected override void Start()
     {
@@ -37,8 +38,7 @@ public class Gun_Terraformer_Sentry : Gun_Terraformer
 
         if (charges > 0)
         {
-            //Shoot("", transform.position, shootCharge, Random.value > 0.5f);
-            CmdShoot("", transform.position, shootCharge, Random.value > 0.5f);
+            CmdShoot("", transform.position, shootCharge, isPrimary);
         }
     }
 
