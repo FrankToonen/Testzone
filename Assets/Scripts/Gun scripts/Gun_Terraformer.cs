@@ -80,7 +80,26 @@ public class Gun_Terraformer : Gun
                     objectsHit [n].GetComponent<Player_Force>().AddImpact(launchDir, (100 / objectsHit [n].transform.localScale.x) * chargedRadius);
                 } else if (objectsHit [n].tag == "PhysicsObject" || objectsHit [n].tag == "Flag" || objectsHit [n].tag == "Ball")
                 {
-                    objectsHit [n].GetComponent<Rigidbody>().AddForce(Vector3.up * 1000 * chargedRadius);
+                    /*float force = 0;
+                    switch ((int)chargedRadius)
+                    {
+                        case 3:
+                            {
+                                force = 4000;
+                                break;
+                            }
+                        case 6:
+                            {
+                                force = 6000;
+                                break;
+                            }
+                        case 9:
+                            {
+                                force = 8000;
+                                break;
+                            }
+                    }*/
+                    objectsHit [n].GetComponent<Rigidbody>().AddForce(Vector3.up * (2000 + 2000 * (chargedRadius / 3)) /*force*/);
 
                     if (objectsHit [n].tag == "Ball")
                     {
