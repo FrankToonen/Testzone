@@ -38,8 +38,19 @@ public class Hexagon : MonoBehaviour
             
         //float distance = (radius + 0.5f) - Vector2.Distance(hexXZ, pointXZ);
         //distance = distance > 0 ? Mathf.Pow(distance, 2) : 0;
-            
-        float distance = (Mathf.Pow(radius - .5f, 2) - Mathf.Pow(Vector2.Distance(hexXZ, pointXZ), 2)) / 2;
+
+        float distance = 0;
+        if (dir == 1)
+        {
+            distance = (radius - 0.5f) - Vector2.Distance(hexXZ, pointXZ);
+            if (distance > 0)
+            {
+                distance = Mathf.Pow(distance, 2) / 2;
+            }
+        } else
+        {
+            distance = (Mathf.Pow(radius - .5f, 2) - Mathf.Pow(Vector2.Distance(hexXZ, pointXZ), 2)) / 4;
+        }
 
         if (distance > 0)
         {

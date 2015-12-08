@@ -56,7 +56,7 @@ public class Gun : NetworkBehaviour
         maxChargeTime = 3;
     }
 
-    void Update()
+    protected virtual void Update()
     {
         ChargeCharges();
     }

@@ -9,11 +9,14 @@ public class Gun_PulseGun : Gun
     float
         force;
 
+    RawImage crosshair;
+
     protected override void Start()
     {
         base.Start();
 
         uiCharges = GameObject.Find("Pulse Indicator").GetComponent<Expand>();
+        crosshair = GameObject.Find("Crosshair Icon").GetComponent<RawImage>();
 
         GetComponent<Player_Shoot>().EventPulse += Shoot;
         rayCastLayerMask = 1 << 10;
@@ -25,6 +28,33 @@ public class Gun_PulseGun : Gun
         maxChargeTime = 1;
         charges = maxCharges;
     }
+
+    protected override void Update()
+    {
+        base.Update();
+
+        if (!isLocalPlayer)
+        {
+            return;
+        }
+
+        ShowIndicator();
+    }
+
+    void ShowIndicator()
+    {
+        RaycastHit hit = ShootRayCast();
+
+        bool hitSomething = false;
+        Collider[] objectsHit = Physics.OverlapSphere(hit.point, Vector3.Distance(transform.position, hit.point));
+        foreach (Collider c in objectsHit)
+        {
+            hitSomething |= (c.tag == "Player" && !c.gameObject.GetComponent<Player_Setup>().isLocalPlayer) || c.tag == "Ball";
+        }
+
+        crosshair.color = hitSomething ? Color.red : Color.white;
+    }
+
 
     protected override void ShootPrimary(string objectHit, Vector3 point, float charge)
     {

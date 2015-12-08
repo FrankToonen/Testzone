@@ -108,9 +108,10 @@ public class GM_Bases_Manager : NetworkBehaviour
             for (int j = 0; j < bases.Length; j++)
             {
                 particles [j].SetActive(j == i);
-                bases [j].SetActive(j == i);
+                bases [j].SetActive(/*j == i*/false);
                 shields.transform.GetChild(j).gameObject.SetActive(j == i);
             }
+            bases [i].SetActive(true);
 
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
             for (int j = 0; j < players.Length; j++)
