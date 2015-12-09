@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -8,6 +9,7 @@ public class SlideShow : MonoBehaviour
     List<GameObject> images;
     int index;
     RotateBots rotatingBots;
+    Image overlay;
 
     void Awake()
     {
@@ -15,6 +17,13 @@ public class SlideShow : MonoBehaviour
         if (bots != null)
         {
             rotatingBots = bots.GetComponent<RotateBots>();
+        }
+
+        GameObject ol = GameObject.Find("HowToPlay Overlay");
+        if (ol != null)
+        {
+            overlay = ol.GetComponent<Image>();
+            overlay.enabled = false;
         }
 
         images = new List<GameObject>();
@@ -28,6 +37,11 @@ public class SlideShow : MonoBehaviour
 
     void Update()
     {
+        if (overlay != null)
+        {
+            overlay.enabled = playing;
+        }
+
         if (Input.anyKeyDown && playing /* && !Input.GetKeyDown(KeyCode.Escape)*/)
         {
             index++;

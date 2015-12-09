@@ -5,6 +5,7 @@ using System.Collections;
 
 public class Player_Pause : MonoBehaviour
 {
+    LockCursor cursorLock;
     GM_Manager manager;
     ButtonContainer buttons;
     GameObject overlay;
@@ -14,6 +15,7 @@ public class Player_Pause : MonoBehaviour
     void Awake()
     {
         //setup = GetComponent<Player_Setup>();
+        cursorLock = GetComponent<LockCursor>();
         manager = GetComponent<GM_Manager>();
         overlay = GameObject.Find("Pause Overlay");
         FindButtonContainer();
@@ -46,13 +48,13 @@ public class Player_Pause : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape) && !manager.RoundFinished)
         {
-            isPaused = !isPaused;
-            Pause(isPaused);
+            Pause(!isPaused);
         }
     }
 
     public void Pause(bool p)
     {
+        isPaused = p;
         overlay.SetActive(p);
         EnableButtons(p);
 
@@ -68,10 +70,7 @@ public class Player_Pause : MonoBehaviour
             setup.EnableCameraMovement(!p);
         }
 
-        /*if (!p)
-        {
-            GameObject.Find("HowToPlaySlides").GetComponent<SlideShow>().StopSlideShow();
-        }*/
+        cursorLock.SetLockState(!p);
     }
     
     void EnableButtons(bool e)
@@ -79,11 +78,5 @@ public class Player_Pause : MonoBehaviour
         buttons.FindButton("Quit Button").SetActive(e);
         buttons.FindButton("HowToPlay Button").SetActive(e);
         buttons.FindButton("Continue Button").SetActive(e);
-    }
-
-    void OpenPauseMenu()
-    {
-        isPaused = false;
-        Pause(isPaused);
     }
 }
