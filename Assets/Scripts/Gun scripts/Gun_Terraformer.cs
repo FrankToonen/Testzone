@@ -43,7 +43,7 @@ public class Gun_Terraformer : Gun
     void ShootTerraformer(string objectHit, Vector3 point, float charge, int dir)
     {
         bool hasHit = false;
-        float chargedRadius = radius * Mathf.Floor(Mathf.Clamp(charge, 1, maxChargeTime));
+        float chargedRadius = radius * (Mathf.Floor(/*Mathf.Clamp(*/charge/*, 1, maxChargeTime)*/) + 1);
 
         Collider[] objectsHit = Physics.OverlapSphere(point, chargedRadius);
         for (int n = 0; n < objectsHit.Length; n++)
