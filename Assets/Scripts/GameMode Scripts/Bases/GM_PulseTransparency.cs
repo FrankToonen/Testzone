@@ -16,16 +16,14 @@ public class GM_PulseTransparency : MonoBehaviour
     {
         timeActive += Time.deltaTime;
 
-        if (timeActive < 30)
+        //fadingOut = timeActive >= 30;
+        if (!fadingOut)
         {
             transparency = (Mathf.Abs(Mathf.Sin(timeActive)) / 2) + 0.35f;
-        } else if (timeActive >= 30 && !fadingOut)
-        {
-            FadeOut();
-        } else if (fadingOut)
+        } /* else if (fadingOut)
         {
             transparency = 1 - ((timeActive - 30) / 30);
-        }
+        }*/
 
         Color color = rend.material.color;
         color.a = transparency;
@@ -38,8 +36,16 @@ public class GM_PulseTransparency : MonoBehaviour
         fadingOut = false;
     }
 
-    void FadeOut()
+    public void StartBlink()
+    {
+        StartCoroutine(Blink());
+    }
+
+    IEnumerator Blink()
     {
         fadingOut = true;
+        transparency = 0;
+        yield return new WaitForSeconds(0.5f);
+        transparency = 0.75f;
     }
 }

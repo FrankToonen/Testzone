@@ -86,6 +86,7 @@ public class GM_Bases_Manager : NetworkBehaviour
                 {
                     bases [0].GetComponent<GM_Base>().SelectNewIndex();
                     timeLeft = rotationTime;
+                    tickStarted = false;
                 }
             }
         }
@@ -146,6 +147,13 @@ public class GM_Bases_Manager : NetworkBehaviour
         for (int c = 0; c < 3; c++)
         {
             manager.RpcPlaySound("base_countdown");
+            foreach (GameObject b in bases)
+            {
+                if (b.activeInHierarchy)
+                {
+                    b.GetComponent<GM_PulseTransparency>().StartBlink();
+                }
+            }
             yield return new WaitForSeconds(1);
         }
     }

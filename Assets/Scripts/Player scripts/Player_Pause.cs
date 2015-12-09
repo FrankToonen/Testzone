@@ -5,6 +5,7 @@ using System.Collections;
 
 public class Player_Pause : MonoBehaviour
 {
+    GM_Manager manager;
     ButtonContainer buttons;
     GameObject overlay;
     Player_Setup setup;
@@ -13,6 +14,7 @@ public class Player_Pause : MonoBehaviour
     void Awake()
     {
         //setup = GetComponent<Player_Setup>();
+        manager = GetComponent<GM_Manager>();
         overlay = GameObject.Find("Pause Overlay");
         FindButtonContainer();
         Pause(false);
@@ -42,7 +44,7 @@ public class Player_Pause : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !manager.RoundFinished)
         {
             isPaused = !isPaused;
             Pause(isPaused);

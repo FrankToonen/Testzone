@@ -88,6 +88,7 @@ public class GM_Manager : NetworkBehaviour
                 Player_Setup setup = p.GetComponent<Player_Setup>();
                 if (setup != null)
                 {
+                    GetComponent<Player_Pause>().Pause(false);
                     setup.EnableControls(false);
                     setup.EnableArmMovement(false);
                     setup.EnableCameraMovement(false);
