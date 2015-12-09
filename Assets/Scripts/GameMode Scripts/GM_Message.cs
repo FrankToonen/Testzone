@@ -9,16 +9,6 @@ public class GM_Message : NetworkBehaviour
     GameObject
         overlay;
 
-    void Update()
-    {
-        // TEST
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            Debug.Log("H pressed");
-            RpcShowMessage("Lol", 3);
-        }
-    }
-
     [ClientRpc]
     public void RpcShowMessage(string message, float time)
     {

@@ -9,6 +9,7 @@ public class GM_Bases_Manager : NetworkBehaviour
     GameObject[] particles;
 
     float timeLeft, rotationTime;
+    bool tickStarted;
 
     public void Initialize(GM_Manager.GameMode gameMode)
     {
@@ -62,7 +63,6 @@ public class GM_Bases_Manager : NetworkBehaviour
         timeLeft = rotationTime;
     }
 	
-    // Update is called once per frame
     void Update()
     {
         if (manager == null || !isServer)
@@ -75,6 +75,13 @@ public class GM_Bases_Manager : NetworkBehaviour
             if (manager.roundStarted)
             {
                 timeLeft -= Time.deltaTime;
+
+                if (timeLeft <= 3 && !tickStarted)
+                {
+                    tickStarted = true;
+                    StartCoroutine(TickSound());
+                }
+
                 if (timeLeft <= 0)
                 {
                     bases [0].GetComponent<GM_Base>().SelectNewIndex();
@@ -132,6 +139,15 @@ public class GM_Bases_Manager : NetworkBehaviour
     public void RpcPlayScoreParticles(int i)
     {
         bases [i].GetComponent<GM_Base>().PlayScoreParticles();
+    }
+
+    IEnumerator TickSound()
+    {
+        for (int c = 0; c < 3; c++)
+        {
+            manager.RpcPlaySound("base_countdown");
+            yield return new WaitForSeconds(1);
+        }
     }
 
     IEnumerator LerpScale(GameObject obj, Vector3 targetScale)

@@ -3,19 +3,18 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Collections;
 
-public class GM_Ball : GM_GameMode
+public class GM_Ball : NetworkBehaviour
 {
     Vector3 startPosition;
     public string lastHitBy;
     RawImage indicator;
-    ParticleSystem explosionParticles;
 
-    protected override void Start()
+    [SerializeField]
+    GameObject
+        explosion;
+
+    void Start()
     {
-        base.Start();
-
-        explosionParticles = transform.FindChild("Explosion Particles").GetComponent<ParticleSystem>();
-
         startPosition = transform.position;
         transform.name = "Ball";
         indicator = GameObject.Find("Objective Indicator").GetComponent<RawImage>();
@@ -33,11 +32,9 @@ public class GM_Ball : GM_GameMode
         GetComponent<ParticleSystem>().Stop();
         indicator.enabled = false;
 
-        PlayExplosion();
+        RpcPlayExplosion();
 
         yield return new WaitForSeconds(3);
-
-        explosionParticles.Stop();
 
         lastHitBy = "";
         GetComponent<SphereCollider>().enabled = true;
@@ -49,7 +46,8 @@ public class GM_Ball : GM_GameMode
         transform.position = startPosition;
     }
 
-    void PlayExplosion()
+    [ClientRpc]
+    void RpcPlayExplosion()
     {
         Color explosionColor = Color.white;
 
@@ -81,7 +79,7 @@ public class GM_Ball : GM_GameMode
             }
         }
 
-        explosionParticles.startColor = explosionColor;
-        explosionParticles.Play();
+        explosion.GetComponent<ParticleSystem>().startColor = explosionColor;
+        Instantiate(explosion, transform.position, Quaternion.identity);
     }
 }

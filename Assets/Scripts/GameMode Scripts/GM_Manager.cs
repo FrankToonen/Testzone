@@ -78,7 +78,7 @@ public class GM_Manager : NetworkBehaviour
             Initialize();
         }
 
-        if (isServer && RoundFinished && initialized && !roundEnded)
+        if (/*isServer &&*/ RoundFinished && initialized && !roundEnded)
         {
             RpcShowScoreboard();
             roundEnded = true;
@@ -204,7 +204,7 @@ public class GM_Manager : NetworkBehaviour
         EnablePlayerMovement(true);
         SpawnGameModeObject();
 
-        RpcStartTimer(240);
+        RpcStartTimer(5);
     }
 
     [ClientRpc]
