@@ -205,7 +205,7 @@ public class GM_Manager : NetworkBehaviour
         EnablePlayerMovement(true);
         SpawnGameModeObject();
 
-        RpcStartTimer(5);
+        RpcStartTimer(240);
     }
 
     [ClientRpc]
