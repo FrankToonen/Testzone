@@ -156,8 +156,8 @@ public class Network_HUD : MonoBehaviour
         {
             if (manager.matches != null)
             {
-                float yPos = 80;
-                float xPos = 350;
+                float yPos = 100;
+                float xPos = 0;
                 int counter = 0;
                 foreach (var match in manager.matches)
                 {
@@ -166,6 +166,7 @@ public class Network_HUD : MonoBehaviour
                         GameObject button = Instantiate(joinButton, Vector3.zero, Quaternion.identity) as GameObject;
                         button.transform.parent = GameObject.FindWithTag("Canvas").transform;
                         button.transform.localPosition = new Vector3(xPos, yPos, 0);
+                        button.transform.localScale = new Vector3(1.5f, 1.5f, 1);
                         button.GetComponent<Network_Match>().match = match;
                         button.GetComponent<Button>().GetComponentInChildren<Text>().text = "Join: " + match.name;
                         joinButtons.Add(button);

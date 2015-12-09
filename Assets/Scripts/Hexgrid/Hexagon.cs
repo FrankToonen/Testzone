@@ -42,7 +42,7 @@ public class Hexagon : MonoBehaviour
         float distance = 0;
         if (dir == 1)
         {
-            distance = (radius - 0.5f) - Vector2.Distance(hexXZ, pointXZ);
+            distance = (radius + 0.5f) - Vector2.Distance(hexXZ, pointXZ);
             if (distance > 0)
             {
                 distance = Mathf.Pow(distance, 2) / 2;

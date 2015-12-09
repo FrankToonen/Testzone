@@ -25,14 +25,15 @@ public class RotateBots : MonoBehaviour
             timePassed += Time.deltaTime;
             botTimer -= Time.deltaTime;
 
-            rotation = Quaternion.Euler(0, timePassed * 10, 0);
-            bots [bot].transform.rotation = rotation;
-
-            //bot = (int)(((int)timePassed % 40) / 10);
             if (botTimer <= 0)
             {
                 Activate();
             }
+
+            rotation = Quaternion.Euler(0, timePassed * 10, 0);
+            bots [bot].transform.rotation = rotation;
+
+            //bot = (int)(((int)timePassed % 40) / 10);
         }
     }
 
