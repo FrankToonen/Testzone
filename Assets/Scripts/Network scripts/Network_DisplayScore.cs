@@ -30,12 +30,12 @@ public class Network_DisplayScore : MonoBehaviour
 
                     scoreText.GetComponent<Text>().text = pName + ": " + (int)players [p].GetComponent<Player_Score>().Score;
                     GameObject.Find("Scoreboard Overlay " + p).GetComponent<RawImage>().enabled = true;
-                    GameObject.Find("Scoreboard Gem " + p).GetComponent<RawImage>().enabled = true;
+                    //GameObject.Find("Scoreboard Gem " + p).GetComponent<RawImage>().enabled = true;
                 } else
                 {
                     scoreText.GetComponent<Text>().text = "";
                     GameObject.Find("Scoreboard Overlay " + p).GetComponent<RawImage>().enabled = false;
-                    GameObject.Find("Scoreboard Gem " + p).GetComponentInChildren<RawImage>().enabled = false;
+                    //GameObject.Find("Scoreboard Gem " + p).GetComponentInChildren<RawImage>().enabled = false;
                 }
             }
         }

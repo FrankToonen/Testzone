@@ -7,9 +7,16 @@ public class SlideShow : MonoBehaviour
     bool playing;
     List<GameObject> images;
     int index;
+    RotateBots rotatingBots;
 
     void Awake()
     {
+        GameObject bots = GameObject.Find("Rotating Bots");
+        if (bots != null)
+        {
+            rotatingBots = bots.GetComponent<RotateBots>();
+        }
+
         images = new List<GameObject>();
         for (int i = 0; i < transform.childCount; i++)
         {
@@ -24,9 +31,9 @@ public class SlideShow : MonoBehaviour
         if (Input.anyKeyDown && playing /* && !Input.GetKeyDown(KeyCode.Escape)*/)
         {
             index++;
-            if (index > images.Count)
+            if (index >= images.Count)
             {
-                EnableSlide(-1);
+                StopSlideShow();
             } else
             {
                 EnableSlide(index);
@@ -44,12 +51,22 @@ public class SlideShow : MonoBehaviour
         playing = true;
         index = 0;
         EnableSlide(index);
+
+        if (rotatingBots != null)
+        {
+            rotatingBots.Deactivate();
+        }
     }
 
     public void StopSlideShow()
     {
         playing = false;
         EnableSlide(-1);
+
+        if (rotatingBots != null)
+        {
+            rotatingBots.Activate();
+        }
     }
 
     void EnableSlide(int i)

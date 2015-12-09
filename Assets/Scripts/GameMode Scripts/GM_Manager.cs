@@ -5,7 +5,7 @@ using System.Collections;
 
 public class GM_Manager : NetworkBehaviour
 {
-    GameMode gameMode = GameMode.None;
+    GameMode gameMode = GameMode.BB;
     public enum GameMode
     {
         None, // Default
@@ -31,7 +31,7 @@ public class GM_Manager : NetworkBehaviour
     {
         audioSource = GetComponent<AudioSource>();
 
-        string gm = GameObject.FindWithTag("NetworkManager").GetComponent<Network_Manager>().selectedGameMode;
+        /*string gm = GameObject.FindWithTag("NetworkManager").GetComponent<Network_Manager>().selectedGameMode;
         switch (gm)
         {
             case "Hot potato":
@@ -54,7 +54,7 @@ public class GM_Manager : NetworkBehaviour
                     gameMode = GM_Manager.GameMode.KOTH;
                     break;
                 }
-        }
+        }*/
                 
         timerText = GameObject.Find("Timer Text").GetComponent<Text>();
 

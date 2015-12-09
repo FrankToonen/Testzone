@@ -145,7 +145,7 @@ public class Player_Setup : NetworkBehaviour
         string uniqueName = GameObject.Find("NetworkManager").GetComponent<Network_Manager>().playername;
         if (uniqueName == "")
         {
-            List<string> names = new List<string>() { "Henk", "Arend", "Hans", "Ronald" };
+            List<string> names = new List<string>() { "Henk", "Anita", "Arend", "Hana" };
             uniqueName = names [playerNumber];
         }
         uniqueName += playerNumber;
