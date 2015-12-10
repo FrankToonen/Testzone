@@ -10,9 +10,12 @@ public class SlideShow : MonoBehaviour
     int index;
     RotateBots rotatingBots;
     Image overlay;
+    AudioSource source;
 
     void Awake()
     {
+        source = GetComponent<AudioSource>();
+
         GameObject bots = GameObject.Find("Rotating Bots");
         if (bots != null)
         {
@@ -44,6 +47,8 @@ public class SlideShow : MonoBehaviour
 
         if (Input.anyKeyDown && playing /* && !Input.GetKeyDown(KeyCode.Escape)*/)
         {
+            source.Play();
+
             index++;
             if (index >= images.Count)
             {
@@ -62,6 +67,9 @@ public class SlideShow : MonoBehaviour
 
     public void StartSlideShow()
     {
+        
+        source.Play();
+
         playing = true;
         index = 0;
         EnableSlide(index);

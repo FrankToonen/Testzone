@@ -12,8 +12,8 @@ public class Gun_Terraformer : Gun
     {
         base.Start();
 
-        primarySoundName = "terraformer_primary";
-        secondarySoundName = "terraformer_secondary";
+        primarySoundName = "terraformer";
+        secondarySoundName = "terraformer";
         reloadTime = 2;
         radius = 3;
         maxCharges = 3;

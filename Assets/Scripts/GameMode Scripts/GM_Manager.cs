@@ -102,7 +102,7 @@ public class GM_Manager : NetworkBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
-                    GameObject.FindWithTag("NetworkManager").GetComponent<Network_Manager>().StopHost();
+                    GameObject.FindWithTag("NetworkManager").GetComponent<Network_HUD>().Disconnect();
                 }
             }
         }

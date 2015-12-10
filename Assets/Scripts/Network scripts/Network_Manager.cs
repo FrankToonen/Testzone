@@ -130,4 +130,13 @@ public class Network_Manager : NetworkManager
             manager.StartRound();
         }
     }
+
+    public void SwitchSong(string name, float volume)
+    {
+        AudioSource source = GetComponent<AudioSource>();
+        source.clip = Resources.Load<AudioClip>("sounds/music/" + name);
+        source.volume = volume;
+        source.Play();
+
+    }
 }

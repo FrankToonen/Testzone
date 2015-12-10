@@ -101,6 +101,7 @@ public class Network_HUD : MonoBehaviour
     public void StartHost()
     {
         manager.StartHost();
+        manager.GetComponent<Network_Manager>().SwitchSong("playing", 0.01f);
     }
 
     public void StartClient()
@@ -196,6 +197,8 @@ public class Network_HUD : MonoBehaviour
     public void Disconnect()
     {
         manager.StopHost();
+        
+        manager.GetComponent<Network_Manager>().SwitchSong("menu", 0.05f);
     }
 
     /*void OnGUI()
