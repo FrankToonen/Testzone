@@ -27,31 +27,39 @@ public class GM_Ball : NetworkBehaviour
 
     IEnumerator ResetBall()
     {
-        GetComponent<SphereCollider>().enabled = false;
-        GetComponent<MeshRenderer>().enabled = false;
-        GetComponent<ParticleSystem>().Stop();
-        indicator.enabled = false;
-
         RpcPlayExplosion();
+        RpcSetVisible(false);
 
         yield return new WaitForSeconds(3);
 
-        lastHitBy = "";
-        GetComponent<SphereCollider>().enabled = true;
-        GetComponent<MeshRenderer>().enabled = true;
-        GetComponent<ParticleSystem>().Play();
-        indicator.enabled = true;
-
+        RpcSetVisible(true);
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         transform.position = startPosition;
+    }
+
+    [ClientRpc]
+    void RpcSetVisible(bool visible)
+    {
+        GetComponent<SphereCollider>().enabled = visible;
+        GetComponent<MeshRenderer>().enabled = visible;
+        indicator.enabled = visible;
+        if (!visible)
+        {
+            GetComponent<ParticleSystem>().Stop();
+        } else
+        {
+            GetComponent<ParticleSystem>().Play();
+        }
+
+        lastHitBy = "";
     }
 
     [ClientRpc]
     void RpcPlayExplosion()
     {
         Color explosionColor = Color.white;
-
         GameObject player = GameObject.Find(lastHitBy);
+
         if (player != null)
         {
             switch (player.GetComponent<Player_Setup>().playerNumber)

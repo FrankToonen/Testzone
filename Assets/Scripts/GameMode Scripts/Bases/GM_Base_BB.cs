@@ -30,7 +30,7 @@ public class GM_Base_BB : GM_Base
                 other.GetComponent<GM_Ball>().ResetPosition();
 
                 manager.RpcPlaySound("score");
-                manager.RpcPlaySound("crowd");
+                //manager.RpcPlaySound("crowd");
             }
         }
     }
