@@ -5,34 +5,37 @@ using System.Collections;
 
 public class Network_Manager : NetworkManager
 {
-	public string playername { get; private set; }
-	//public string selectedGun { get; private set; }
-	public string selectedGameMode { get; private set; }
+    public string playername { get; private set; }
+    //public string selectedGun { get; private set; }
+    public string selectedGameMode { get; private set; }
 
-	GameObject[] players;
-	GM_Manager manager;
+    GameObject[] players;
+    GM_Manager manager;
 
-	void Update ()
-	{
-		if (!IsClientConnected ()) {
-			GameObject inputField = GameObject.Find ("Player Name");
-			if (inputField != null) {
-				playername = inputField.GetComponent<InputField> ().text;
-			}
+    void Update()
+    {
+        if (!IsClientConnected())
+        {
+            GameObject inputField = GameObject.Find("Player Name");
+            if (inputField != null)
+            {
+                playername = inputField.GetComponent<InputField>().text;
+            }
 
-			/*GameObject gunDropDown = GameObject.Find("Gun Select");
+            /*GameObject gunDropDown = GameObject.Find("Gun Select");
             if (gunDropDown != null)
             {
                 selectedGun = gunDropDown.GetComponent<Dropdown>().captionText.text;
             }*/
 
-			GameObject gameModeDropDown = GameObject.Find ("GameMode Select");
-			if (gameModeDropDown != null) {
-				selectedGameMode = gameModeDropDown.GetComponent<Dropdown> ().captionText.text;
-			}
-		}
+            GameObject gameModeDropDown = GameObject.Find("GameMode Select");
+            if (gameModeDropDown != null)
+            {
+                selectedGameMode = gameModeDropDown.GetComponent<Dropdown>().captionText.text;
+            }
+        }
 
-		/*if (Input.GetKeyDown(KeyCode.Escape))
+        /*if (Input.GetKeyDown(KeyCode.Escape))
         {
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
             
@@ -50,84 +53,102 @@ public class Network_Manager : NetworkManager
             Application.Quit();
         }*/
 
-		// TEST
-		if (Input.GetKeyDown (KeyCode.J) && (manager != null && !manager.roundStarted)) {
-			manager.StartRound ();
-		}
-	}
+        // TEST
+        if (Input.GetKeyDown(KeyCode.J) && (manager != null && !manager.roundStarted))
+        {
+            manager.StartRound();
+        }
+    }
 
-	public void SetPlayerColor ()
-	{
-		players = GameObject.FindGameObjectsWithTag ("Player");
+    void OnLevelWasLoaded(int level)
+    {
+        if (level == 1)
+        {
+            GetComponent<Network_Manager>().SwitchSong("menu", 0.05f);
+            GetComponent<LockCursor>().SetLockState(false);
+        } else if (level == 2)
+        {
+            GetComponent<Network_Manager>().SwitchSong("playing", 0.01f);
+        }
+    }
 
-		for (int p = 0; p < 4; p++) {
-			if (p < players.Length) {
-				if (players [p].GetComponent<Player_Setup> ().playerNumber != p || players [p].transform.FindChild ("Bot") == null) {
-					players [p].GetComponent<Player_Setup> ().playerNumber = p;
+    public void SetPlayerColor()
+    {
+        players = GameObject.FindGameObjectsWithTag("Player");
 
-					switch (p) {
-					case 0:
-						{
-							GameObject model = Instantiate (Resources.Load<GameObject> ("Prefabs/bot_red"), Vector3.zero, Quaternion.identity) as GameObject;
-							model.name = "Bot";
-							model.transform.parent = players [p].transform;
-							model.transform.localPosition = new Vector3 (0, -1.25f, 0);
-							model.transform.Rotate (Vector3.up, 180);
-							model.transform.localScale = new Vector3 (13, 13, 13);
-							break;
-						}
-					case 1:
-						{
-							GameObject model = Instantiate (Resources.Load<GameObject> ("Prefabs/bot_green"), Vector3.zero, Quaternion.identity) as GameObject;
-							model.name = "Bot";
-							model.transform.parent = players [p].transform;
-							model.transform.localPosition = new Vector3 (0, -1.25f, 0);
-							model.transform.Rotate (Vector3.up, 180);
-							model.transform.localScale = new Vector3 (13, 13, 13);
-							break;
-						}
-					case 2:
-						{
-							GameObject model = Instantiate (Resources.Load<GameObject> ("Prefabs/bot_blue"), Vector3.zero, Quaternion.identity) as GameObject;
-							model.name = "Bot";
-							model.transform.parent = players [p].transform;
-							model.transform.localPosition = new Vector3 (0, -1.25f, 0);
-							model.transform.Rotate (Vector3.up, 180);
-							model.transform.localScale = new Vector3 (13, 13, 13);
-							break;
-						}
-					case 3: 
-						{
-							GameObject model = Instantiate (Resources.Load<GameObject> ("Prefabs/bot_yellow"), Vector3.zero, Quaternion.identity) as GameObject;
-							model.name = "Bot";
-							model.transform.parent = players [p].transform;
-							model.transform.localPosition = new Vector3 (0, -1.25f, 0);
-							model.transform.Rotate (Vector3.up, 180);
-							model.transform.localScale = new Vector3 (13, 13, 13);
-							break;
-						}
-					}
-				}
-			}
-		}
-	}
+        for (int p = 0; p < 4; p++)
+        {
+            if (p < players.Length)
+            {
+                if (players [p].GetComponent<Player_Setup>().playerNumber != p || players [p].transform.FindChild("Bot") == null)
+                {
+                    players [p].GetComponent<Player_Setup>().playerNumber = p;
 
-	public override void OnServerReady (NetworkConnection conn)
-	{
-		base.OnServerReady (conn);
+                    switch (p)
+                    {
+                        case 0:
+                            {
+                                GameObject model = Instantiate(Resources.Load<GameObject>("Prefabs/bot_red"), Vector3.zero, Quaternion.identity) as GameObject;
+                                model.name = "Bot";
+                                model.transform.parent = players [p].transform;
+                                model.transform.localPosition = new Vector3(0, -1.25f, 0);
+                                model.transform.Rotate(Vector3.up, 180);
+                                model.transform.localScale = new Vector3(13, 13, 13);
+                                break;
+                            }
+                        case 1:
+                            {
+                                GameObject model = Instantiate(Resources.Load<GameObject>("Prefabs/bot_green"), Vector3.zero, Quaternion.identity) as GameObject;
+                                model.name = "Bot";
+                                model.transform.parent = players [p].transform;
+                                model.transform.localPosition = new Vector3(0, -1.25f, 0);
+                                model.transform.Rotate(Vector3.up, 180);
+                                model.transform.localScale = new Vector3(13, 13, 13);
+                                break;
+                            }
+                        case 2:
+                            {
+                                GameObject model = Instantiate(Resources.Load<GameObject>("Prefabs/bot_blue"), Vector3.zero, Quaternion.identity) as GameObject;
+                                model.name = "Bot";
+                                model.transform.parent = players [p].transform;
+                                model.transform.localPosition = new Vector3(0, -1.25f, 0);
+                                model.transform.Rotate(Vector3.up, 180);
+                                model.transform.localScale = new Vector3(13, 13, 13);
+                                break;
+                            }
+                        case 3: 
+                            {
+                                GameObject model = Instantiate(Resources.Load<GameObject>("Prefabs/bot_yellow"), Vector3.zero, Quaternion.identity) as GameObject;
+                                model.name = "Bot";
+                                model.transform.parent = players [p].transform;
+                                model.transform.localPosition = new Vector3(0, -1.25f, 0);
+                                model.transform.Rotate(Vector3.up, 180);
+                                model.transform.localScale = new Vector3(13, 13, 13);
+                                break;
+                            }
+                    }
+                }
+            }
+        }
+    }
 
-		manager = GameObject.Find ("GameModeManager").GetComponent<GM_Manager> ();
-		if (numPlayers == 3 && !manager.roundStarted) { // Bij 4 spelers "numPlayers == 3"
-			//manager.StartRound();
-		}
-	}
+    public override void OnServerReady(NetworkConnection conn)
+    {
+        base.OnServerReady(conn);
 
-	public void SwitchSong (string name, float volume)
-	{
-		AudioSource source = GetComponent<AudioSource> ();
-		source.clip = Resources.Load<AudioClip> ("sounds/music/" + name);
-		source.volume = volume;
-		source.Play ();
+        manager = GameObject.Find("GameModeManager").GetComponent<GM_Manager>();
+        if (numPlayers == 3 && !manager.roundStarted)
+        { // Bij 4 spelers "numPlayers == 3"
+            //manager.StartRound();
+        }
+    }
 
-	}
+    public void SwitchSong(string name, float volume)
+    {
+        AudioSource source = GetComponent<AudioSource>();
+        source.clip = Resources.Load<AudioClip>("sounds/music/" + name);
+        source.volume = volume;
+        source.Play();
+
+    }
 }

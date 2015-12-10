@@ -15,7 +15,7 @@ public class Player_Pause : MonoBehaviour
     void Awake()
     {
         //setup = GetComponent<Player_Setup>();
-        cursorLock = GetComponent<LockCursor>();
+        cursorLock = GameObject.Find("NetworkManager").GetComponent<LockCursor>();
         manager = GetComponent<GM_Manager>();
         overlay = GameObject.Find("Pause Overlay");
         FindButtonContainer();

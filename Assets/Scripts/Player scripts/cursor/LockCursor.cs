@@ -12,38 +12,29 @@ public class LockCursor : MonoBehaviour
         visible = true;
     }
 
-    void SetCursor()
+    /*void SetCursor()
     {
         Cursor.lockState = wanted;
         Cursor.visible = visible;
-    }
+    }*/
 
     void Update()
     {
-        //SetCursor();
+        Cursor.lockState = wanted;
+        Cursor.visible = visible;
     }
 
     public void SetLockState(bool locked)
     {
         if (locked)
         {
-            LockMouse();
+            wanted = CursorLockMode.Locked;
         } else
         {
-            UnlockMouse();
+            wanted = CursorLockMode.None;
         }
 
         visible = !locked;
-        SetCursor();
-    }
-
-    void LockMouse()
-    {
-        wanted = CursorLockMode.Locked;
-    }
-
-    void UnlockMouse()
-    {
-        Cursor.lockState = CursorLockMode.None;
+        //SetCursor();
     }
 }

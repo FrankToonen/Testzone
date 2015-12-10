@@ -5,6 +5,7 @@ public class GM_Ball_Gravity : MonoBehaviour
 {
     Rigidbody rBody;
     public float fallSpeed;
+    float gravity = 0, gravityCap = 5000;
 
     void Start()
     {
@@ -13,6 +14,7 @@ public class GM_Ball_Gravity : MonoBehaviour
 	
     void Update()
     {
-        rBody.AddForce(fallSpeed * Vector3.down);
+        gravity = Mathf.Clamp(gravity + fallSpeed * Time.deltaTime, -gravityCap, gravityCap);
+        rBody.AddForce(gravity * Vector3.down * Time.deltaTime);
     }
 }

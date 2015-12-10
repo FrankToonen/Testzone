@@ -101,12 +101,13 @@ public class Network_HUD : MonoBehaviour
     public void StartHost()
     {
         manager.StartHost();
-        manager.GetComponent<Network_Manager>().SwitchSong("playing", 0.01f);
+        //manager.GetComponent<Network_Manager>().SwitchSong("playing", 0.01f);
     }
 
     public void StartClient()
     {
         manager.StartClient();
+        //manager.GetComponent<Network_Manager>().SwitchSong("playing", 0.01f);
     }
 
     public void StartMatchmaker()
@@ -133,6 +134,8 @@ public class Network_HUD : MonoBehaviour
         {
             if (manager.matches == null)
             {
+                //manager.GetComponent<Network_Manager>().SwitchSong("playing", 0.01f);
+
                 manager.matchName = "Default";
                 manager.matchMaker.CreateMatch(manager.matchName, manager.matchSize, true, "", manager.OnMatchCreate);
             }
@@ -197,8 +200,8 @@ public class Network_HUD : MonoBehaviour
     public void Disconnect()
     {
         manager.StopHost();
-        
-        manager.GetComponent<Network_Manager>().SwitchSong("menu", 0.05f);
+
+        //manager.GetComponent<Network_Manager>().SwitchSong("menu", 0.05f);
     }
 
     /*void OnGUI()

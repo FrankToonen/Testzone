@@ -16,6 +16,8 @@ public class Network_Match : MonoBehaviour
 
     public void JoinMatch()
     {
+        manager.GetComponent<Network_Manager>().SwitchSong("playing", 0.01f);
+
         manager.matchName = match.name;
         manager.matchSize = (uint)match.currentSize;
         manager.matchMaker.JoinMatch(match.networkId, "", manager.OnMatchJoined);
